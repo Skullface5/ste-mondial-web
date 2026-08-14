@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="180x180" href="/i/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/i/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/i/favicon-16x16.png">
+  <link rel="manifest" href="/i/site.webmanifest">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>Ste Mondial Parfums — Administration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- ===== MODULAR CSS ===== -->
+  <link rel="stylesheet" href="css/admin.css">
+  <!-- ===== END MODULAR CSS ===== -->
+</head>
+
+<body>
+
+  <!-- ================= LOGIN ================= -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <img style="width: 5rem;" src="i/ste-mondial-perfumes.png" alt=""
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <span style="display:none;">SM</span>
+      <h1>Espace Administration</h1>
+      <p class="sub">Ste Mondial Parfums</p>
+      <div id="loginError"></div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="adminEmail" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Mot de passe</label>
+        <input type="password" id="adminPassword" autocomplete="current-password">
+      </div>
+      <button id="loginBtn">Se connecter</button>
+    </div>
+  </div>
+
+  <!-- ================= DASHBOARD ================= -->
+  <div id="dashboard">
+    <header class="top-header">
+      <div class="brand">
+        <div class="brand-mark">SM</div>
+        <div class="page-title" id="pageTitle">Produits</div>
+      </div>
+      <div class="actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Theme"><i class="fas fa-moon"></i></button>
+        <a href="index.html" class="icon-btn" aria-label="Boutique"><i class="fas fa-store"></i></a>
+        <button class="icon-btn" id="logoutBtn" aria-label="Déconnexion"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <!-- PRODUCTS -->
+      <section class="screen active" id="screen-products">
+        <div class="screen-toolbar">
+          <h2>Produits</h2>
+          <span class="count-pill" id="productCount">—</span>
+        </div>
+
+        <div class="summary-bar" id="productSummaryBar">
+          <i class="fas fa-triangle-exclamation"></i>
+          <span id="productSummaryText"></span>
+        </div>
+
+        <div class="search-row">
+          <i class="fas fa-search"></i>
+          <input type="text" id="productSearch" placeholder="Rechercher un produit...">
+          <button class="clear-search" id="clearProductSearch"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="filter-row">
+          <div class="chip-scroll" id="productChips">
+            <button class="chip active" data-cat="all">Tous</button>
+            <button class="chip" data-cat="homme">Homme</button>
+            <button class="chip" data-cat="femme">Femme</button>
+            <button class="chip" data-cat="unisexe">Unisexe</button>
+            <button class="chip" data-cat="enfant">Enfant</button>
+          </div>
+          <select class="sort-select" id="productSort">
+            <option value="newest">Plus récents</option>
+            <option value="stock_asc">Stock croissant</option>
+          </select>
+        </div>
+
+        <div class="card-list" id="productsList"></div>
+      </section>
+
+      <!-- ORDERS -->
+      <section class="screen" id="screen-orders">
+        <div class="screen-toolbar">
+          <h2>Commandes</h2>
+          <span class="count-pill" id="orderCount">—</span>
+        </div>
+
+        <div class="summary-bar" id="orderSummaryBar">
+          <i class="fas fa-bell"></i>
+          <span id="orderSummaryText"></span>
+        </div>
+
+        <div class="search-row">
+          <i class="fas fa-search"></i>
+          <input type="text" id="orderSearch" placeholder="Client, téléphone, n° commande...">
+          <button class="clear-search" id="clearOrderSearch"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="filter-row">
+          <div class="chip-scroll" id="orderChips">
+            <button class="chip active" data-status="all">Toutes</button>
+            <button class="chip" data-status="pending">En attente</button>
+            <button class="chip" data-status="under_review">En vérification</button>
+            <button class="chip" data-status="confirmed">Confirmée</button>
+            <button class="chip" data-status="shipped">Expédiée</button>
+            <button class="chip" data-status="delivered">Livrée</button>
+            <button class="chip" data-status="cancelled">Annulée</button>
+          </div>
+          <select class="sort-select" id="orderSort">
+            <option value="newest">Plus récentes</option>
+            <option value="oldest">Plus anciennes</option>
+          </select>
+        </div>
+
+        <div class="card-list" id="ordersList"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="screen" id="screen-settings">
+        <div class="screen-toolbar">
+          <h2>Paramètres</h2>
+        </div>
+        <form id="settingsForm">
+          <div class="settings-section-label">Image d'accueil</div>
+          <div class="settings-field">
+            <label>URL de l'image (hero)</label>
+            <input type="text" id="heroImage" placeholder="https://...">
+          </div>
+
+          <div class="settings-section-label">Contact</div>
+          <div class="settings-field">
+            <label>Téléphone</label>
+            <input type="text" id="contactPhone" placeholder="+216 00 000 000">
+          </div>
+          <div class="settings-field">
+            <label>Email</label>
+            <input type="email" id="contactEmail" placeholder="contact@...">
+          </div>
+          <div class="settings-field">
+            <label>Adresse</label>
+            <input type="text" id="contactAddress" placeholder="Tunis, Tunisie">
+          </div>
+
+          <div class="settings-section-label">Réseaux sociaux</div>
+          <div class="settings-field">
+            <label>Instagram (URL)</label>
+            <input type="text" id="socialInstagram" placeholder="https://instagram.com/...">
+          </div>
+          <div class="settings-field">
+            <label>Facebook (URL)</label>
+            <input type="text" id="socialFacebook" placeholder="https://facebook.com/...">
+          </div>
+          <div class="settings-field">
+            <label>TikTok (URL)</label>
+            <input type="text" id="socialTiktok" placeholder="https://tiktok.com/...">
+          </div>
+
+          <button type="submit" class="settings-save-btn"><i class="fas fa-save"></i> Enregistrer</button>
+        </form>
+      </section>
+
+      <!-- HISTORY -->
+      <section class="screen" id="screen-history">
+        <div class="screen-toolbar">
+          <h2>Historique</h2>
+        </div>
+
+        <div class="filter-row">
+          <div class="chip-scroll" id="historyChips">
+            <button class="chip active" data-view="archived">Commandes archivées</button>
+            <button class="chip" data-view="log">Journal d'activité</button>
+          </div>
+        </div>
+
+        <div class="card-list" id="archivedOrdersList"></div>
+        <div class="card-list" id="activityLogList" style="display:none;"></div>
+      </section>
+    </main>
+
+    <button class="fab" id="addProductFab" aria-label="Ajouter un produit"><i class="fas fa-plus"></i></button>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-tab="products"><i
+          class="fas fa-spray-can-sparkles"></i><span>Produits</span></button>
+      <button class="nav-btn" data-tab="orders">
+        <i class="fas fa-bag-shopping"></i><span>Commandes</span>
+        <span class="nav-badge" id="ordersNavBadge">0</span>
+      </button>
+      <button class="nav-btn" data-tab="history"><i
+          class="fas fa-clock-rotate-left"></i><span>Historique</span></button>
+      <button class="nav-btn" data-tab="settings"><i class="fas fa-gear"></i><span>Paramètres</span></button>
+    </nav>
+  </div>
+
+  <!-- ================= PRODUCT BOTTOM SHEET ================= -->
+  <div class="sheet-overlay" id="productSheet">
+    <div class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <h3 id="formTitle">Ajouter un produit</h3>
+        <button class="icon-btn" id="cancelProductForm"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="productForm">
+        <input type="hidden" id="productId">
+        <div class="field">
+          <label>Nom</label>
+          <input type="text" id="prodName" required>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Catégorie</label>
+            <select id="prodCategory" required>
+              <option value="homme">Homme</option>
+              <option value="femme">Femme</option>
+              <option value="unisexe">Unisexe</option>
+              <option value="enfant">Enfant</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Prix (TND)</label>
+            <input type="number" id="prodPrice" step="0.001" required>
+          </div>
+          <div class="field">
+            <label>Stock</label>
+            <input type="number" id="prodStock" value="0">
+          </div>
+        </div>
+        <div class="field">
+          <label>Images du produit</label>
+          <div class="image-thumb-strip" id="imageThumbStrip"></div>
+          <div class="image-strip-actions">
+            <label class="upload-btn" for="imageFile"><i class="fas fa-upload"></i> Ajouter des photos</label>
+            <input type="file" id="imageFile" accept="image/*" multiple style="display:none;">
+            <button type="button" class="remove-all-link" id="removeAllImagesBtn">Tout supprimer</button>
+          </div>
+          <div class="upload-row">
+            <input type="text" id="newImageUrl" placeholder="ou coller une URL d'image...">
+            <button type="button" class="upload-btn" id="addImageUrlBtn">Ajouter</button>
+          </div>
+          <span id="uploadStatus"></span>
+        </div>
+        <button type="submit" class="sheet-submit-btn"><i class="fas fa-save"></i> Enregistrer</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= CONFIRM SHEET (replaces native confirm()) ================= -->
+  <div class="sheet-overlay" id="confirmSheet">
+    <div class="sheet-panel" style="max-height:none;">
+      <div class="sheet-handle"></div>
+      <div class="confirm-icon"><i class="fas fa-triangle-exclamation"></i></div>
+      <p id="confirmMessage"></p>
+      <div class="confirm-actions">
+        <button id="confirmCancelBtn">Annuler</button>
+        <button id="confirmOkBtn">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== MODULAR JS ===== -->
+  <script src="js/admin.js"></script>
+  <!-- ===== END MODULAR JS ===== -->
+</body>
+
+</html>

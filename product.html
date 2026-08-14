@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="i/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="i/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="i/favicon-16x16.png">
+    <link rel="manifest" href="i/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Ste Mondial Parfums | Détail du produit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Manrope:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- ===== MODULAR CSS ===== -->
+  <link rel="stylesheet" href="css/product.css">
+  <!-- ===== END MODULAR CSS ===== -->
+</head>
+
+<body>
+    <!-- Ambient particles -->
+    <script>
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const s = Math.random() * 4 + 2;
+            p.style.width = s + 'px';
+            p.style.height = s + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = Math.random() * 15 + 12 + 's';
+            p.style.opacity = Math.random() * 0.15 + 0.04;
+            document.body.appendChild(p);
+        }
+    </script>
+
+
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="header-row">
+            <a href="index.html" class="brand">
+                <div class="brand-mark">
+                    <img src="i/ste-mondial-perfumes.png" alt="Ste Mondial Parfums"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <span style="display:none">SM</span>
+                </div>
+                <div class="brand-name">
+                    <b>Ste Mondial Parfums</b>
+                    <small data-i18n="brandSub">Maison de Parfum</small>
+                </div>
+            </a>
+            <div class="header-actions">
+                <!-- SEARCH -->
+                <div class="search-container">
+                    <div class="search-bar" id="searchBar">
+                        <button class="search-bar-icon" id="searchToggle" aria-label="Recherche"><i
+                                class="fas fa-search"></i></button>
+                        <input type="text" id="searchInput" data-i18n-ph="searchPh"
+                            placeholder="Rechercher un parfum..." autocomplete="off">
+                        <button class="search-bar-clear" id="searchClear" aria-label="Effacer"><i
+                                class="fas fa-times"></i></button>
+                    </div>
+                    <div id="searchDropdown" class="search-dropdown"></div>
+                </div>
+                <!-- LANGUAGE -->
+                <div class="lang-switch">
+                    <button class="icon-btn" id="langToggle" aria-label="Langue"><i class="fas fa-globe"></i></button>
+                    <div class="lang-menu" id="langMenu">
+                        <button data-lang="fr">Français</button>
+                        <button data-lang="en">English</button>
+                        <button data-lang="ar">العربية</button>
+                    </div>
+                </div>
+                <!-- ACCOUNT -->
+                <div class="account-switch">
+                    <button class="icon-btn" id="accountToggle" aria-label="Compte"><i class="fas fa-user"></i></button>
+                    <div class="account-menu" id="accountMenu">
+                        <button class="account-email" id="accountEmailDisplay"></button>
+                        <button id="accountProfileBtn"><i class="fas fa-bag-shopping account-menu-icon"></i><span
+                                data-i18n="accountMyOrders">Mes commandes</span></button>
+                        <button id="accountLogoutBtn" data-i18n="accountLogout">Se déconnecter</button>
+                    </div>
+                </div>
+                <!-- THEME -->
+                <button class="icon-btn" id="themeToggle" aria-label="Theme"><i class="fas fa-moon"></i></button>
+                <!-- CART -->
+                <button class="icon-btn" id="cartToggle" aria-label="Panier">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container">
+        <button class="back-link reveal" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> <span data-i18n="back">Retour</span>
+        </button>
+        <div id="productDetailContainer" class="reveal"><!-- Skeleton injected by JS --></div>
+        <div id="suggestionsContainer" class="suggestions-section reveal" style="display:none;">
+            <h2><i class="fas fa-star" style="color:var(--gold);font-size:0.9rem;"></i> <span
+                    data-i18n="youMayLike">Vous aimerez aussi</span></h2>
+            <div id="suggestionsGrid" class="suggestions-grid"></div>
+        </div>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <b>Ste Mondial Parfums</b>
+                <p data-i18n="footerBlurb">L'élégance intemporelle, en chaque souffle — une maison de parfum sans
+                    frontières.</p>
+                <div class="footer-social">
+                    <a href="#" id="socialInstagram" class="icon-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" id="socialFacebook" class="icon-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" id="socialTiktok" class="icon-btn"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5 data-i18n="footerNavH">Navigation</h5>
+                <a href="index.html#collection" data-i18n="navCollection">La Collection</a>
+                <a href="index.html#univers" data-i18n="navUnivers">Univers</a>
+                <a href="index.html#contact" data-i18n="navContact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h5 data-i18n="footerCatH">Catégories</h5>
+                <span data-i18n="catMan">Homme</span>
+                <span data-i18n="catWoman">Femme</span>
+                <span data-i18n="catUnisex">Unisexe</span>
+                <span data-i18n="catKids">Enfant</span>
+            </div>
+            <div class="footer-col">
+                <h5 data-i18n="footerContactH">Contact</h5>
+                <span id="contactEmailDisplayFooter">contact@stemondialparfums.com</span>
+                <span id="contactPhoneDisplay">+216 00 000 000</span>
+                <span id="contactAddressDisplay" data-i18n="footerAddress">Tunis, Tunisie</span>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; <span id="year"></span> Ste Mondial Parfums. <span data-i18n="footerRights">Tous droits
+                    réservés.</span></span>
+            <span data-i18n="footerTagline">L'élégance intemporelle, en chaque souffle.</span>
+        </div>
+    </footer>
+
+    <!-- ============ CART SIDEBAR ============ -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-panel">
+            <div class="cart-head">
+                <h3 data-i18n="cartTitle">Votre panier</h3>
+                <button class="icon-btn" id="cartClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-foot">
+                <div class="cart-total-row">
+                    <span data-i18n="cartTotal">Total</span>
+                    <b id="cartTotalValue">0,000 TND</b>
+                </div>
+                <button class="btn-solid" style="width:100%; justify-content:center" id="checkoutBtn"
+                    data-i18n="cartCheckout">Commander</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ CHECKOUT MODAL ============ -->
+    <div class="modal-overlay" id="checkoutOverlay">
+        <div class="modal-box">
+            <button class="modal-close" id="checkoutClose"><i class="fas fa-times"></i></button>
+            <h3 data-i18n="checkoutTitle">Finaliser la commande</h3>
+            <form id="checkoutForm">
+                <div class="field">
+                    <label data-i18n="fieldName">Nom complet</label>
+                    <input type="text" id="custName" required>
+                </div>
+                <div class="field">
+                    <label data-i18n="fieldPhone">Téléphone</label>
+                    <input type="tel" id="custPhone" required>
+                </div>
+                <div class="field">
+                    <label data-i18n="fieldEmail">Email</label>
+                    <input type="email" id="custEmail" required>
+                </div>
+                <div class="field">
+                    <label data-i18n="fieldAddress">Adresse de livraison</label>
+                    <textarea id="custAddress" rows="2" required></textarea>
+                </div>
+                <div class="modal-summary" id="checkoutSummary"></div>
+                <div style="display:flex;gap:10px;margin-top:0.8rem;">
+                    <button type="button" class="btn-secondary" id="checkoutCancelBtn"
+                        data-i18n="cancel">Annuler</button>
+                    <button type="submit" class="btn-solid" style="flex:1; justify-content:center"
+                        data-i18n="confirm">Confirmer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============ AUTH MODAL ============ -->
+    <div class="modal-overlay" id="authOverlay">
+        <div class="modal-box">
+            <button class="modal-close" id="authClose"><i class="fas fa-times"></i></button>
+            <div class="auth-header">
+                <div class="auth-crest">SM</div>
+                <p data-i18n="authSubtitle">Votre espace Ste Mondial Parfums</p>
+            </div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLoginBtn" data-i18n="tabLogin">Connexion</button>
+                <button class="auth-tab" id="tabSignupBtn" data-i18n="tabSignup">Créer un compte</button>
+                <div class="auth-tab-indicator" id="authIndicator"></div>
+            </div>
+            <div class="auth-forms">
+                <form id="loginForm" class="auth-form">
+                    <div class="field">
+                        <label data-i18n="fieldEmail">Email</label>
+                        <input type="email" id="loginEmail" required autocomplete="email">
+                    </div>
+                    <div class="field">
+                        <label data-i18n="fieldPassword">Mot de passe</label>
+                        <input type="password" id="loginPassword" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn-solid auth-submit" style="width:100%; justify-content:center"
+                        data-i18n="btnLogin">Se connecter</button>
+                </form>
+                <form id="signupForm" class="auth-form hidden">
+                    <div class="field">
+                        <label data-i18n="fieldFullName">Nom complet</label>
+                        <input type="text" id="signupName" required autocomplete="name">
+                    </div>
+                    <div class="field">
+                        <label data-i18n="fieldEmail">Email</label>
+                        <input type="email" id="signupEmail" required autocomplete="email">
+                    </div>
+                    <div class="field">
+                        <label data-i18n="fieldPassword">Mot de passe</label>
+                        <input type="password" id="signupPassword" required minlength="6" autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="btn-solid auth-submit" style="width:100%; justify-content:center"
+                        data-i18n="btnSignup">Créer mon compte</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ TOAST ============ -->
+    <div class="toast" id="toast"></div>
+
+
+  <!-- ===== MODULAR JS ===== -->
+  <script src="js/product.js"></script>
+  <!-- ===== END MODULAR JS ===== -->
+</body>
+
+</html>

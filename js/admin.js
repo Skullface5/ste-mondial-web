@@ -1,7 +1,8 @@
     // ============ SUPABASE CONFIG ============
     const SUPABASE_URL = 'https://knwpctdroogzwjrdotzo.supabase.co';
+  const SUPABASE_SCHEMA = 'ste_mondial';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtud3BjdGRyb29nendqcmRvdHpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NzgzOTAsImV4cCI6MjEwMDU1NDM5MH0.cyw1mvxyM0eLJN7_wstkpW9h4XFjWnrcEvuq9pWk4cI';
-    const tsupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const tsupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { db: { schema: SUPABASE_SCHEMA } });
 
     const loginScreen = document.getElementById('loginScreen');
     const dashboard = document.getElementById('dashboard');
@@ -575,7 +576,7 @@
     // ============ REALTIME: live order updates ============
     function subscribeToOrderChanges() {
       tsupabase.channel('admin-orders-changes')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, (payload) => {
+        .on('postgres_changes', { event: '*', schema: 'ste_mondial', table: 'orders' }, (payload) => {
           if (payload.eventType === 'INSERT') {
             allOrders.unshift(payload.new);
             newOrderIds.add(payload.new.id);

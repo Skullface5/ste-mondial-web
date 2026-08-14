@@ -1,7 +1,8 @@
     // ============ SUPABASE CONFIG ============
     const SUPABASE_URL = 'https://knwpctdroogzwjrdotzo.supabase.co';
+  const SUPABASE_SCHEMA = 'ste_mondial';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtud3BjdGRyb29nendqcmRvdHpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NzgzOTAsImV4cCI6MjEwMDU1NDM5MH0.cyw1mvxyM0eLJN7_wstkpW9h4XFjWnrcEvuq9pWk4cI';
-    const tsupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const tsupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { db: { schema: SUPABASE_SCHEMA } });
 
     let allProducts = [];
     let shuffledProducts = [];

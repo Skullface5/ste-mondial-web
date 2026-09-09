@@ -61,6 +61,8 @@ img { max-width: 100%; }
   border: 1px solid var(--line); background: var(--card-2);
   color: var(--text); font-size: 1.15rem; cursor: pointer;
 }
+.icon-btn svg { width: 20px; height: 20px; }
+.icon-btn--out:active { color: var(--red); border-color: rgba(217,107,92,.45); }
 
 /* ---------- fields ---------- */
 .field { margin-bottom: .9rem; }

@@ -21,7 +21,7 @@
       'login.sub': 'Espace administration', 'login.email': 'Email', 'login.password': 'Mot de passe',
       'login.showPw': 'Afficher le mot de passe', 'login.btn': 'Connexion', 'login.foot': 'Accès réservé — STE Mondial Parfums',
       'login.errFields': 'Email et mot de passe requis.', 'login.errBad': 'Identifiants incorrects',
-      'top.refresh': 'Rafraîchir',
+      'top.refresh': 'Rafraîchir', 'top.logout': 'Déconnexion',
       'dash.title': 'Tableau de bord', 'dash.t1': "Aujourd'hui", 'dash.t1h': 'commandes',
       'dash.t2': 'CA du jour', 'dash.t2h': 'hors annulées', 'dash.t3': 'En attente', 'dash.t3h': 'nouvelle + confirmée',
       'dash.t4': 'Stock faible', 'dash.t4h': 'stock ≤ 5', 'dash.recent': 'Dernières commandes', 'dash.lowcard': 'Stock faible (≤ 5)',
@@ -75,7 +75,7 @@
       'login.sub': 'Admin area', 'login.email': 'Email', 'login.password': 'Password',
       'login.showPw': 'Show password', 'login.btn': 'Sign in', 'login.foot': 'Restricted access — STE Mondial Parfums',
       'login.errFields': 'Email and password required.', 'login.errBad': 'Incorrect credentials',
-      'top.refresh': 'Refresh',
+      'top.refresh': 'Refresh', 'top.logout': 'Log out',
       'dash.title': 'Dashboard', 'dash.t1': 'Today', 'dash.t1h': 'orders',
       'dash.t2': "Today's revenue", 'dash.t2h': 'excl. cancelled', 'dash.t3': 'Pending', 'dash.t3h': 'new + confirmed',
       'dash.t4': 'Low stock', 'dash.t4h': 'stock ≤ 5', 'dash.recent': 'Latest orders', 'dash.lowcard': 'Low stock (≤ 5)',
@@ -129,7 +129,7 @@
       'login.sub': 'منطقة الإدارة', 'login.email': 'البريد الإلكتروني', 'login.password': 'كلمة المرور',
       'login.showPw': 'إظهار كلمة المرور', 'login.btn': 'تسجيل الدخول', 'login.foot': 'الدخول مخصص — ست مونديال للعطور',
       'login.errFields': 'البريد الإلكتروني وكلمة المرور مطلوبان.', 'login.errBad': 'بيانات الدخول غير صحيحة',
-      'top.refresh': 'تحديث',
+      'top.refresh': 'تحديث', 'top.logout': 'تسجيل الخروج',
       'dash.title': 'لوحة التحكم', 'dash.t1': 'اليوم', 'dash.t1h': 'طلبات',
       'dash.t2': 'مداخيل اليوم', 'dash.t2h': 'بلا الملغاة', 'dash.t3': 'في الانتظار', 'dash.t3h': 'جديدة + مؤكدة',
       'dash.t4': 'مخزون منخفض', 'dash.t4h': 'المخزون ≤ 5', 'dash.recent': 'آخر الطلبات', 'dash.lowcard': 'مخزون منخفض (≤ 5)',
@@ -1044,6 +1044,15 @@
       var lo = e.target.closest('#btn-logout, #btn-logout-2');
       if (lo) {
         stopRealtime();
+        // revoke the token server-side so the session dies everywhere
+        if (state.user && state.user.access_token) {
+          try {
+            await fetch(SUPABASE_URL + '/auth/v1/logout', {
+              method: 'POST',
+              headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + state.user.access_token }
+            });
+          } catch (err) { /* logout locally regardless */ }
+        }
         state.user = null;
         try { localStorage.removeItem('sm_admin_session'); } catch (err) { /* noop */ }
         $('app-shell').hidden = true;

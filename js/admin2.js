@@ -1068,13 +1068,7 @@
       c.addEventListener('click', function () { showView(c.getAttribute('data-goto')); });
     });
 
-    $('btn-refresh').addEventListener('click', async function () {
-      try {
-        await Promise.all([loadOrders(), loadProducts(), loadSettings()]);
-        renderDashboard(); renderOrders(); renderProducts(); renderSettings();
-        toast(t('toast.refreshed'), 'ok');
-      } catch (e) { toast(t('toast.refreshFail'), 'err'); }
-    });
+    /* topbar refresh button removed per user request — data stays fresh via realtime */
 
     // orders filter + search
     $all('#orders-chips .chip').forEach(function (c) {

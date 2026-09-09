@@ -97,7 +97,7 @@
 
   function fetchLocale(lang) {
     if (state.dicts[lang]) return Promise.resolve(state.dicts[lang]);
-    return fetch('i18n/' + lang + '.json', { cache: 'force-cache' })
+    return fetch('i18n/' + lang + '.json?v=9', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('i18n HTTP ' + r.status); return r.json(); })
       .then(function (json) { state.dicts[lang] = json; return json; })
       .catch(function () { state.dicts[lang] = state.dicts[lang] || {}; return state.dicts[lang]; });

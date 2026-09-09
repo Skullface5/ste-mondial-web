@@ -32,7 +32,7 @@
           <div class="pw-row">
             <input class="field-input" type="password" id="login-password" name="password" autocomplete="current-password" required>
             <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Afficher le mot de passe">👁</button>
-        </div>
+          </div>
         </div>
         <p id="login-msg" class="login-msg" role="alert" hidden></p>
         <button type="submit" class="btn btn--gold btn--block" id="login-btn">Connexion</button>
@@ -41,7 +41,6 @@
     </div>
   </div>
 </section>
-
 <!-- ============ APP SHELL ============ -->
 <div id="app-shell" hidden>
   <header class="topbar">
@@ -62,59 +61,66 @@
       <div class="sidenav-user">
         <span class="sidenav-user-mail" id="nav-user-mail"></span>
         <button class="btn btn--ghost btn--block" id="btn-logout-2">Déconnexion</button>
-    </div>
+      </div>
     </nav>
     <div class="scrim" id="scrim" hidden></div>
     <main class="main" id="main">
-      <div class="conn-bar" id="conn-bar" hidden><span class="conn-dot" id="conn-dot"></span><span id="conn-label">Live</span>
-      </div>
+      <div class="conn-bar" id="conn-bar" hidden><span class="conn-dot" id="conn-dot"></span><span id="conn-label">Live</span></div>
 
       <!-- DASHBOARD -->
-      <section id="view-dashboard" class="view view--app">
+      <section id="view-dashboard" class="view view--app" hidden>
         <div class="page-head">
           <h2 class="page-title">Tableau de bord</h2>
           <p class="page-sub">Vue d'ensemble — <span id="today-label"></span></p>
-</div>
+        </div>
         <div class="stat-grid">
           <div class="stat-card">
             <div class="stat-label">Commandes aujourd'hui</div>
             <div class="stat-value" id="stat-today">–</div>
           </div>
           <div class="stat-card">
-            <div class="stat-label">CA total</div>
-            <div class="stat-value" id="stat-ca">–</div>
-            <div class="stat-hint">hors commandes annulées</div>
+            <div class="stat-label">CA aujourd'hui</div>
+            <div class="stat-value" id="stat-ca-today">–</div>
+            <div class="stat-hint">hors annulées</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">En attente</div>
             <div class="stat-value" id="stat-pending">–</div>
-            <div class="stat-hint">statut « nouvelle »</div>
+            <div class="stat-hint">nouvelle + confirmée</div>
           </div>
           <div class="stat-card">
-            <div class="stat-label">Produits actifs</div>
-            <div class="stat-value" id="stat-products">–</div>
+            <div class="stat-label">Stock faible</div>
+            <div class="stat-value" id="stat-lowstock">–</div>
+            <div class="stat-hint">stock ≤ 5</div>
           </div>
         </div>
-        <div class="card">
-          <h3 class="card-title">Dernières commandes</h3>
-          <div id="dash-recent" class="dash-recent"></div>
+        <div class="dash-cols">
+          <div class="card">
+            <h3 class="card-title">Dernières commandes</h3>
+            <div id="dash-recent" class="dash-recent"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Stock faible (≤ 5)</h3>
+            <div id="dash-lowstock" class="dash-lowstock"></div>
+          </div>
         </div>
       </section>
 
       <!-- ORDERS -->
       <section id="view-orders" class="view view--app" hidden>
-        <div class="page-head">
+        <div class="page-head page-head--row">
           <h2 class="page-title">Commandes</h2>
-          <div class="chips" id="orders-chips">
-            <button class="chip" data-filter="all">Toutes</button>
-            <button class="chip" data-filter="nouvelle">Nouvelle</button>
-            <button class="chip" data-filter="confirmee">Confirmée</button>
-            <button class="chip" data-filter="expediee">Expédiée</button>
-            <button class="chip" data-filter="livree">Livrée</button>
-            <button class="chip" data-filter="annulee">Annulée</button>
-          </div>
-          <input type="search" id="orders-search" class="search-input" placeholder="Rechercher : client, téléphone, ville…">
+          <button class="btn btn--ghost" id="btn-export-orders">⭳ Exporter CSV</button>
         </div>
+        <div class="chips" id="orders-chips">
+          <button class="chip" data-filter="all">Toutes</button>
+          <button class="chip" data-filter="nouvelle">Nouvelle</button>
+          <button class="chip" data-filter="confirmee">Confirmée</button>
+          <button class="chip" data-filter="expediee">Expédiée</button>
+          <button class="chip" data-filter="livree">Livrée</button>
+          <button class="chip" data-filter="annulee">Annulée</button>
+        </div>
+        <input type="search" id="orders-search" class="search-input" placeholder="Rechercher : client, téléphone, ville, id…">
         <div id="orders-list" class="orders-list"></div>
         <div id="orders-empty" class="empty" hidden>
           <div class="empty-ico">❏</div>
@@ -137,6 +143,7 @@
         <div id="products-empty" class="empty" hidden>
           <div class="empty-ico">◈</div>
           <p class="empty-title">Aucun produit</p>
+          <p class="empty-sub">Ajoutez votre premier produit avec « + Nouveau produit ».</p>
         </div>
       </section>
 
@@ -144,10 +151,10 @@
       <section id="view-settings" class="view view--app" hidden>
         <div class="page-head">
           <h2 class="page-title">Réglages</h2>
-          <p class="page-sub">site_settings — appliqué immédiatement sur le site</p>
+          <p class="page-sub">Clés <code>site_settings</code> — appliquées au site après enregistrement</p>
         </div>
         <div class="card">
-          <h3 class="card-title">Livraison & annonces</h3>
+          <h3 class="card-title">Boutique & livraison</h3>
           <div id="settings-fields"></div>
           <p id="settings-msg" class="form-msg" hidden></p>
           <button class="btn btn--gold btn--block" id="btn-save-settings">Enregistrer les réglages</button>
@@ -156,6 +163,18 @@
     </main>
   </div>
 </div>
+<!-- ============ ORDER DRAWER ============ -->
+<div class="drawer-scrim" id="drawer-scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+  <div class="drawer-head">
+    <div>
+      <div class="drawer-kicker">Commande</div>
+      <h3 class="drawer-title" id="drawer-title">#——</h3>
+    </div>
+    <button class="icon-btn" id="drawer-close" aria-label="Fermer">✕</button>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+</aside>
 
 <!-- ============ PRODUCT MODAL ============ -->
 <div class="modal-scrim" id="modal-scrim" hidden>
@@ -210,9 +229,22 @@
   </div>
 </div>
 
-<div id="toast" class="toast" hidden></div>
+<!-- ============ CONFIRM DIALOG ============ -->
+<div class="modal-scrim confirm-scrim" id="confirm-scrim" hidden>
+  <div class="modal modal--confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-head"><h3 class="modal-title" id="confirm-title">Confirmer</h3></div>
+    <div class="confirm-body"><p id="confirm-text"></p></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn--ghost" id="confirm-no">Annuler</button>
+      <button type="button" class="btn btn--danger-solid" id="confirm-yes">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/admin2.js"></script>
 </body>
 </html>
+

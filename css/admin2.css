@@ -451,3 +451,12 @@ html[data-theme="light"] body { background: var(--bg); color: var(--text); }
 #btn-theme .ico-sun { display: block; }
 html[data-theme="light"] #btn-theme .ico-sun { display: none; }
 html[data-theme="light"] #btn-theme .ico-moon { display: block; }
+
+/* topbar keeps its dark-theme chrome in light mode:
+   brand name, sub and controls keep the exact dark-theme colors */
+html[data-theme="light"] .topbar { background: rgba(20,18,16,.92); border-bottom-color: #35302a; }
+html[data-theme="light"] .topbar-brand { color: #f2ede4; }
+html[data-theme="light"] .topbar .icon-btn { background: #2a251f; border-color: #35302a; color: #f2ede4; }
+html[data-theme="light"] .topbar .lang-sw { background: #1c1916; border-color: #35302a; }
+html[data-theme="light"] .topbar .lang-sw button { color: #a89f92; }
+html[data-theme="light"] .topbar .lang-sw button.active { background: #d4a950; color: #191512; }

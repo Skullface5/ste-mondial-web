@@ -1035,8 +1035,7 @@
       if (toLight) root.setAttribute('data-theme', 'light');
       else root.removeAttribute('data-theme');
       try { localStorage.setItem('sm_admin_theme', toLight ? 'light' : 'dark'); } catch (e) { /* noop */ }
-      var meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', toLight ? '#f4efe6' : '#141210');
+      /* status bar stays dark: topbar keeps dark chrome in both themes */
     });
 
     // language switcher

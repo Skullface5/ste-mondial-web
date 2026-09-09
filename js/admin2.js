@@ -928,10 +928,7 @@
   function stopPolling() {
     if (state.pollTimer) { clearInterval(state.pollTimer); state.pollTimer = null; }
   }
-  function setConnDot() {
-    $('conn-dot').classList.toggle('on', state.realtimeOk);
-    $('conn-dot').classList.toggle('poll', !state.realtimeOk);
-  }
+  function setConnDot() { /* conn-dot UI removed per user request */ }
 
   /* ---------- boot / bind ---------- */
   /* ---------- reviews moderation ---------- */

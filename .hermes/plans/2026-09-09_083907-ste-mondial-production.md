@@ -30,9 +30,9 @@
 - Verify: `git log --oneline -2`, `ls`.
 
 ## PHASE 1 — Data & real images (~40 min)
-- Task 1.1: Get 4 remaining product images (per Decision 1) → `i/products/<sku>.jpg`, ~800×800, quality 82.
-- Task 1.2: UPDATE all 8 products' image_url via Supabase REST (service key, PATCH) → real local paths (`i/new/p1.jpg` ×4 + `i/products/…` ×4). Verify each URL returns 200 via urllib.
-- Task 1.3: DB hardening SQL (apply via SUPABASE_DB_URL psql): index `orders(created_at desc)`, `products(active, featured)`; verify seed prices/format; site_settings defaults (delivery_fee=8, free_threshold=80, whatsapp/phone/socials if user provides).
+- Task 1.1 [DONE 08:52]: DB image_url PATCH — p1–p4.jpg on the 4 featured (was already live); 4 non-featured image_url = NULL (brand fallback tile) per user decision. No stock photos.
+- Task 1.2 [DONE 08:52]: site_settings — free_shipping_min 400→80, delivery_fee 8.000, hero_image=i/new/hero.jpg, announcement_fr/en/ar set.
+- Task 1.3: SQL file (sql/production.sql) documenting settings + indexes (idx_orders_created, idx_products_active_featured); psql apply if SUPABASE_DB_URL reachable.
 - Task 1.4: Commit.
 
 ## PHASE 2 — Home page curation (the big one, ~2h)

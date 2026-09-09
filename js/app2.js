@@ -169,7 +169,7 @@
       descEn: 'Rich, velvety oud lifted by warm spices and precious woods.',
       descAr: 'عود غني ومخملي معلم بالتوابل الدافئة والأخشاب الفاخرة.',
       category: 'inspires', price: 49.9, oldPrice: null,
-      imageUrl: 'https://picsum.photos/seed/oud-wood/800/800',
+      imageUrl: 'i/new/p1.jpg',
       stock: 12, rating: 5, reviewCount: 104
     },
     {
@@ -179,7 +179,7 @@
       descEn: 'A luminous floral bouquet: ylang-ylang, May rose and jasmine.',
       descAr: 'باقة زهرية مشرقة: إيلانغ إيلانغ، وردة مايو وياسمين.',
       category: 'inspires', price: 49.9, oldPrice: null,
-      imageUrl: 'https://picsum.photos/seed/jadore/800/800',
+      imageUrl: 'i/new/p2.jpg',
       stock: 8, rating: 5, reviewCount: 83
     },
     {
@@ -189,7 +189,7 @@
       descEn: 'Aromatic and fresh, built on citrus, mint and cedarwood.',
       descAr: 'عطري ومنعش بين الحمضيات والنعناع وخشب الأرز.',
       category: 'inspires', price: 49.9, oldPrice: null,
-      imageUrl: 'https://picsum.photos/seed/bleu-chanel/800/800',
+      imageUrl: 'i/new/p3.jpg',
       stock: 15, rating: 5, reviewCount: 75
     },
     {
@@ -199,7 +199,7 @@
       descEn: 'Creamy, enveloping sandalwood softened by vanilla and amber.',
       descAr: 'خشب الصندل الكريمي الدافئ مع الفانيليا والعنبر.',
       category: 'inspires', price: 49.9, oldPrice: null,
-      imageUrl: 'https://picsum.photos/seed/bois-de-santal/800/800',
+      imageUrl: 'i/new/p4.jpg',
       stock: 10, rating: 5, reviewCount: 77
     }
   ];

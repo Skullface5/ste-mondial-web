@@ -933,24 +933,6 @@
     $('conn-dot').classList.toggle('poll', !state.realtimeOk);
   }
 
-  /* ---------- CSV export ---------- */
-  function exportOrdersCsv() {
-    var rows = [['id', 'date', 'client', 'telephone', 'ville', 'adresse', 'total', 'statut', 'articles']];
-    state.orders.forEach(function (o) {
-      var items = (Array.isArray(o.items) ? o.items : []).map(function (it) { return (it.name || '') + ' x' + (it.qty || 1); }).join(' | ');
-      rows.push([o.id, o.created_at, o.customer_name, o.customer_phone, o.city, o.address, o.total, o.status, items]);
-    });
-    var csv = rows.map(function (r) {
-      return r.map(function (c) { return '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"'; }).join(',');
-    }).join('\n');
-    var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'commandes-ste-mondial.csv';
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
-
   /* ---------- boot / bind ---------- */
   /* ---------- reviews moderation ---------- */
   function loadRevAdmin() {
@@ -1094,7 +1076,7 @@
       });
     });
     $('orders-search').addEventListener('input', renderOrders);
-    $('btn-export-orders').addEventListener('click', exportOrdersCsv);
+    /* csv export removed per user request */
 
     // products search + new
     $('products-search').addEventListener('input', renderProducts);

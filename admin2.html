@@ -2,13 +2,14 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#141210">
 <title>Admin — STE Mondial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/admin2.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin2.css?v=20">
 <link rel="icon" href="i/favicon.ico">
 </head>
 <body data-view="login">
@@ -20,223 +21,279 @@
       <div class="brand-block">
         <div class="brand-mark">SM</div>
         <h1 class="brand-name">STE MONDIAL</h1>
-        <p class="brand-sub">Espace administration</p>
+        <p class="brand-sub" data-i18n="login.sub">Espace administration</p>
       </div>
       <form id="login-form" novalidate>
         <div class="field">
-          <label class="field-label" for="login-email">Email</label>
-          <input class="field-input" type="email" id="login-email" name="email" autocomplete="username" required>
+          <label class="field-label" for="login-email" data-i18n="login.email">Email</label>
+          <input class="field-input" type="email" id="login-email" name="email" autocomplete="username" inputmode="email" required>
         </div>
         <div class="field">
-          <label class="field-label" for="login-password">Mot de passe</label>
+          <label class="field-label" for="login-password" data-i18n="login.password">Mot de passe</label>
           <div class="pw-row">
             <input class="field-input" type="password" id="login-password" name="password" autocomplete="current-password" required>
-            <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Afficher le mot de passe">👁</button>
+            <button type="button" class="pw-toggle" id="pw-toggle" data-i18n-aria="login.showPw" aria-label="Afficher le mot de passe">👁</button>
           </div>
         </div>
         <p id="login-msg" class="login-msg" role="alert" hidden></p>
-        <button type="submit" class="btn btn--gold btn--block" id="login-btn">Connexion</button>
+        <button type="submit" class="btn btn--gold btn--block" id="login-btn" data-i18n="login.btn">Connexion</button>
       </form>
-      <p class="login-foot">Accès réservé — STE Mondial Parfums</p>
+      <p class="login-foot" data-i18n="login.foot">Accès réservé — STE Mondial Parfums</p>
     </div>
   </div>
 </section>
-<!-- ============ APP SHELL ============ -->
+
+<!-- ============ APP SHELL (mobile-first) ============ -->
 <div id="app-shell" hidden>
+  <!-- compact top bar -->
   <header class="topbar">
-    <div class="topbar-inner">
-      <button class="icon-btn burger" id="burger" aria-label="Menu">☰</button>
-      <div class="topbar-brand">STE&nbsp;MONDIAL <span class="topbar-brand-sub">Admin</span></div>
-      <button class="icon-btn" id="btn-refresh" title="Rafraîchir les données" aria-label="Rafraîchir">⟳</button>
-      <button class="btn btn--ghost btn--logout" id="btn-logout">Déconnexion</button>
+    <div class="topbar-brand">STE&nbsp;MONDIAL <span class="topbar-brand-sub">Admin</span></div>
+    <div class="lang-sw" id="lang-sw" role="group" aria-label="Langue">
+      <button type="button" data-lang="fr" class="active">FR</button>
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="ar">ع</button>
     </div>
+    <span class="conn-dot" id="conn-dot" title="Connexion live"></span>
+    <button class="icon-btn" id="btn-refresh" data-i18n-aria="top.refresh" aria-label="Rafraîchir">⟳</button>
   </header>
-  <div class="shell-body">
-    <nav class="sidenav" id="sidenav" aria-label="Navigation admin">
-      <div class="sidenav-head">STE MONDIAL</div>
-      <button class="nav-item" data-nav="dashboard"><span class="nav-ico">◫</span> Tableau de bord</button>
-      <button class="nav-item" data-nav="orders"><span class="nav-ico">❏</span> Commandes</button>
-      <button class="nav-item" data-nav="products"><span class="nav-ico">◈</span> Produits</button>
-      <button class="nav-item" data-nav="settings"><span class="nav-ico">⚙</span> Réglages</button>
-      <div class="sidenav-user">
-        <span class="sidenav-user-mail" id="nav-user-mail"></span>
-        <button class="btn btn--ghost btn--block" id="btn-logout-2">Déconnexion</button>
+
+  <main id="main">
+
+    <!-- DASHBOARD -->
+    <section id="view-dashboard" class="view view--app" hidden>
+      <div class="page-head">
+        <h2 class="page-title" data-i18n="dash.title">Tableau de bord</h2>
+        <p class="page-sub"><span id="today-label"></span></p>
       </div>
-    </nav>
-    <div class="scrim" id="scrim" hidden></div>
-    <main class="main" id="main">
-      <div class="conn-bar" id="conn-bar" hidden><span class="conn-dot" id="conn-dot"></span><span id="conn-label">Live</span></div>
+      <div class="stat-grid">
+        <div class="stat-card" data-goto="orders">
+          <div class="stat-label" data-i18n="dash.t1">Aujourd'hui</div>
+          <div class="stat-value" id="stat-today">–</div>
+          <div class="stat-hint" data-i18n="dash.t1h">commandes</div>
+        </div>
+        <div class="stat-card" data-goto="orders">
+          <div class="stat-label" data-i18n="dash.t2">CA du jour</div>
+          <div class="stat-value" id="stat-ca-today">–</div>
+          <div class="stat-hint" data-i18n="dash.t2h">hors annulées</div>
+        </div>
+        <div class="stat-card" data-goto="orders">
+          <div class="stat-label" data-i18n="dash.t3">En attente</div>
+          <div class="stat-value" id="stat-pending">–</div>
+          <div class="stat-hint" data-i18n="dash.t3h">nouvelle + confirmée</div>
+        </div>
+        <div class="stat-card" data-goto="products">
+          <div class="stat-label" data-i18n="dash.t4">Stock faible</div>
+          <div class="stat-value" id="stat-lowstock">–</div>
+          <div class="stat-hint" data-i18n="dash.t4h">stock ≤ 5</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="card-title" data-i18n="dash.recent">Dernières commandes</h3>
+        <div id="dash-recent" class="dash-recent"></div>
+      </div>
+      <div class="card">
+        <h3 class="card-title" data-i18n="dash.lowcard">Stock faible (≤ 5)</h3>
+        <div id="dash-lowstock" class="dash-lowstock"></div>
+      </div>
+    </section>
 
-      <!-- DASHBOARD -->
-      <section id="view-dashboard" class="view view--app" hidden>
-        <div class="page-head">
-          <h2 class="page-title">Tableau de bord</h2>
-          <p class="page-sub">Vue d'ensemble — <span id="today-label"></span></p>
-        </div>
-        <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-label">Commandes aujourd'hui</div>
-            <div class="stat-value" id="stat-today">–</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">CA aujourd'hui</div>
-            <div class="stat-value" id="stat-ca-today">–</div>
-            <div class="stat-hint">hors annulées</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">En attente</div>
-            <div class="stat-value" id="stat-pending">–</div>
-            <div class="stat-hint">nouvelle + confirmée</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Stock faible</div>
-            <div class="stat-value" id="stat-lowstock">–</div>
-            <div class="stat-hint">stock ≤ 5</div>
-          </div>
-        </div>
-        <div class="dash-cols">
-          <div class="card">
-            <h3 class="card-title">Dernières commandes</h3>
-            <div id="dash-recent" class="dash-recent"></div>
-          </div>
-          <div class="card">
-            <h3 class="card-title">Stock faible (≤ 5)</h3>
-            <div id="dash-lowstock" class="dash-lowstock"></div>
-          </div>
-        </div>
+    <!-- ORDERS -->
+    <section id="view-orders" class="view view--app" hidden>
+      <div class="page-head page-head--row">
+        <h2 class="page-title" data-i18n="ord.title">Commandes</h2>
+        <button class="btn btn--ghost btn--sm" id="btn-export-orders">⭳ CSV</button>
+      </div>
+      <div class="chips" id="orders-chips">
+        <button class="chip active" data-filter="all" data-i18n="ord.all">Toutes</button>
+        <button class="chip" data-filter="nouvelle" data-i18n="st.nouvelle">Nouvelle</button>
+        <button class="chip" data-filter="confirmee" data-i18n="st.confirmee">Confirmée</button>
+        <button class="chip" data-filter="expediee" data-i18n="st.expediee">Expédiée</button>
+        <button class="chip" data-filter="livree" data-i18n="st.livree">Livrée</button>
+        <button class="chip" data-filter="annulee" data-i18n="st.annulee">Annulée</button>
+      </div>
+      <input type="search" id="orders-search" class="search-input" data-i18n-ph="ord.search" placeholder="Rechercher : client, tél, ville…" inputmode="search">
+      <div id="orders-list" class="orders-list"></div>
+      <div id="orders-empty" class="empty" hidden>
+        <div class="empty-ico">❏</div>
+        <p class="empty-title" data-i18n="ord.emptyT">Aucune commande</p>
+        <p class="empty-sub" data-i18n="ord.emptyS">Les commandes du site arrivent ici en direct.</p>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="view-products" class="view view--app" hidden>
+      <div class="page-head page-head--row">
+        <h2 class="page-title" data-i18n="prod.title">Produits</h2>
+        <button class="btn btn--gold" id="btn-new-product" data-i18n="prod.new">+ Nouveau</button>
+      </div>
+      <p class="page-sub" id="products-count"></p>
+      <input type="search" id="products-search" class="search-input" data-i18n-ph="prod.search" placeholder="Rechercher un produit…" inputmode="search">
+      <div id="products-list" class="prod-list"></div>
+      <div id="products-empty" class="empty" hidden>
+        <div class="empty-ico">◈</div>
+        <p class="empty-title" data-i18n="prod.emptyT">Aucun produit</p>
+        <p class="empty-sub" data-i18n="prod.emptyS">Ajoutez votre premier produit avec « + Nouveau ».</p>
+      </div>
+    </section>
+
+    <section class="admin-view" id="view-reviews" hidden>
+        <div class="av-head"><h2 data-i18n="nav.reviews">Avis clients</h2></div>
+        <div class="rev-admin-list" id="revAdminList"></div>
       </section>
-
-      <!-- ORDERS -->
-      <section id="view-orders" class="view view--app" hidden>
-        <div class="page-head page-head--row">
-          <h2 class="page-title">Commandes</h2>
-          <button class="btn btn--ghost" id="btn-export-orders">⭳ Exporter CSV</button>
-        </div>
-        <div class="chips" id="orders-chips">
-          <button class="chip" data-filter="all">Toutes</button>
-          <button class="chip" data-filter="nouvelle">Nouvelle</button>
-          <button class="chip" data-filter="confirmee">Confirmée</button>
-          <button class="chip" data-filter="expediee">Expédiée</button>
-          <button class="chip" data-filter="livree">Livrée</button>
-          <button class="chip" data-filter="annulee">Annulée</button>
-        </div>
-        <input type="search" id="orders-search" class="search-input" placeholder="Rechercher : client, téléphone, ville, id…">
-        <div id="orders-list" class="orders-list"></div>
-        <div id="orders-empty" class="empty" hidden>
-          <div class="empty-ico">❏</div>
-          <p class="empty-title">Aucune commande</p>
-          <p class="empty-sub">Les nouvelles commandes du site arrivent ici en direct.</p>
-        </div>
-      </section>
-
-      <!-- PRODUCTS -->
-      <section id="view-products" class="view view--app" hidden>
-        <div class="page-head page-head--row">
-          <div>
-            <h2 class="page-title">Produits</h2>
-            <p class="page-sub" id="products-count"></p>
-          </div>
-          <button class="btn btn--gold" id="btn-new-product">+ Nouveau produit</button>
-        </div>
-        <input type="search" id="products-search" class="search-input" placeholder="Rechercher un produit…">
-        <div id="products-list" class="prod-list"></div>
-        <div id="products-empty" class="empty" hidden>
-          <div class="empty-ico">◈</div>
-          <p class="empty-title">Aucun produit</p>
-          <p class="empty-sub">Ajoutez votre premier produit avec « + Nouveau produit ».</p>
-        </div>
-      </section>
-
       <!-- SETTINGS -->
-      <section id="view-settings" class="view view--app" hidden>
-        <div class="page-head">
-          <h2 class="page-title">Réglages</h2>
-          <p class="page-sub">Clés <code>site_settings</code> — appliquées au site après enregistrement</p>
+    <section id="view-settings" class="view view--app" hidden>
+      <div class="page-head">
+        <h2 class="page-title" data-i18n="set.title">Réglages</h2>
+        <p class="page-sub" data-i18n="set.sub">Boutique, livraison, annonce, héro</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title" data-i18n="set.shopCard">Boutique &amp; livraison</h3>
+        <div id="settings-fields"></div>
+        <p id="settings-msg" class="form-msg" hidden></p>
+        <button class="btn btn--gold btn--block" id="btn-save-settings" data-i18n="set.save">Enregistrer</button>
+      </div>
+      <div class="card">
+        <h3 class="card-title" data-i18n="set.heroCard">Images héro (diaporama)</h3>
+        <p class="card-sub" data-i18n="set.heroHelp">Plusieurs images = diaporama. La 1ʳᵉ est l'image principale.</p>
+        <div id="hero-gallery" class="g-strip"></div>
+        <input type="file" id="hero-file-input" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden>
+        <label class="toggle" style="margin:.8rem 0 .4rem"><input type="checkbox" id="hero-autoplay" checked><span class="toggle-track"></span><span class="toggle-label" data-i18n="set.autoplay">Défilement automatique</span></label>
+        <p id="hero-msg" class="form-msg" hidden></p>
+        <button type="button" class="btn btn--gold btn--block" id="btn-save-hero" style="margin-top:.6rem" data-i18n="set.saveHero">Enregistrer le héro</button>
+      </div>
+      <div class="card">
+        <h3 class="card-title" data-i18n="set.bannerCard">Bannière promo</h3>
+        <p class="card-sub" data-i18n="set.bannerHelp">La ou les images de la section « Notre sélection ». Plusieurs images = diaporama.</p>
+        <div id="banner-gallery" class="g-strip"></div>
+        <input type="file" id="banner-file-input" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden>
+        <label class="toggle" style="margin:.8rem 0 .4rem"><input type="checkbox" id="banner-autoplay" checked><span class="toggle-track"></span><span class="toggle-label" data-i18n="set.autoplay">Défilement automatique</span></label>
+        <p id="banner-msg" class="form-msg" hidden></p>
+        <button type="button" class="btn btn--gold btn--block" id="btn-save-banner" style="margin-top:.6rem" data-i18n="set.saveBanner">Enregistrer la bannière</button>
+      </div>
+      <div class="card">
+        <h3 class="card-title" data-i18n="set.logoCard">Logo</h3>
+        <p class="card-sub" data-i18n="set.logoHelp">Affiché dans l'en-tête et le pied de page.</p>
+        <div class="single-preview-wrap single-preview-wrap--logo"><img id="logo-preview" class="single-preview" alt="" hidden></div>
+        <div class="upload-row">
+          <label class="btn btn--ghost btn--block" for="logo-file-input" data-i18n="set.uploadLogo">📤 Changer le logo</label>
+          <input type="file" id="logo-file-input" accept="image/jpeg,image/png,image/webp,image/avif" hidden>
         </div>
-        <div class="card">
-          <h3 class="card-title">Boutique & livraison</h3>
-          <div id="settings-fields"></div>
-          <p id="settings-msg" class="form-msg" hidden></p>
-          <button class="btn btn--gold btn--block" id="btn-save-settings">Enregistrer les réglages</button>
-        </div>
-      </section>
-    </main>
-  </div>
+        <p id="logo-msg" class="form-msg" hidden></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- bottom tab navigation (mobile) -->
+  <nav class="tabbar" aria-label="Navigation admin">
+    <button class="tab-item active" data-nav="dashboard"><span class="tab-ico">◫</span><span class="tab-label" data-i18n="tab.dash">Bord</span></button>
+    <button class="tab-item" data-nav="orders"><span class="tab-ico">❏</span><span class="tab-label" data-i18n="tab.orders">Commandes</span><span class="tab-badge" id="tab-orders-badge" hidden>0</span></button>
+    <button class="tab-item" data-nav="products"><span class="tab-ico">◈</span><span class="tab-label" data-i18n="tab.products">Produits</span></button><button class="tab-item" data-nav="reviews"><span class="tab-ico">◈</span><span class="tab-label" data-i18n="tab.products">Produits</span></button>
+    <button class="tab-item" data-nav="settings"><span class="tab-ico">⚙</span><span class="tab-label" data-i18n="tab.settings">Réglages</span></button>
+  </nav>
 </div>
-<!-- ============ ORDER DRAWER ============ -->
-<div class="drawer-scrim" id="drawer-scrim" hidden></div>
-<aside class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title">
-  <div class="drawer-head">
+
+<!-- ============ ORDER SHEET (bottom sheet) ============ -->
+<div class="sheet-scrim" id="order-scrim" hidden></div>
+<aside class="sheet" id="order-sheet" hidden role="dialog" aria-modal="true" aria-labelledby="order-title">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head">
     <div>
-      <div class="drawer-kicker">Commande</div>
-      <h3 class="drawer-title" id="drawer-title">#——</h3>
+      <div class="sheet-kicker" data-i18n="ord.kicker">Commande</div>
+      <h3 class="sheet-title" id="order-title">#——</h3>
     </div>
-    <button class="icon-btn" id="drawer-close" aria-label="Fermer">✕</button>
+    <button class="icon-btn" id="order-close" aria-label="Fermer">✕</button>
   </div>
-  <div class="drawer-body" id="drawer-body"></div>
+  <div class="sheet-body" id="order-body"></div>
 </aside>
 
-<!-- ============ PRODUCT MODAL ============ -->
-<div class="modal-scrim" id="modal-scrim" hidden>
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-head">
-      <h3 class="modal-title" id="modal-title">Nouveau produit</h3>
-      <button class="icon-btn" id="modal-close" aria-label="Fermer">✕</button>
-    </div>
-    <form id="product-form" novalidate>
-      <div class="modal-body">
-        <div class="field">
-          <label class="field-label" for="pf-name-fr">Nom (FR) *</label>
-          <input class="field-input" id="pf-name-fr" required>
-        </div>
-        <div class="grid-2">
-          <div class="field"><label class="field-label" for="pf-name-en">Nom (EN)</label><input class="field-input" id="pf-name-en"></div>
-          <div class="field"><label class="field-label" for="pf-name-ar">Nom (AR)</label><input class="field-input" id="pf-name-ar" dir="auto"></div>
-        </div>
-        <div class="grid-2">
-          <div class="field"><label class="field-label" for="pf-desc-fr">Description (FR)</label><textarea class="field-input" id="pf-desc-fr" rows="2"></textarea></div>
-          <div class="field"><label class="field-label" for="pf-desc-en">Description (EN)</label><textarea class="field-input" id="pf-desc-en" rows="2"></textarea></div>
-        </div>
-        <div class="field"><label class="field-label" for="pf-desc-ar">Description (AR)</label><textarea class="field-input" id="pf-desc-ar" rows="2" dir="auto"></textarea></div>
-        <div class="grid-2">
-          <div class="field">
-            <label class="field-label" for="pf-category">Catégorie *</label>
-            <select class="field-input" id="pf-category">
-              <option value="inspires">Inspires</option>
-              <option value="voiture">Voiture</option>
-              <option value="ambiance">Ambiance</option>
-              <option value="musc">Musc</option>
-            </select>
-          </div>
-          <div class="field"><label class="field-label" for="pf-image">URL image</label><input class="field-input" id="pf-image" type="url" placeholder="https://…"></div>
-        </div>
-        <div class="grid-3">
-          <div class="field"><label class="field-label" for="pf-price">Prix (DT) *</label><input class="field-input" id="pf-price" type="number" step="0.001" min="0" required></div>
-          <div class="field"><label class="field-label" for="pf-old-price">Ancien prix</label><input class="field-input" id="pf-old-price" type="number" step="0.001" min="0"></div>
-          <div class="field"><label class="field-label" for="pf-stock">Stock</label><input class="field-input" id="pf-stock" type="number" step="1" min="0"></div>
-        </div>
-        <div class="toggle-row">
-          <label class="toggle"><input type="checkbox" id="pf-featured"><span class="toggle-track"></span><span class="toggle-label">Mis en avant</span></label>
-          <label class="toggle"><input type="checkbox" id="pf-active" checked><span class="toggle-track"></span><span class="toggle-label">Actif</span></label>
-        </div>
-        <p id="pf-msg" class="form-msg" hidden></p>
-      </div>
-      <div class="modal-foot">
-        <button type="button" class="btn btn--ghost" id="pf-cancel">Annuler</button>
-        <button type="submit" class="btn btn--gold" id="pf-save">Enregistrer</button>
-      </div>
-    </form>
+<!-- ============ PRODUCT SHEET (bottom sheet form) ============ -->
+<div class="sheet-scrim" id="pf-scrim" hidden></div>
+<aside class="sheet sheet--tall" id="pf-sheet" hidden role="dialog" aria-modal="true" aria-labelledby="pf-title">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head">
+    <h3 class="sheet-title" id="pf-title" data-i18n="pf.new">Nouveau produit</h3>
+    <button class="icon-btn" id="pf-close" aria-label="Fermer">✕</button>
   </div>
-</div>
+  <form id="product-form" novalidate>
+    <div class="sheet-body">
+      <!-- multi-image gallery -->
+      <div class="field">
+        <span class="field-label" data-i18n="pf.images">Images du produit</span>
+        <p class="card-sub" data-i18n="pf.imgHelp">La 1ʳᵉ image = principale. Touchez ✕ pour retirer.</p>
+        <div id="pf-gallery" class="g-strip"></div>
+        <input type="file" id="pf-img-input" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden>
+        <p id="pf-img-msg" class="form-msg" hidden></p>
+        <div class="field" style="margin-top:.5rem">
+          <label class="field-label" for="pf-image" data-i18n="pf.addUrl">Ajouter par URL (Entrée pour valider)</label>
+          <input class="field-input" id="pf-image" type="url" placeholder="https://…" inputmode="url">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pf-name-fr" data-i18n="pf.nameFR">Nom (FR) *</label>
+        <input class="field-input" id="pf-name-fr" required>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pf-name-en" data-i18n="pf.nameEN">Nom (EN)</label>
+        <input class="field-input" id="pf-name-en">
+      </div>
+      <div class="field">
+        <label class="field-label" for="pf-name-ar" data-i18n="pf.nameAR">Nom (AR)</label>
+        <input class="field-input" id="pf-name-ar" dir="auto">
+      </div>
+      <div class="field">
+        <label class="field-label" for="pf-desc-fr" data-i18n="pf.descFR">Description (FR)</label>
+        <textarea class="field-input" id="pf-desc-fr" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pf-desc-en" data-i18n="pf.descEN">Description (EN)</label>
+        <textarea class="field-input" id="pf-desc-en" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pf-desc-ar" data-i18n="pf.descAR">Description (AR)</label>
+        <textarea class="field-input" id="pf-desc-ar" rows="2" dir="auto"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pf-category" data-i18n="pf.cat">Catégorie *</label>
+        <select class="field-input" id="pf-category">
+          <option value="inspires" data-i18n="cat.inspires">Inspires</option>
+          <option value="voiture" data-i18n="cat.voiture">Voiture</option>
+          <option value="ambiance" data-i18n="cat.ambiance">Ambiance</option>
+          <option value="musc" data-i18n="cat.musc">Musc</option>
+          <option value="accessoires" data-i18n="cat.accessoires">Accessoires</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pf-sku" data-i18n="pf.sku">Référence (SKU)</label>
+        <input class="field-input" id="pf-sku" placeholder="SM-XXX-000">
+      </div>
+      <div class="grid-3">
+        <div class="field"><label class="field-label" for="pf-price" data-i18n="pf.price">Prix (DT) *</label><input class="field-input" id="pf-price" type="number" step="0.001" min="0" inputmode="decimal" required></div>
+        <div class="field"><label class="field-label" for="pf-old-price" data-i18n="pf.oldPrice">Ancien prix</label><input class="field-input" id="pf-old-price" type="number" step="0.001" min="0" inputmode="decimal"></div>
+        <div class="field"><label class="field-label" for="pf-stock" data-i18n="pf.stock">Stock</label><input class="field-input" id="pf-stock" type="number" step="1" min="0" inputmode="numeric"></div>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle"><input type="checkbox" id="pf-featured"><span class="toggle-track"></span><span class="toggle-label" data-i18n="pf.featured">Mis en avant</span></label>
+        <label class="toggle"><input type="checkbox" id="pf-active" checked><span class="toggle-track"></span><span class="toggle-label" data-i18n="pf.active">Actif</span></label>
+      </div>
+      <p id="pf-msg" class="form-msg" hidden></p>
+    </div>
+    <div class="sheet-foot">
+      <button type="button" class="btn btn--danger-solid" id="pf-delete" data-i18n="pf.delete" hidden>Supprimer</button>
+      <span class="sheet-foot-spacer"></span>
+      <button type="button" class="btn btn--ghost" id="pf-cancel" data-i18n="pf.cancel">Annuler</button>
+      <button type="submit" class="btn btn--gold" id="pf-save" data-i18n="pf.save">Enregistrer</button>
+    </div>
+  </form>
+</aside>
 
 <!-- ============ CONFIRM DIALOG ============ -->
 <div class="modal-scrim confirm-scrim" id="confirm-scrim" hidden>
   <div class="modal modal--confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
-    <div class="modal-head"><h3 class="modal-title" id="confirm-title">Confirmer</h3></div>
+    <div class="modal-head"><h3 class="modal-title" id="confirm-title" data-i18n="cf.title">Confirmer</h3></div>
     <div class="confirm-body"><p id="confirm-text"></p></div>
     <div class="modal-foot">
-      <button type="button" class="btn btn--ghost" id="confirm-no">Annuler</button>
-      <button type="button" class="btn btn--danger-solid" id="confirm-yes">Supprimer</button>
+      <button type="button" class="btn btn--ghost" id="confirm-no" data-i18n="cf.no">Annuler</button>
+      <button type="button" class="btn btn--danger-solid" id="confirm-yes" data-i18n="cf.yes">Supprimer</button>
     </div>
   </div>
 </div>
@@ -244,7 +301,6 @@
 <div id="toasts" class="toasts" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/admin2.js?v=9"></script>
+<script src="js/admin2.js?v=26"></script>
 </body>
 </html>
-

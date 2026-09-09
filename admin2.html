@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/admin2.css?v=20">
+<link rel="stylesheet" href="css/admin2.css?v=21">
 <link rel="icon" href="i/favicon.ico">
 </head>
 <body data-view="login">
@@ -185,10 +185,11 @@
 
   <!-- bottom tab navigation (mobile) -->
   <nav class="tabbar" aria-label="Navigation admin">
-    <button class="tab-item active" data-nav="dashboard"><span class="tab-ico">◫</span><span class="tab-label" data-i18n="tab.dash">Bord</span></button>
-    <button class="tab-item" data-nav="orders"><span class="tab-ico">❏</span><span class="tab-label" data-i18n="tab.orders">Commandes</span><span class="tab-badge" id="tab-orders-badge" hidden>0</span></button>
-    <button class="tab-item" data-nav="products"><span class="tab-ico">◈</span><span class="tab-label" data-i18n="tab.products">Produits</span></button><button class="tab-item" data-nav="reviews"><span class="tab-ico">◈</span><span class="tab-label" data-i18n="tab.products">Produits</span></button>
-    <button class="tab-item" data-nav="settings"><span class="tab-ico">⚙</span><span class="tab-label" data-i18n="tab.settings">Réglages</span></button>
+    <button class="tab-item active" data-nav="dashboard"><span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span><span class="tab-label" data-i18n="tab.dash">Bord</span></button>
+    <button class="tab-item" data-nav="orders"><span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 11h8M8 15h5"/></svg></span><span class="tab-label" data-i18n="tab.orders">Commandes</span><span class="tab-badge" id="tab-orders-badge" hidden>0</span></button>
+    <button class="tab-item" data-nav="products"><span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5M12 13v9"/></svg></span><span class="tab-label" data-i18n="tab.products">Produits</span></button>
+    <button class="tab-item" data-nav="reviews"><span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.1 6.47L12 17.44 6.2 20.5l1.1-6.47L2.6 9.45l6.5-.95L12 2.6z"/></svg></span><span class="tab-label" data-i18n="tab.reviews">Avis</span></button>
+    <button class="tab-item" data-nav="settings"><span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.08a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.08a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.08a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span class="tab-label" data-i18n="tab.settings">Réglages</span></button>
   </nav>
 </div>
 
@@ -301,6 +302,6 @@
 <div id="toasts" class="toasts" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/admin2.js?v=26"></script>
+<script src="js/admin2.js?v=27"></script>
 </body>
 </html>

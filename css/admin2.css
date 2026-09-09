@@ -293,24 +293,39 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 /* ---------- tabbar ---------- */
 .tabbar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
-  display: flex; background: rgba(20,18,16,.96); backdrop-filter: blur(12px);
+  display: flex; background: rgba(20,18,16,.92); backdrop-filter: blur(14px) saturate(1.2);
   border-top: 1px solid var(--line);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-.tab-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: .15rem;
-  background: none; border: none; color: var(--muted);
-  padding: .5rem 0 .55rem; min-height: 56px; cursor: pointer; position: relative;
-  font-family: inherit;
+.tabbar::before {
+  content: ""; position: absolute; top: -1px; left: 12%; right: 12%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,162,39,.55), transparent);
+  pointer-events: none;
 }
-.tab-ico { font-size: 1.25rem; line-height: 1; }
-.tab-label { font-size: .68rem; font-weight: 600; letter-spacing: .02em; }
+.tab-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: .28rem;
+  background: none; border: none; color: var(--muted);
+  padding: .6rem 0 .5rem; min-height: 58px; cursor: pointer; position: relative;
+  font-family: inherit; -webkit-tap-highlight-color: transparent; transition: color .2s;
+}
+.tab-ico { font-size: 1.25rem; line-height: 1; height: 22px; display: flex; align-items: center; justify-content: center; }
+.tab-ico svg { width: 22px; height: 22px; stroke-width: 1.6; opacity: .82; transition: opacity .2s, filter .2s; }
+.tab-label { font-size: .6rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.tab-item::after {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%) scaleX(0);
+  width: 34px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold-2, #e6c96a), var(--gold));
+  transition: transform .25s cubic-bezier(.4, 0, .2, 1);
+}
 .tab-item.active { color: var(--gold); }
+.tab-item.active::after { transform: translateX(-50%) scaleX(1); }
+.tab-item.active .tab-ico svg { opacity: 1; filter: drop-shadow(0 0 6px rgba(201,162,39,.45)); }
 .tab-badge {
-  position: absolute; top: .3rem; right: calc(50% - 22px);
+  position: absolute; top: .35rem; right: calc(50% - 24px);
   background: var(--red); color: #fff; font-size: .65rem; font-weight: 700;
   min-width: 17px; height: 17px; border-radius: 9px;
   display: flex; align-items: center; justify-content: center; padding: 0 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.4);
 }
 
 /* ---------- desktop niceties (kept simple, mobile is the target) ---------- */

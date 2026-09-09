@@ -295,23 +295,42 @@
     var res = await fetch(SUPABASE_URL + path, {
       method: method, headers: headers, body: body === undefined ? undefined : JSON.stringify(body)
     });
-    if (res.status === 401) { await refreshSession(); }
+    if (res.status === 401) {
+      var refreshed = await refreshSession();
+      if (refreshed) {
+        /* retry ONCE with the new token and return that response */
+        headers.Authorization = 'Bearer ' + getToken();
+        res = await fetch(SUPABASE_URL + path, {
+          method: method, headers: headers, body: body === undefined ? undefined : JSON.stringify(body)
+        });
+      }
+    }
     return res;
   }
 
+  /* refreshes the access token; returns true ONLY when we hold a verified fresh token.
+     serialization prevents the Promise.all load race (3 parallel refreshes burn the rotating refresh_token). */
+  var refreshInFlight = null;
   async function refreshSession() {
-    try {
-      var r = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
-        method: 'POST',
-        headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refresh_token: state.user.refresh_token })
-      });
-      if (r.ok) {
+    if (!state.user || !state.user.refresh_token) return false;
+    if (refreshInFlight) return refreshInFlight;
+    refreshInFlight = (async function () {
+      try {
+        var r = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
+          method: 'POST',
+          headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refresh_token: state.user.refresh_token })
+        });
+        if (!r.ok) return false;
         var j = await r.json();
-        state.user = { access_token: j.access_token, refresh_token: j.refresh_token, email: j.user && j.user.email };
+        if (!j.access_token || !j.refresh_token) return false;
+        state.user = { access_token: j.access_token, refresh_token: j.refresh_token, email: (j.user && j.user.email) || state.user.email };
         try { localStorage.setItem('sm_admin_session', JSON.stringify(state.user)); } catch (e) { /* noop */ }
-      }
-    } catch (e) { /* offline */ }
+        return true;
+      } catch (e) { return false; }
+      finally { refreshInFlight = null; }
+    })();
+    return refreshInFlight;
   }
 
   async function restoreSession() {
@@ -319,11 +338,20 @@
       var raw = localStorage.getItem('sm_admin_session');
       if (!raw) return false;
       state.user = JSON.parse(raw);
+      if (!state.user || !state.user.access_token) return false;
       // validate with a cheap call; refresh if expired
       var res = await fetch(SUPABASE_URL + '/rest/v1/orders?select=id&limit=1', {
         headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + state.user.access_token }
       });
-      if (res.status === 401) await refreshSession();
+      if (res.status === 401) {
+        var refreshed = await refreshSession();
+        /* refresh failed → session is dead: refuse to enter the app with a zombie token */
+        if (!refreshed) {
+          try { localStorage.removeItem('sm_admin_session'); } catch (e) { /* noop */ }
+          state.user = null;
+          return false;
+        }
+      }
       return !!getToken();
     } catch (e) { return false; }
   }

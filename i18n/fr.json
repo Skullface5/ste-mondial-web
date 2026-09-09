@@ -38,8 +38,8 @@
   "categories.voitureSub": "Une ambiance parfumée",
   "categories.ambiance": "Parfums d'Ambiance",
   "categories.ambianceSub": "L'âme de votre intérieur",
-  "categories.musc": "Musc & Accessoires",
-  "categories.muscSub": "L'élégance jusque dans les détails",
+  "categories.musc": "Musc",
+  "categories.muscSub": "La pureté du musc blanc",
   "products.eyebrow": "NOS PRODUITS LES PLUS APPRÉCIÉS",
   "products.title": "Nos Meilleures Ventes",
   "products.seeAll": "Voir tout",
@@ -124,5 +124,8 @@
   "checkout.free": "Gratuite",
   "checkout.total_due": "Total à payer",
   "checkout.free_hint": "Livraison gratuite dès 80 DT d'achat",
-  "products.searchPlaceholder": "Rechercher un parfum…"
+  "products.searchPlaceholder": "Rechercher un parfum…",
+  "categories.accessoires": "Accessoires",
+  "categories.accessoiresSub": "L'élégance jusque dans les détails",
+  "products.tabAccessoires": "Accessoires"
 }

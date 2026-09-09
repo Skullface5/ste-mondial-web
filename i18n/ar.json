@@ -38,8 +38,8 @@
   "categories.voitureSub": "أجواء عطرية",
   "categories.ambiance": "معطرات الجو",
   "categories.ambianceSub": "روح منزلك",
-  "categories.musc": "مسك وملحقات",
-  "categories.muscSub": "الأناقة في أدق التفاصيل",
+  "categories.musc": "مسك",
+  "categories.muscSub": "نقاء المسك الأبيض",
   "products.eyebrow": "منتجاتنا الأكثر رواجاً",
   "products.title": "الأكثر مبيعاً",
   "products.seeAll": "عرض الكل",
@@ -124,5 +124,8 @@
   "checkout.free": "مجاني",
   "checkout.total_due": "المجموع المطلوب",
   "checkout.free_hint": "التوصيل مجاني للطلبات التي تفوق 80 دينار",
-  "products.searchPlaceholder": "ابحث عن عطر…"
+  "products.searchPlaceholder": "ابحث عن عطر…",
+  "categories.accessoires": "إكسسوارات",
+  "categories.accessoiresSub": "الأناقة حتى في أدق التفاصيل",
+  "products.tabAccessoires": "إكسسوارات"
 }

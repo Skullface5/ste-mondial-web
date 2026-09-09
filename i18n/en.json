@@ -38,8 +38,8 @@
   "categories.voitureSub": "A fragrant atmosphere",
   "categories.ambiance": "Home Fragrances",
   "categories.ambianceSub": "The soul of your interior",
-  "categories.musc": "Musk & Accessories",
-  "categories.muscSub": "Elegance down to the details",
+  "categories.musc": "Musk",
+  "categories.muscSub": "The purity of white musk",
   "products.eyebrow": "OUR MOST LOVED PRODUCTS",
   "products.title": "Our Best Sellers",
   "products.seeAll": "See all",
@@ -124,5 +124,8 @@
   "checkout.free": "Free",
   "checkout.total_due": "Total to pay",
   "checkout.free_hint": "Free delivery on orders over 80 DT",
-  "products.searchPlaceholder": "Search a fragrance…"
+  "products.searchPlaceholder": "Search a fragrance…",
+  "categories.accessoires": "Accessories",
+  "categories.accessoiresSub": "Elegance down to the details",
+  "products.tabAccessoires": "Accessories"
 }

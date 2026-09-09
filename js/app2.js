@@ -126,11 +126,15 @@
     if (si) si.setAttribute('placeholder', t('products.searchPlaceholder'));
   }
 
+  var langSeq = 0;
   function setLang(lang) {
     if (['fr', 'en', 'ar'].indexOf(lang) === -1) lang = 'fr';
+    var seq = ++langSeq;
     state.lang = lang;
     try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* private mode */ }
     return fetchLocale(lang).then(function () {
+      if (seq !== langSeq) return; // a newer switch happened — drop this stale render
+      if (state.lang !== lang) return; // double guard: lang moved on while fetching
       applyStatic();
       renderGrid();
       renderCart();

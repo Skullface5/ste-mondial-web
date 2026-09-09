@@ -1,13 +1,11 @@
 {
   "meta.title": "STE Mondial Parfums — The Essence of the World",
-
   "misc.currency": "DT",
   "misc.offline": "Offline — demo catalog",
   "misc.loading": "Loading…",
   "misc.close": "Close",
   "misc.back": "Back",
   "misc.free": "Free",
-
   "nav.home": "Home",
   "nav.shop": "Our Perfumes",
   "nav.collections": "Collections",
@@ -17,19 +15,15 @@
   "nav.cart": "Cart",
   "nav.lang": "Language",
   "nav.favs": "Favorites",
-
   "utility.shipping": "Free shipping from 80 DT",
   "utility.authentic": "Authentic perfumes | Guaranteed quality",
   "utility.support": "Customer service 7 days a week",
-
   "hero.eyebrow": "EXCEPTIONAL PERFUMES",
   "hero.title": "Elegance has its own scent.",
   "hero.subtitle": "Unique fragrances, carefully selected to reveal your personality.",
   "hero.cta": "DISCOVER THE COLLECTION",
-
   "promo.eyebrow": "OUR SELECTION",
   "promo.text": "Iconic scents, reinterpreted with finesse for a unique olfactory experience.",
-
   "trust.authentic": "Authentic products",
   "trust.authenticSub": "Carefully selected",
   "trust.quality": "Guaranteed quality",
@@ -38,7 +32,6 @@
   "trust.fastSub": "From 80 DT",
   "trust.cod": "Cash on delivery",
   "trust.codSub": "Order online",
-
   "categories.inspires": "Inspired Perfumes",
   "categories.inspiresSub": "Unique scents",
   "categories.voiture": "Car Perfumes",
@@ -47,14 +40,12 @@
   "categories.ambianceSub": "The soul of your interior",
   "categories.musc": "Musk & Accessories",
   "categories.muscSub": "Elegance down to the details",
-
   "products.eyebrow": "OUR MOST LOVED PRODUCTS",
   "products.title": "Our Best Sellers",
   "products.seeAll": "See all",
   "products.tabAll": "All",
   "products.added": "Added ✓",
   "products.empty": "No products in this category.",
-
   "product.details": "Product details",
   "product.addToCart": "Add to cart",
   "product.qty": "Quantity",
@@ -62,7 +53,6 @@
   "product.reviews": "reviews",
   "product.stockIn": "In stock",
   "product.stockOut": "Out of stock",
-
   "cart.title": "Your cart",
   "cart.empty": "Your cart is empty.",
   "cart.emptyCta": "Discover our perfumes",
@@ -74,7 +64,6 @@
   "cart.remove": "Remove",
   "cart.decrease": "Decrease quantity",
   "cart.increase": "Increase quantity",
-
   "checkout.title": "Checkout",
   "checkout.subtitle": "Fill in your details, cash on delivery.",
   "checkout.name": "Full name",
@@ -97,9 +86,8 @@
   "checkout.summary": "Order summary",
   "checkout.back": "Back to cart",
   "checkout.errName": "Please enter your name.",
-  "checkout.errPhone": "Invalid phone number.",
+  "checkout.errPhone": "Invalid number — 8 digits (e.g. 22 123 456)",
   "checkout.error": "Something went wrong. Try again or call us.",
-
   "orders.confirmTitle": "Thank you for your order!",
   "orders.confirmText": "Your order has been placed. Our team will call you to confirm.",
   "orders.id": "Order number",
@@ -107,7 +95,6 @@
   "orders.codNote": "Have the exact amount ready at delivery.",
   "orders.continue": "Continue shopping",
   "orders.copy": "Copy number",
-
   "footer.quote": "«More than a perfume, a signature.»",
   "footer.quickLinks": "Quick links",
   "footer.info": "Information",
@@ -122,7 +109,6 @@
   "footer.copyright": "© 2025 STE Mondial Parfums",
   "footer.madeIn": "Delivery all over Tunisia",
   "footer.payment": "Cash on delivery",
-
   "admin.title": "Administration",
   "admin.login": "Admin login",
   "admin.email": "Email",
@@ -131,5 +117,12 @@
   "admin.dashboard": "Dashboard",
   "admin.orders": "Orders",
   "admin.products": "Products",
-  "admin.settings": "Settings"
+  "admin.settings": "Settings",
+  "cart.delivery": "Delivery",
+  "cart.free": "Free",
+  "checkout.delivery": "Delivery",
+  "checkout.free": "Free",
+  "checkout.total_due": "Total to pay",
+  "checkout.free_hint": "Free delivery on orders over 80 DT",
+  "products.searchPlaceholder": "Search a fragrance…"
 }

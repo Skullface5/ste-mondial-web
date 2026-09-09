@@ -26,6 +26,7 @@
     cart: [],           // [{id, productId, nameFr, nameEn, nameAr, price, image, qty}]
     favs: [],           // [product id]
     activeCat: 'all',
+    search: '',
     favsOnly: false,
     modalId: null,
     modalQty: 1,
@@ -121,6 +122,8 @@
     $all('.lang-btn').forEach(function (b) {
       b.classList.toggle('active', b.getAttribute('data-lang') === state.lang);
     });
+    var si = document.getElementById('shopSearch');
+    if (si) si.setAttribute('placeholder', t('products.searchPlaceholder'));
   }
 
   function setLang(lang) {
@@ -258,7 +261,15 @@
       return list.filter(function (p) { return state.favs.indexOf(p.id) !== -1; });
     }
     if (state.activeCat !== 'all') {
-      return list.filter(function (p) { return p.category === state.activeCat; });
+      list = list.filter(function (p) { return p.category === state.activeCat; });
+    }
+    if (state.search) {
+      var q = state.search.toLowerCase();
+      list = list.filter(function (p) {
+        return ['name_fr', 'name_en', 'name_ar', 'desc_fr', 'desc_en', 'desc_ar'].some(function (k) {
+          return (p[k] || '').toLowerCase().indexOf(q) !== -1;
+        }) || (p.sku || '').toLowerCase().indexOf(q) !== -1;
+      });
     }
     return list;
   }
@@ -345,6 +356,10 @@
 
   function cartTotal() {
     return state.cart.reduce(function (n, it) { return n + it.qty * it.price; }, 0);
+  }
+  var DELIVERY_FEE = 8.0, FREE_SHIPPING_MIN = 80.0;
+  function deliveryFee(total) {
+    return total > 0 && total < FREE_SHIPPING_MIN ? DELIVERY_FEE : 0;
   }
 
   function addToCart(p, qty) {
@@ -442,6 +457,27 @@
 
     var sub = $('#cartSubtotal');
     if (sub) sub.textContent = fmtPrice(cartTotal());
+    var fee = deliveryFee(cartTotal());
+    var dRow = $('#cartDeliveryRow');
+    if (!dRow) {
+      dRow = document.createElement('div');
+      dRow.className = 'summary-row';
+      dRow.id = 'cartDeliveryRow';
+      dRow.innerHTML = '<span data-i18n="cart.delivery">' + t('cart.delivery') + '</span><strong id="cartDelivery"></strong>';
+      if (sub && sub.parentElement) sub.parentElement.insertAdjacentElement('afterend', dRow);
+    }
+    var dEl = $('#cartDelivery');
+    if (dEl) dEl.textContent = fee > 0 ? fmtPrice(fee) : t('cart.free');
+    var tt = $('#cartTotalDue');
+    if (!tt) {
+      tt = document.createElement('div');
+      tt.className = 'summary-row summary-total';
+      tt.id = 'cartTotalDue';
+      tt.innerHTML = '<span data-i18n="checkout.total_due">' + t('checkout.total_due') + '</span><strong id="cartTotalVal"></strong>';
+      if (dRow) dRow.insertAdjacentElement('afterend', tt);
+    }
+    var tv = $('#cartTotalVal');
+    if (tv) tv.textContent = fmtPrice(cartTotal() + fee);
     if (foot) foot.hidden = false;
   }
 
@@ -570,8 +606,28 @@
         '<p class="summary-item-price">' + esc(fmtPrice(it.qty * it.price)) + '</p>' +
         '</div>';
     }).join('');
+    var fee = deliveryFee(cartTotal());
+    var sRow = $('#summaryDeliveryRow');
+    if (!sRow) {
+      sRow = document.createElement('div');
+      sRow.className = 'summary-row';
+      sRow.id = 'summaryDeliveryRow';
+      sRow.innerHTML = '<span data-i18n="checkout.delivery">' + t('checkout.delivery') + '</span><strong id="summaryDelivery"></strong>';
+      var totalEl0 = $('#summaryTotal');
+      if (totalEl0 && totalEl0.parentElement) totalEl0.parentElement.insertAdjacentElement('beforebegin', sRow);
+    }
+    var sEl = $('#summaryDelivery');
+    if (sEl) sEl.textContent = fee > 0 ? fmtPrice(fee) : t('checkout.free');
     var total = $('#summaryTotal');
-    if (total) total.textContent = fmtPrice(cartTotal());
+    if (total) total.textContent = fmtPrice(cartTotal() + fee);
+    var hint = $('#summaryHint');
+    if (!hint && total && total.parentElement) {
+      hint = document.createElement('p');
+      hint.className = 'summary-hint';
+      hint.id = 'summaryHint';
+      total.parentElement.insertAdjacentElement('afterend', hint);
+    }
+    if (hint) hint.textContent = fee > 0 ? t('checkout.free_hint') : '';
   }
 
   function setFieldError(inputId, errId, on) {
@@ -593,8 +649,11 @@
     var notes = ($('#coNotes') && $('#coNotes').value.trim()) || '';
 
     var nameBad = !name;
-    var phoneBad = !/^[+0-9][0-9 ()\-.]{6,}$/.test(phone);
+    var phoneDigits = phone.replace(/[^0-9]/g, '').replace(/^(?:00216|216)/, '');
+    var phoneBad = !/^[2459][0-9]{7}$/.test(phoneDigits);
     setFieldError('coName', 'coNameErr', nameBad);
+    var phoneErrEl = document.getElementById('coPhoneErr');
+    if (phoneErrEl) phoneErrEl.textContent = t('checkout.errPhone');
     setFieldError('coPhone', 'coPhoneErr', phoneBad);
     if (nameBad) { if (nameEl) nameEl.focus(); return; }
     if (phoneBad) { if (phoneEl) phoneEl.focus(); return; }
@@ -605,7 +664,7 @@
     var items = state.cart.map(function (it) {
       return { product_id: it.productId || it.id, name: cartItemName(it), qty: it.qty, price: it.price };
     });
-    var total = Math.round(cartTotal() * 1000) / 1000;
+    var total = Math.round((cartTotal() + deliveryFee(cartTotal())) * 1000) / 1000;
 
     var btn = $('#coSubmit');
     if (btn) {
@@ -839,6 +898,15 @@
         setTabbarActive('home');
       });
     });
+
+    // Search
+    var searchInput = $('#shopSearch');
+    if (searchInput) {
+      searchInput.addEventListener('input', function () {
+        state.search = searchInput.value.trim();
+        renderGrid();
+      });
+    }
 
     // Cart checkout button
     var ckb = $('#cartCheckoutBtn');

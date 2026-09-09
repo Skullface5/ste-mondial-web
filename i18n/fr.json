@@ -1,13 +1,11 @@
 {
   "meta.title": "STE Mondial Parfums — L'Essence du Monde",
-
   "misc.currency": "DT",
   "misc.offline": "Hors ligne — catalogue de démonstration",
   "misc.loading": "Chargement…",
   "misc.close": "Fermer",
   "misc.back": "Retour",
   "misc.free": "Gratuite",
-
   "nav.home": "Accueil",
   "nav.shop": "Nos Parfums",
   "nav.collections": "Collections",
@@ -17,19 +15,15 @@
   "nav.cart": "Panier",
   "nav.lang": "Langue",
   "nav.favs": "Favoris",
-
   "utility.shipping": "Livraison gratuite à partir de 80 DT",
   "utility.authentic": "Parfums authentiques | Qualité garantie",
   "utility.support": "Service client 7j/7",
-
   "hero.eyebrow": "PARFUMS D'EXCEPTION",
   "hero.title": "L'élégance a son propre parfum.",
   "hero.subtitle": "Des fragrances uniques, sélectionnées avec soin pour révéler votre personnalité.",
   "hero.cta": "DÉCOUVRIR LA COLLECTION",
-
   "promo.eyebrow": "NOTRE SÉLECTION",
   "promo.text": "Des senteurs iconiques, réinterprétées avec finesse pour une expérience olfactive unique.",
-
   "trust.authentic": "Produits authentiques",
   "trust.authenticSub": "Sélectionnés avec soin",
   "trust.quality": "Qualité garantie",
@@ -38,7 +32,6 @@
   "trust.fastSub": "À partir de 80 DT",
   "trust.cod": "Paiement à la livraison",
   "trust.codSub": "Commandez en ligne",
-
   "categories.inspires": "Parfums Inspirés",
   "categories.inspiresSub": "Des senteurs uniques",
   "categories.voiture": "Parfums pour Voiture",
@@ -47,14 +40,12 @@
   "categories.ambianceSub": "L'âme de votre intérieur",
   "categories.musc": "Musc & Accessoires",
   "categories.muscSub": "L'élégance jusque dans les détails",
-
   "products.eyebrow": "NOS PRODUITS LES PLUS APPRÉCIÉS",
   "products.title": "Nos Meilleures Ventes",
   "products.seeAll": "Voir tout",
   "products.tabAll": "Tout",
   "products.added": "Ajouté ✓",
   "products.empty": "Aucun produit dans cette catégorie.",
-
   "product.details": "Détails du produit",
   "product.addToCart": "Ajouter au panier",
   "product.qty": "Quantité",
@@ -62,7 +53,6 @@
   "product.reviews": "avis",
   "product.stockIn": "En stock",
   "product.stockOut": "Rupture de stock",
-
   "cart.title": "Votre panier",
   "cart.empty": "Votre panier est vide.",
   "cart.emptyCta": "Découvrir nos parfums",
@@ -74,7 +64,6 @@
   "cart.remove": "Retirer",
   "cart.decrease": "Diminuer la quantité",
   "cart.increase": "Augmenter la quantité",
-
   "checkout.title": "Finaliser la commande",
   "checkout.subtitle": "Remplissez vos informations, paiement à la livraison.",
   "checkout.name": "Nom complet",
@@ -97,9 +86,8 @@
   "checkout.summary": "Récapitulatif",
   "checkout.back": "Retour au panier",
   "checkout.errName": "Veuillez indiquer votre nom.",
-  "checkout.errPhone": "Numéro de téléphone invalide.",
+  "checkout.errPhone": "Numéro invalide — 8 chiffres (ex: 22 123 456)",
   "checkout.error": "Une erreur est survenue. Réessayez ou appelez-nous.",
-
   "orders.confirmTitle": "Merci pour votre commande !",
   "orders.confirmText": "Votre commande a bien été enregistrée. Notre équipe vous appellera pour confirmer.",
   "orders.id": "N° de commande",
@@ -107,7 +95,6 @@
   "orders.codNote": "Préparez le montant exact à la livraison.",
   "orders.continue": "Continuer mes achats",
   "orders.copy": "Copier le numéro",
-
   "footer.quote": "«Plus qu'un parfum, une signature.»",
   "footer.quickLinks": "Liens rapides",
   "footer.info": "Informations",
@@ -122,7 +109,6 @@
   "footer.copyright": "© 2025 STE Mondial Parfums",
   "footer.madeIn": "Livraison partout en Tunisie",
   "footer.payment": "Paiement à la livraison",
-
   "admin.title": "Administration",
   "admin.login": "Connexion admin",
   "admin.email": "E-mail",
@@ -131,5 +117,12 @@
   "admin.dashboard": "Tableau de bord",
   "admin.orders": "Commandes",
   "admin.products": "Produits",
-  "admin.settings": "Paramètres"
+  "admin.settings": "Paramètres",
+  "cart.delivery": "Livraison",
+  "cart.free": "Gratuite",
+  "checkout.delivery": "Livraison",
+  "checkout.free": "Gratuite",
+  "checkout.total_due": "Total à payer",
+  "checkout.free_hint": "Livraison gratuite dès 80 DT d'achat",
+  "products.searchPlaceholder": "Rechercher un parfum…"
 }

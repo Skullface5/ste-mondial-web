@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin2.html
+
+Sitemap: https://ste-mondial-web.vercel.app/sitemap.xml

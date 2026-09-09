@@ -1,13 +1,11 @@
 {
   "meta.title": "ست مونديال للعطور — روح العالم",
-
   "misc.currency": "د.ت",
   "misc.offline": "غير متصل — كتالوج تجريبي",
   "misc.loading": "جارٍ التحميل…",
   "misc.close": "إغلاق",
   "misc.back": "رجوع",
   "misc.free": "مجاني",
-
   "nav.home": "الرئيسية",
   "nav.shop": "عطورنا",
   "nav.collections": "المجموعات",
@@ -17,19 +15,15 @@
   "nav.cart": "السلة",
   "nav.lang": "اللغة",
   "nav.favs": "المفضلة",
-
   "utility.shipping": "توصيل مجاني ابتداءً من 80 دينار",
   "utility.authentic": "عطور أصلية | جودة مضمونة",
   "utility.support": "خدمة العملاء 7/7",
-
   "hero.eyebrow": "عطور استثنائية",
   "hero.title": "الأناقة لها عطرها الخاص.",
   "hero.subtitle": "روائح فريدة، مختارة بعناية لإبراز شخصيتك.",
   "hero.cta": "اكتشف المجموعة",
-
   "promo.eyebrow": "مختاراتنا",
   "promo.text": "روائح أيقونية، أُعيد تفسيرها بذوق رفيع لتجربة عطرية فريدة.",
-
   "trust.authentic": "منتجات أصلية",
   "trust.authenticSub": "مختارة بعناية",
   "trust.quality": "جودة مضمونة",
@@ -38,7 +32,6 @@
   "trust.fastSub": "ابتداءً من 80 دينار",
   "trust.cod": "الدفع عند الاستلام",
   "trust.codSub": "اطلب عبر الإنترنت",
-
   "categories.inspires": "عطور مستوحاة",
   "categories.inspiresSub": "روائح فريدة",
   "categories.voiture": "عطور السيارات",
@@ -47,14 +40,12 @@
   "categories.ambianceSub": "روح منزلك",
   "categories.musc": "مسك وملحقات",
   "categories.muscSub": "الأناقة في أدق التفاصيل",
-
   "products.eyebrow": "منتجاتنا الأكثر رواجاً",
   "products.title": "الأكثر مبيعاً",
   "products.seeAll": "عرض الكل",
   "products.tabAll": "الكل",
   "products.added": "تمت الإضافة ✓",
   "products.empty": "لا توجد منتجات في هذه الفئة.",
-
   "product.details": "تفاصيل المنتج",
   "product.addToCart": "أضف إلى السلة",
   "product.qty": "الكمية",
@@ -62,7 +53,6 @@
   "product.reviews": "تقييم",
   "product.stockIn": "متوفر",
   "product.stockOut": "غير متوفر",
-
   "cart.title": "سلتك",
   "cart.empty": "سلتك فارغة.",
   "cart.emptyCta": "اكتشف عطورنا",
@@ -74,7 +64,6 @@
   "cart.remove": "إزالة",
   "cart.decrease": "تقليل الكمية",
   "cart.increase": "زيادة الكمية",
-
   "checkout.title": "إتمام الطلب",
   "checkout.subtitle": "املأ معلوماتك، الدفع عند الاستلام.",
   "checkout.name": "الاسم الكامل",
@@ -97,9 +86,8 @@
   "checkout.summary": "ملخص الطلب",
   "checkout.back": "العودة إلى السلة",
   "checkout.errName": "يرجى إدخال اسمك.",
-  "checkout.errPhone": "رقم هاتف غير صالح.",
+  "checkout.errPhone": "رقم غير صالح — 8 أرقام (مثال: 22 123 456)",
   "checkout.error": "حدث خطأ. أعد المحاولة أو اتصل بنا.",
-
   "orders.confirmTitle": "شكراً لطلبك!",
   "orders.confirmText": "تم تسجيل طلبك بنجاح. سيتصل بك فريقنا للتأكيد.",
   "orders.id": "رقم الطلب",
@@ -107,7 +95,6 @@
   "orders.codNote": "جهّز المبلغ عند التوصيل.",
   "orders.continue": "مواصلة التسوق",
   "orders.copy": "نسخ الرقم",
-
   "footer.quote": "«أكثر من عطر، توقيع.»",
   "footer.quickLinks": "روابط سريعة",
   "footer.info": "معلومات",
@@ -122,7 +109,6 @@
   "footer.copyright": "© 2025 ست مونديال للعطور",
   "footer.madeIn": "التوصيل إلى كل أنحاء تونس",
   "footer.payment": "الدفع عند الاستلام",
-
   "admin.title": "الإدارة",
   "admin.login": "تسجيل دخول المدير",
   "admin.email": "البريد الإلكتروني",
@@ -131,5 +117,12 @@
   "admin.dashboard": "لوحة التحكم",
   "admin.orders": "الطلبات",
   "admin.products": "المنتجات",
-  "admin.settings": "الإعدادات"
+  "admin.settings": "الإعدادات",
+  "cart.delivery": "التوصيل",
+  "cart.free": "مجاني",
+  "checkout.delivery": "التوصيل",
+  "checkout.free": "مجاني",
+  "checkout.total_due": "المجموع المطلوب",
+  "checkout.free_hint": "التوصيل مجاني للطلبات التي تفوق 80 دينار",
+  "products.searchPlaceholder": "ابحث عن عطر…"
 }

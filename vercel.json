@@ -1,0 +1,38 @@
+{
+  "routes": [
+    {
+      "src": "/i/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(.*)",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Frame-Options": "SAMEORIGIN"
+      },
+      "continue": true
+    },
+    {
+      "src": "/admin2.html",
+      "headers": {
+        "X-Robots-Tag": "noindex"
+      },
+      "continue": true
+    },
+    {
+      "src": "/404.html",
+      "headers": {
+        "X-Robots-Tag": "noindex"
+      },
+      "continue": true
+    },
+    {
+      "src": "/",
+      "dest": "/index2.html"
+    }
+  ]
+}

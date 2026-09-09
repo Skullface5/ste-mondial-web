@@ -12,20 +12,22 @@
   <title>Ste Mondial Parfums</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- ─── FONTS: Cormorant Garamond + Jost (matches rosa fragrances) ─── -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&family=Cairo:wght@400;500;600;700;800&display=swap"
+  <!-- ─── FONTS: EXACT fragrances.tn stack — ONE family sitewide: Montserrat (wght 100;200;300;400;500, no italics), loaded from Google Fonts css2 with the same href as the reference site. NO extra Arabic face per user order — Arabic renders on the system fallback. ─── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&display=swap"
     rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- ===== MODULAR CSS ===== -->
   <link rel="stylesheet" href="css/index.css">
   <!-- ===== END MODULAR CSS ===== -->
+  <link rel="stylesheet" href="css/ste-copy.css">
 </head>
 
 <body>
 
-  <header>
+  <header id="siteHeader">
     <div class="header-row">
       <a href="#top" class="brand">
         <div class="brand-mark">
@@ -87,6 +89,23 @@
       </div>
     </div>
   </header>
+
+  <div class="gold-marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-group">
+        <span data-i18n="marq1">Livraison partout en Tunisie</span><i>◆</i>
+        <span data-i18n="marq2">Paiement à la livraison</span><i>◆</i>
+        <span data-i18n="marq3">Parfums 100% originaux</span><i>◆</i>
+        <span data-i18n="marq4">Service client 7j/7</span><i>◆</i>
+      </div>
+      <div class="marquee-group">
+        <span data-i18n="marq1">Livraison partout en Tunisie</span><i>◆</i>
+        <span data-i18n="marq2">Paiement à la livraison</span><i>◆</i>
+        <span data-i18n="marq3">Parfums 100% originaux</span><i>◆</i>
+        <span data-i18n="marq4">Service client 7j/7</span><i>◆</i>
+      </div>
+    </div>
+  </div>
 
   <div class="mobile-nav" id="mobileNav">
     <div class="mobile-nav-panel">
@@ -183,6 +202,39 @@
     </div>
   </main>
 
+
+  <section class="section wrap reveal" id="univers">
+    <div class="eyebrow-index"><span class="label" data-i18n="universEyebrow">Notre Univers</span></div>
+    <div class="univers-grid">
+      <div class="univers-copy">
+        <h2 class="display" data-i18n-html="universTitle">Une maison,<br><em>une promesse.</em></h2>
+        <p data-i18n="universText">Ste Mondial Parfums est née d'une conviction simple : le luxe n'est pas une question de frontières, mais d'exigence.</p>
+      </div>
+      <div class="univers-tiles">
+        <div class="uni-tile reveal reveal-d1">
+          <div class="uni-icon"><i class="fas fa-certificate"></i></div>
+          <div>
+            <h4 data-i18n="uniAuthTitle">Authenticité garantie</h4>
+            <p data-i18n="uniAuthText">Chaque flacon est sourcé auprès de fournisseurs de confiance. Original, certifié, sans compromis.</p>
+          </div>
+        </div>
+        <div class="uni-tile reveal reveal-d2">
+          <div class="uni-icon"><i class="fas fa-truck-fast"></i></div>
+          <div>
+            <h4 data-i18n="uniShipTitle">Livraison 24–48h</h4>
+            <p data-i18n="uniShipText">Partout en Tunisie, votre commande arrive à votre porte soigneusement emballée, en un temps record.</p>
+          </div>
+        </div>
+        <div class="uni-tile reveal reveal-d3">
+          <div class="uni-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+          <div>
+            <h4 data-i18n="uniPayTitle">Paiement à la livraison</h4>
+            <p data-i18n="uniPayText">Vous ne payez qu'à la réception de votre commande. Simple, sûr, sans avance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer id="contact">
     <div class="wrap">
@@ -325,10 +377,13 @@
     </div>
   </div>
 
+  <button class="to-top" id="toTop" aria-label="Haut de page"><i class="fas fa-arrow-up"></i></button>
+
   <div class="toast" id="toast"></div>
 
   <!-- ===== MODULAR JS ===== -->
   <script src="js/index.js"></script>
+  <script src="js/ste-copy.js"></script>
   <!-- ===== END MODULAR JS ===== -->
 </body>
 

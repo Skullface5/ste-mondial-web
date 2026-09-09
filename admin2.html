@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin — STE Mondial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin2.css">
+<link rel="icon" href="i/favicon.ico">
+</head>
+<body data-view="login">
+
+<!-- ============ LOGIN VIEW ============ -->
+<section id="view-login" class="view view--login">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="brand-block">
+        <div class="brand-mark">SM</div>
+        <h1 class="brand-name">STE MONDIAL</h1>
+        <p class="brand-sub">Espace administration</p>
+      </div>
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label class="field-label" for="login-email">Email</label>
+          <input class="field-input" type="email" id="login-email" name="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label class="field-label" for="login-password">Mot de passe</label>
+          <div class="pw-row">
+            <input class="field-input" type="password" id="login-password" name="password" autocomplete="current-password" required>
+            <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Afficher le mot de passe">👁</button>
+        </div>
+        </div>
+        <p id="login-msg" class="login-msg" role="alert" hidden></p>
+        <button type="submit" class="btn btn--gold btn--block" id="login-btn">Connexion</button>
+      </form>
+      <p class="login-foot">Accès réservé — STE Mondial Parfums</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APP SHELL ============ -->
+<div id="app-shell" hidden>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="icon-btn burger" id="burger" aria-label="Menu">☰</button>
+      <div class="topbar-brand">STE&nbsp;MONDIAL <span class="topbar-brand-sub">Admin</span></div>
+      <button class="icon-btn" id="btn-refresh" title="Rafraîchir les données" aria-label="Rafraîchir">⟳</button>
+      <button class="btn btn--ghost btn--logout" id="btn-logout">Déconnexion</button>
+    </div>
+  </header>
+  <div class="shell-body">
+    <nav class="sidenav" id="sidenav" aria-label="Navigation admin">
+      <div class="sidenav-head">STE MONDIAL</div>
+      <button class="nav-item" data-nav="dashboard"><span class="nav-ico">◫</span> Tableau de bord</button>
+      <button class="nav-item" data-nav="orders"><span class="nav-ico">❏</span> Commandes</button>
+      <button class="nav-item" data-nav="products"><span class="nav-ico">◈</span> Produits</button>
+      <button class="nav-item" data-nav="settings"><span class="nav-ico">⚙</span> Réglages</button>
+      <div class="sidenav-user">
+        <span class="sidenav-user-mail" id="nav-user-mail"></span>
+        <button class="btn btn--ghost btn--block" id="btn-logout-2">Déconnexion</button>
+    </div>
+    </nav>
+    <div class="scrim" id="scrim" hidden></div>
+    <main class="main" id="main">
+      <div class="conn-bar" id="conn-bar" hidden><span class="conn-dot" id="conn-dot"></span><span id="conn-label">Live</span>
+      </div>
+
+      <!-- DASHBOARD -->
+      <section id="view-dashboard" class="view view--app">
+        <div class="page-head">
+          <h2 class="page-title">Tableau de bord</h2>
+          <p class="page-sub">Vue d'ensemble — <span id="today-label"></span></p>
+</div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">Commandes aujourd'hui</div>
+            <div class="stat-value" id="stat-today">–</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">CA total</div>
+            <div class="stat-value" id="stat-ca">–</div>
+            <div class="stat-hint">hors commandes annulées</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">En attente</div>
+            <div class="stat-value" id="stat-pending">–</div>
+            <div class="stat-hint">statut « nouvelle »</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Produits actifs</div>
+            <div class="stat-value" id="stat-products">–</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Dernières commandes</h3>
+          <div id="dash-recent" class="dash-recent"></div>
+        </div>
+      </section>
+
+      <!-- ORDERS -->
+      <section id="view-orders" class="view view--app" hidden>
+        <div class="page-head">
+          <h2 class="page-title">Commandes</h2>
+          <div class="chips" id="orders-chips">
+            <button class="chip" data-filter="all">Toutes</button>
+            <button class="chip" data-filter="nouvelle">Nouvelle</button>
+            <button class="chip" data-filter="confirmee">Confirmée</button>
+            <button class="chip" data-filter="expediee">Expédiée</button>
+            <button class="chip" data-filter="livree">Livrée</button>
+            <button class="chip" data-filter="annulee">Annulée</button>
+          </div>
+          <input type="search" id="orders-search" class="search-input" placeholder="Rechercher : client, téléphone, ville…">
+        </div>
+        <div id="orders-list" class="orders-list"></div>
+        <div id="orders-empty" class="empty" hidden>
+          <div class="empty-ico">❏</div>
+          <p class="empty-title">Aucune commande</p>
+          <p class="empty-sub">Les nouvelles commandes du site arrivent ici en direct.</p>
+        </div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section id="view-products" class="view view--app" hidden>
+        <div class="page-head page-head--row">
+          <div>
+            <h2 class="page-title">Produits</h2>
+            <p class="page-sub" id="products-count"></p>
+          </div>
+          <button class="btn btn--gold" id="btn-new-product">+ Nouveau produit</button>
+        </div>
+        <input type="search" id="products-search" class="search-input" placeholder="Rechercher un produit…">
+        <div id="products-list" class="prod-list"></div>
+        <div id="products-empty" class="empty" hidden>
+          <div class="empty-ico">◈</div>
+          <p class="empty-title">Aucun produit</p>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="view-settings" class="view view--app" hidden>
+        <div class="page-head">
+          <h2 class="page-title">Réglages</h2>
+          <p class="page-sub">site_settings — appliqué immédiatement sur le site</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Livraison & annonces</h3>
+          <div id="settings-fields"></div>
+          <p id="settings-msg" class="form-msg" hidden></p>
+          <button class="btn btn--gold btn--block" id="btn-save-settings">Enregistrer les réglages</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ============ PRODUCT MODAL ============ -->
+<div class="modal-scrim" id="modal-scrim" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <h3 class="modal-title" id="modal-title">Nouveau produit</h3>
+      <button class="icon-btn" id="modal-close" aria-label="Fermer">✕</button>
+    </div>
+    <form id="product-form" novalidate>
+      <div class="modal-body">
+        <div class="field">
+          <label class="field-label" for="pf-name-fr">Nom (FR) *</label>
+          <input class="field-input" id="pf-name-fr" required>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label class="field-label" for="pf-name-en">Nom (EN)</label><input class="field-input" id="pf-name-en"></div>
+          <div class="field"><label class="field-label" for="pf-name-ar">Nom (AR)</label><input class="field-input" id="pf-name-ar" dir="auto"></div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label class="field-label" for="pf-desc-fr">Description (FR)</label><textarea class="field-input" id="pf-desc-fr" rows="2"></textarea></div>
+          <div class="field"><label class="field-label" for="pf-desc-en">Description (EN)</label><textarea class="field-input" id="pf-desc-en" rows="2"></textarea></div>
+        </div>
+        <div class="field"><label class="field-label" for="pf-desc-ar">Description (AR)</label><textarea class="field-input" id="pf-desc-ar" rows="2" dir="auto"></textarea></div>
+        <div class="grid-2">
+          <div class="field">
+            <label class="field-label" for="pf-category">Catégorie *</label>
+            <select class="field-input" id="pf-category">
+              <option value="inspires">Inspires</option>
+              <option value="voiture">Voiture</option>
+              <option value="ambiance">Ambiance</option>
+              <option value="musc">Musc</option>
+            </select>
+          </div>
+          <div class="field"><label class="field-label" for="pf-image">URL image</label><input class="field-input" id="pf-image" type="url" placeholder="https://…"></div>
+        </div>
+        <div class="grid-3">
+          <div class="field"><label class="field-label" for="pf-price">Prix (DT) *</label><input class="field-input" id="pf-price" type="number" step="0.001" min="0" required></div>
+          <div class="field"><label class="field-label" for="pf-old-price">Ancien prix</label><input class="field-input" id="pf-old-price" type="number" step="0.001" min="0"></div>
+          <div class="field"><label class="field-label" for="pf-stock">Stock</label><input class="field-input" id="pf-stock" type="number" step="1" min="0"></div>
+        </div>
+        <div class="toggle-row">
+          <label class="toggle"><input type="checkbox" id="pf-featured"><span class="toggle-track"></span><span class="toggle-label">Mis en avant</span></label>
+          <label class="toggle"><input type="checkbox" id="pf-active" checked><span class="toggle-track"></span><span class="toggle-label">Actif</span></label>
+        </div>
+        <p id="pf-msg" class="form-msg" hidden></p>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn--ghost" id="pf-cancel">Annuler</button>
+        <button type="submit" class="btn btn--gold" id="pf-save">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/admin2.js"></script>
+</body>
+</html>

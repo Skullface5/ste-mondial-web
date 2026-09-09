@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>STE Mondial Parfums — L'Essence du Monde</title>
+  <meta name="description" content="Parfums d'exception. Livraison partout en Tunisie à partir de 80 DT. Paiement à la livraison.">
+  <link rel="icon" href="i/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+  <link href="css/index2.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 1. Utility bar -->
+  <div class="utility-bar">
+    <div class="wrap utility-flex">
+      <span class="utility-item">
+        <svg class="u-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.2"/></svg>
+        <span class="u-label" data-i18n="utility.shipping">Livraison gratuite à partir de 80 DT</span>
+      </span>
+      <span class="utility-sep">|</span>
+      <span class="utility-item">
+        <svg class="u-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        <span class="u-label" data-i18n="utility.authentic">Parfums authentiques | Qualité garantie</span>
+      </span>
+      <span class="utility-sep">|</span>
+      <span class="utility-item">
+        <svg class="u-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 15a2 2 0 0 1 2-2h1v6H5a2 2 0 0 1-2-2z"/><path d="M21 15a2 2 0 0 0-2-2h-1v6h1a2 2 0 0 0 2-2z"/><path d="M19 17a5 5 0 0 1-5 3"/></svg>
+        <span class="u-label" data-i18n="utility.support">Service client 7j/7</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- 2. Header -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#/shop" data-nav="home">
+        <img class="brand-logo" src="i/ste-mondial-perfumes.png" alt="Logo STE Mondial Parfums" onerror="this.style.display='none'">
+        <span class="brand-text">
+          <span class="brand-name">STE Mondial</span>
+          <span class="brand-tagline">L'ESSENCE DU MONDE</span>
+        </span>
+      </a>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <ul>
+          <li><a href="#/shop" class="active" data-nav="home" data-i18n="nav.home">Accueil</a></li>
+          <li><a href="#parfums" data-scroll="parfums" data-i18n="nav.shop">Nos Parfums</a></li>
+          <li><a href="#collections" data-scroll="collections" data-i18n="nav.collections">Collections</a></li>
+          <li><a href="#apropos" data-scroll="apropos" data-i18n="nav.about">À propos</a></li>
+          <li><a href="#contact" data-scroll="contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-switch" role="group" data-i18n-aria="nav.lang" aria-label="Langue">
+          <button type="button" class="lang-btn" data-lang="fr">FR</button>
+          <span class="lang-sep">|</span>
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+          <span class="lang-sep">|</span>
+          <button type="button" class="lang-btn" data-lang="ar">AR</button>
+        </div>
+        <button class="icon-btn" type="button" data-nav="cart" data-i18n-aria="nav.cart" aria-label="Panier">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h3l2.6 12.4a1.8 1.8 0 0 0 1.8 1.4h8.5a1.8 1.8 0 0 0 1.8-1.4L21.5 8H6"/></svg>
+          <span class="cart-count" id="cartCount" hidden>0</span>
+        </button>
+        <button class="icon-btn hamburger" type="button" id="hamburgerBtn" aria-expanded="false" aria-controls="mobileMenu" data-i18n-aria="nav.menu" aria-label="Ouvrir le menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <ul>
+        <li><a href="#/shop" data-nav="home" data-i18n="nav.home">Accueil</a></li>
+        <li><a href="#parfums" data-scroll="parfums" data-i18n="nav.shop">Nos Parfums</a></li>
+        <li><a href="#collections" data-scroll="collections" data-i18n="nav.collections">Collections</a></li>
+        <li><a href="#apropos" data-scroll="apropos" data-i18n="nav.about">À propos</a></li>
+        <li><a href="#contact" data-scroll="contact" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <div class="mobile-lang" role="group" data-i18n-aria="nav.lang" aria-label="Langue">
+        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+        <span class="lang-sep">|</span>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <span class="lang-sep">|</span>
+        <button type="button" class="lang-btn" data-lang="ar">AR</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= SHOP VIEW ================= -->
+    <div class="view" id="view-shop">
+
+      <!-- Hero -->
+      <section class="hero" id="accueil">
+        <div class="hero-media">
+          <img src="https://picsum.photos/seed/ste-mondial-hero/1600/900" alt="Flacon de parfum de luxe sur fond sombre" onerror="this.style.display='none'">
+        </div>
+        <div class="hero-content wrap">
+          <p class="hero-eyebrow" data-i18n="hero.eyebrow">PARFUMS D'EXCEPTION</p>
+          <h1 class="hero-title" data-i18n="hero.title">L'élégance a son propre parfum.</h1>
+          <p class="hero-sub" data-i18n="hero.subtitle">Des fragrances uniques, sélectionnées avec soin pour révéler votre personnalité.</p>
+          <button class="btn-gold" type="button" data-scroll="parfums"><span data-i18n="hero.cta">DÉCOUVRIR LA COLLECTION</span> <span class="arrow">→</span></button>
+        </div>
+      </section>
+
+      <!-- Category strip -->
+      <section class="category-strip" id="collections">
+        <div class="wrap category-grid">
+          <button class="category-item" type="button" data-cat="inspires">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6v3l2 3v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8l2-3V2z"/><path d="M7 12h10"/></svg></span>
+            <h3 data-i18n="categories.inspires">Parfums Inspirés</h3>
+            <p data-i18n="categories.inspiresSub">Des senteurs uniques</p>
+          </button>
+          <button class="category-item" type="button" data-cat="voiture">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><path d="M3 11h18v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6z"/><circle cx="7.5" cy="20" r="1.5"/><circle cx="16.5" cy="20" r="1.5"/></svg></span>
+            <h3 data-i18n="categories.voiture">Parfums pour Voiture</h3>
+            <p data-i18n="categories.voitureSub">Une ambiance parfumée</p>
+          </button>
+          <button class="category-item" type="button" data-cat="ambiance">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2 3-4 4.5-4 8a4 4 0 0 0 8 0c0-3.5-6-5-4-8z"/><path d="M8 22h8"/><path d="M9 22c0-2 1.5-3 3-3s3 1 3 3"/></svg></span>
+            <h3 data-i18n="categories.ambiance">Parfums d'Ambiance</h3>
+            <p data-i18n="categories.ambianceSub">L'âme de votre intérieur</p>
+          </button>
+          <button class="category-item" type="button" data-cat="musc">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13"/><path d="M3 12h18"/><path d="M12 8c-2 0-3.5-1.2-3.5-3S10 2 12 2s3.5 1.2 3.5 3S14 8 12 8z"/></svg></span>
+            <h3 data-i18n="categories.musc">Musc &amp; Accessoires</h3>
+            <p data-i18n="categories.muscSub">L'élégance jusque dans les détails</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- Products -->
+      <section class="best-sellers" id="parfums">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="section-eyebrow" data-i18n="products.eyebrow">NOS PRODUITS LES PLUS APPRÉCIÉS</p>
+              <h2 class="section-title" data-i18n="products.title">Nos Meilleures Ventes</h2>
+            </div>
+            <button class="see-all" type="button" id="seeAllBtn"><span data-i18n="products.seeAll">Voir tout</span> <span class="arrow">→</span></button>
+          </div>
+
+          <div class="cat-tabs" id="catTabs" role="tablist" aria-label="Catégories">
+            <button type="button" class="cat-tab active" data-tab="all" data-i18n="products.tabAll">Tout</button>
+            <button type="button" class="cat-tab" data-tab="inspires" data-i18n="categories.inspires">Inspirés</button>
+            <button type="button" class="cat-tab" data-tab="voiture" data-i18n="categories.voiture">Voiture</button>
+            <button type="button" class="cat-tab" data-tab="ambiance" data-i18n="categories.ambiance">Ambiance</button>
+            <button type="button" class="cat-tab" data-tab="musc" data-i18n="categories.musc">Musc</button>
+          </div>
+
+          <p class="offline-badge" id="offlineBadge" hidden data-i18n="misc.offline">Hors ligne — catalogue de démonstration</p>
+
+          <div class="product-grid" id="productGrid"></div>
+        </div>
+      </section>
+
+      <!-- Promo banner -->
+      <section class="promo-banner">
+        <div class="promo-inner">
+          <div class="promo-content">
+            <p class="promo-eyebrow" data-i18n="promo.eyebrow">NOTRE SÉLECTION</p>
+            <h2 class="promo-title" data-i18n="categories.inspires">Parfums Inspirés</h2>
+            <p class="promo-text" data-i18n="promo.text">Des senteurs iconiques, réinterprétées avec finesse pour une expérience olfactive unique.</p>
+            <button class="btn-outline" type="button" data-scroll="parfums"><span data-i18n="products.seeAll">Voir la collection</span> <span class="arrow">→</span></button>
+          </div>
+          <div class="promo-media">
+            <img src="https://picsum.photos/seed/ste-mondial-promo/1200/900" alt="Collection Parfums Inspirés" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </section>
+
+      <!-- Trust bar -->
+      <section class="trust-bar" id="apropos">
+        <div class="wrap trust-grid">
+          <div class="trust-item">
+            <span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <div>
+              <h4 data-i18n="trust.authentic">Produits authentiques</h4>
+              <p data-i18n="trust.authenticSub">Sélectionnés avec soin</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <div>
+              <h4 data-i18n="trust.quality">Qualité garantie</h4>
+              <p data-i18n="trust.qualitySub">Nos engagements</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.2"/></svg></span>
+            <div>
+              <h4 data-i18n="trust.fast">Livraison rapide</h4>
+              <p data-i18n="trust.fastSub">À partir de 80 DT</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
+            <div>
+              <h4 data-i18n="trust.cod">Paiement à la livraison</h4>
+              <p data-i18n="trust.codSub">Commandez en ligne</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= CHECKOUT VIEW ================= -->
+    <div class="view" id="view-checkout" hidden>
+      <div class="wrap checkout-wrap">
+        <button class="link-back" type="button" data-nav="cart-view">
+          <span class="arrow arrow-back">→</span>
+          <span data-i18n="checkout.back">Retour au panier</span>
+        </button>
+        <h1 class="checkout-title" data-i18n="checkout.title">Finaliser la commande</h1>
+        <p class="checkout-sub" data-i18n="checkout.subtitle">Remplissez vos informations, paiement à la livraison.</p>
+
+        <div class="checkout-grid">
+          <form id="checkoutForm" novalidate>
+            <div class="field">
+              <label for="coName" data-i18n="checkout.name">Nom complet</label>
+              <input type="text" id="coName" name="customer_name" autocomplete="name" data-ph="checkout.namePh" placeholder="Ex : Ahmed Ben Ali" required>
+              <p class="field-err" id="coNameErr" hidden data-i18n="checkout.errName">Veuillez indiquer votre nom.</p>
+            </div>
+            <div class="field">
+              <label for="coPhone" data-i18n="checkout.phone">Téléphone</label>
+              <input type="tel" id="coPhone" name="customer_phone" autocomplete="tel" inputmode="tel" dir="ltr" data-ph="checkout.phonePh" placeholder="+216 .. ... ..." required>
+              <p class="field-err" id="coPhoneErr" hidden data-i18n="checkout.errPhone">Numéro de téléphone invalide.</p>
+            </div>
+            <div class="field">
+              <label for="coEmail" data-i18n="checkout.email">E-mail (facultatif)</label>
+              <input type="email" id="coEmail" name="customer_email" autocomplete="email" data-ph="checkout.emailPh" placeholder="vous@exemple.com">
+            </div>
+            <div class="field">
+              <label for="coAddress" data-i18n="checkout.address">Adresse</label>
+              <input type="text" id="coAddress" name="address" autocomplete="street-address" data-ph="checkout.addressPh" placeholder="Rue, immeuble, etc.">
+            </div>
+            <div class="field">
+              <label for="coCity" data-i18n="checkout.city">Ville</label>
+              <input type="text" id="coCity" name="city" autocomplete="address-level2" data-ph="checkout.cityPh" placeholder="Ex : Tunis">
+            </div>
+            <div class="field">
+              <label for="coNotes" data-i18n="checkout.notes">Remarques (facultatif)</label>
+              <textarea id="coNotes" name="notes" rows="3" data-ph="checkout.notesPh" placeholder="Instructions de livraison…"></textarea>
+            </div>
+
+            <div class="cod-box">
+              <span class="cod-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
+              <div>
+                <strong data-i18n="checkout.payment">Paiement à la livraison</strong>
+                <span data-i18n="checkout.paymentNote">Payez en espèces à la réception de votre commande.</span>
+              </div>
+            </div>
+
+            <p class="form-error" id="coError" hidden data-i18n="checkout.error">Une erreur est survenue. Réessayez ou appelez-nous.</p>
+            <button class="btn-gold btn-block" type="submit" id="coSubmit"><span data-i18n="checkout.submit">Confirmer la commande</span></button>
+          </form>
+
+          <aside class="order-summary">
+            <h2 class="summary-title" data-i18n="checkout.summary">Récapitulatif</h2>
+            <div id="summaryItems" class="summary-items"></div>
+            <div class="summary-row summary-total">
+              <span data-i18n="checkout.total">Total</span>
+              <strong id="summaryTotal">0.000 DT</strong>
+            </div>
+            <p class="summary-note" data-i18n="cart.shippingNote">Livraison offerte à partir de 80 DT</p>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= CONFIRMATION VIEW ================= -->
+    <div class="view" id="view-confirm" hidden>
+      <div class="wrap confirm-wrap">
+        <span class="confirm-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <h1 class="confirm-title" data-i18n="orders.confirmTitle">Merci pour votre commande !</h1>
+        <p class="confirm-text" data-i18n="orders.confirmText">Votre commande a bien été enregistrée. Notre équipe vous appellera pour confirmer.</p>
+        <div class="order-id-box">
+          <span class="order-id-label" data-i18n="orders.id">N° de commande</span>
+          <code class="order-id" id="orderId" dir="ltr">—</code>
+          <button class="link-copy" type="button" id="copyOrderId" data-i18n="orders.copy">Copier le numéro</button>
+        </div>
+        <div class="cod-box cod-box-center">
+          <span class="cod-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
+          <div>
+            <strong data-i18n="orders.cod">Paiement à la livraison</strong>
+            <span data-i18n="orders.codNote">Préparez le montant exact à la livraison.</span>
+          </div>
+        </div>
+        <button class="btn-gold" type="button" data-nav="home"><span data-i18n="orders.continue">Continuer mes achats</span></button>
+      </div>
+    </div>
+  </main>
+
+  <!-- 8. Footer -->
+  <footer class="site-footer" id="contact">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <img class="brand-logo" src="i/ste-mondial-perfumes.png" alt="Logo STE Mondial Parfums" onerror="this.style.display='none'">
+          <div class="brand-text">
+            <span class="brand-name">STE Mondial</span>
+            <span class="brand-tagline">L'ESSENCE DU MONDE</span>
+          </div>
+        </div>
+        <p class="footer-quote" data-i18n="footer.quote">«Plus qu'un parfum, une signature.»</p>
+        <div class="footer-social">
+          <a class="social-btn" href="#contact" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z"/></svg></a>
+          <a class="social-btn" href="#contact" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a class="social-btn" href="#contact" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2h3c.1 1.7 1.2 3.3 3.5 3.6v3c-1.3 0-2.5-.4-3.5-1.1v6.9A6.4 6.4 0 1 1 12 8v3.1a3.4 3.4 0 1 0 3.4 3.4V2z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.quickLinks">Liens rapides</h4>
+        <ul>
+          <li><a href="#/shop" data-nav="home" data-i18n="nav.home">Accueil</a></li>
+          <li><a href="#parfums" data-scroll="parfums" data-i18n="nav.shop">Nos Parfums</a></li>
+          <li><a href="#collections" data-scroll="collections" data-i18n="nav.collections">Collections</a></li>
+          <li><a href="#apropos" data-scroll="apropos" data-i18n="nav.about">À propos</a></li>
+          <li><a href="#contact" data-scroll="contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.info">Informations</h4>
+        <ul>
+          <li><a href="#contact" data-scroll="contact" data-i18n="footer.delivery">Livraison</a></li>
+          <li><a href="#contact" data-scroll="contact" data-i18n="footer.returns">Retours &amp; Échanges</a></li>
+          <li><a href="#contact" data-scroll="contact" data-i18n="footer.faq">FAQ</a></li>
+          <li><a href="#contact" data-scroll="contact" data-i18n="footer.cgv">Conditions générales</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.stayInformed">Restez informé</h4>
+        <p class="newsletter-text" data-i18n="footer.newsletterText">Recevez nos nouveautés et offres exclusives.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" required data-ph="footer.newsletterPh" placeholder="Votre adresse e-mail" aria-label="E-mail">
+          <button type="submit" data-i18n-aria="footer.subscribe" aria-label="S'abonner">→</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="wrap">
+        <span data-i18n="footer.copyright">© 2025 STE Mondial Parfums</span>
+        <span><span data-i18n="footer.madeIn">Livraison partout en Tunisie</span> <span class="dot-sep">•</span> <span data-i18n="footer.payment">Paiement à la livraison</span></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile tab bar -->
+  <nav class="mobile-tabbar" aria-label="Navigation mobile">
+    <ul>
+      <li><a class="tab-item active" href="#/shop" data-tabnav="home"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span data-i18n="nav.home">Accueil</span><span class="tab-dot"></span></a></li>
+      <li><a class="tab-item" href="#collections" data-tabnav="collections" data-scroll="collections"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></svg><span data-i18n="nav.collections">Collections</span><span class="tab-dot"></span></a></li>
+      <li><a class="tab-item" href="#favoris" data-tabnav="favs"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21C7 16.5 3 13.3 3 9.5 3 7 5 5 7.5 5c1.7 0 3.2.9 4.5 2.6C13.3 5.9 14.8 5 16.5 5 19 5 21 7 21 9.5c0 3.8-4 7-9 11.5z"/></svg><span data-i18n="nav.favs">Favoris</span><span class="tab-dot"></span></a></li>
+      <li><a class="tab-item" href="#panier" data-tabnav="cart"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h3l2.6 12.4a1.8 1.8 0 0 0 1.8 1.4h8.5a1.8 1.8 0 0 0 1.8-1.4L21.5 8H6"/></svg><span data-i18n="nav.cart">Panier</span><span class="tab-dot"></span><span class="cart-count tab-count" id="tabCartCount" hidden>0</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- Product modal -->
+  <div class="overlay" id="modalOverlay" hidden></div>
+  <div class="product-modal" id="productModal" role="dialog" aria-modal="true" data-i18n-aria="product.details" aria-label="Détails du produit" hidden>
+    <button class="modal-close icon-btn" type="button" data-close="modal" data-i18n-aria="misc.close" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-media" id="pmMedia"></div>
+    <div class="modal-info">
+      <span class="product-sub" id="pmCat">—</span>
+      <h3 class="modal-name" id="pmName">—</h3>
+      <p class="product-rating" id="pmRating"><span class="stars">★★★★★</span> <span>(0)</span></p>
+      <p class="modal-price-row"><span class="modal-price" id="pmPrice">—</span> <s class="modal-old" id="pmOldPrice" hidden>—</s></p>
+      <p class="pm-desc" id="pmDesc"></p>
+      <p class="pm-stock" id="pmStock"></p>
+      <div class="qty-row">
+        <span class="qty-label" data-i18n="product.qty">Quantité</span>
+        <div class="qty-stepper">
+          <button type="button" class="qty-btn" id="pmMinus" data-i18n-aria="cart.decrease" aria-label="Diminuer">−</button>
+          <span class="qty-val" id="pmQty">1</span>
+          <button type="button" class="qty-btn" id="pmPlus" data-i18n-aria="cart.increase" aria-label="Augmenter">+</button>
+        </div>
+      </div>
+      <button class="btn-gold btn-block" type="button" id="pmAdd"><span data-i18n="product.addToCart">Ajouter au panier</span></button>
+    </div>
+  </div>
+
+  <!-- Cart drawer -->
+  <div class="overlay" id="cartOverlay" hidden></div>
+  <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" data-i18n-aria="cart.title" aria-label="Votre panier" hidden>
+    <div class="cart-head">
+      <h2 data-i18n="cart.title">Votre panier</h2>
+      <span class="cart-head-count" id="cartDrawerCount"></span>
+      <button class="icon-btn" type="button" data-close="cart" data-i18n-aria="misc.close" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-foot" id="cartFoot" hidden>
+      <div class="summary-row">
+        <span data-i18n="cart.subtotal">Sous-total</span>
+        <strong id="cartSubtotal">0.000 DT</strong>
+      </div>
+      <p class="summary-note" data-i18n="cart.shippingNote">Livraison offerte à partir de 80 DT</p>
+      <a class="btn-gold btn-block" href="#/checkout" id="cartCheckoutBtn"><span data-i18n="cart.checkout">Commander</span></a>
+      <button class="link-plain" type="button" data-close="cart"><span data-i18n="cart.continue">Continuer mes achats</span></button>
+    </div>
+  </aside>
+
+  <script src="js/app2.js" defer></script>
+</body>
+</html>

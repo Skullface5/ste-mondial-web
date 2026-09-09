@@ -1,7 +1,12 @@
     // ============ SUPABASE CONFIG ============
-    const SUPABASE_URL = 'https://knwpctdroogzwjrdotzo.supabase.co';
+    // NOTE (2026-09-08): original backend "the-world"/Skullface5's Project (ref knwpctdroogzwjrdotzo)
+    // was DELETED on Supabase's side (Management API: 404 "Resource has been removed").
+    // Replacement project could not be created (Supabase free-tier limit 2/2: TypeShii + workout-tracker).
+    // To reconnect: set window.SUPABASE_URL + window.SUPABASE_ANON_KEY in a <script> tag BEFORE this
+    // file loads, or replace the fallback constants below once a live project exists.
+    const SUPABASE_URL = window.SUPABASE_URL || 'https://knwpctdroogzwjrdotzo.supabase.co';
   const SUPABASE_SCHEMA = 'ste_mondial';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtud3BjdGRyb29nendqcmRvdHpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NzgzOTAsImV4cCI6MjEwMDU1NDM5MH0.cyw1mvxyM0eLJN7_wstkpW9h4XFjWnrcEvuq9pWk4cI';
+    const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtud3BjdGRyb29nendqcmRvdHpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NzgzOTAsImV4cCI6MjEwMDU1NDM5MH0.cyw1mvxyM0eLJN7_wstkpW9h4XFjWnrcEvuq9pWk4cI';
     const tsupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { db: { schema: SUPABASE_SCHEMA } });
 
     const loginScreen = document.getElementById('loginScreen');

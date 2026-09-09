@@ -19,7 +19,7 @@
       --overlay: rgba(10, 10, 10, 0.55);
     }
 
-    body.dark {
+        body.dark {
       --bg: #0A0A0A;
       --bg-card: #161616;
       --bg-card-alt: #1C1A16;
@@ -38,7 +38,7 @@
       scroll-behavior: smooth;
     }
 
-    /* ─── BODY: Jost (sleek geometric sans) ─── */
+/* ─── BODY: Jost (sleek geometric sans) ─── */
     body {
       font-family: 'Jost', sans-serif;
       background: var(--bg);
@@ -55,9 +55,9 @@
       font-family: 'Cairo', sans-serif;
     }
 
-    /* ─── DISPLAY / SERIF: Playfair Display (editorial luxury) ─── */
+    /* ─── DISPLAY / SERIF: Cormorant Garamond (matches rosa fragrances) ─── */
     .display {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
     }
 
     a {
@@ -83,7 +83,7 @@
     }
 
     .eyebrow-index .num {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       color: var(--gold);
       font-size: 1rem;
@@ -149,7 +149,7 @@
     }
 
     .brand-mark span {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       color: var(--gold);
       font-size: 0.95rem;
@@ -162,7 +162,7 @@
     }
 
     .brand-name b {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 500;
       font-size: 1.05rem;
       letter-spacing: 0.02em;
@@ -363,7 +363,7 @@
       border: none;
       background: transparent;
       color: var(--text);
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: 0.9rem;
       outline: none;
@@ -744,7 +744,7 @@
     }
 
     .hero-crest span {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: 1.9rem;
       color: var(--gold);
@@ -763,7 +763,7 @@
     .hero h1 {
       position: relative;
       z-index: 1;
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 400;
       font-size: clamp(2.6rem, 5.2vw, 4.4rem);
       line-height: 1.08;
@@ -780,7 +780,7 @@
     .hero p.tagline {
       position: relative;
       z-index: 1;
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: 1.08rem;
       max-width: 460px;
@@ -893,7 +893,7 @@
     }
 
     .promo-copy h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-weight: 400;
       font-size: clamp(1.5rem, 2.6vw, 2.1rem);
@@ -1029,7 +1029,7 @@
     }
 
     .product-name {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.05rem;
       color: var(--heading);
       margin-bottom: 0.6rem;
@@ -1159,7 +1159,7 @@
     }
 
     .footer-brand b {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.2rem;
       color: var(--heading);
     }
@@ -1267,7 +1267,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 3.5rem;
       font-style: italic;
       color: var(--gold);
@@ -1278,7 +1278,7 @@
     }
 
     .profile-info h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-weight: 400;
       font-size: 2rem;
@@ -1304,7 +1304,7 @@
     }
 
     .profile-stat .stat-number {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.8rem;
       font-style: italic;
       color: var(--gold);
@@ -1354,7 +1354,7 @@
     }
 
     .order-number {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: 0.9rem;
       color: var(--gold);
@@ -1467,7 +1467,7 @@
 
     .order-total-row b {
       color: var(--gold);
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 500;
     }
 
@@ -1567,7 +1567,7 @@
     }
 
     .cart-head h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.2rem;
       color: var(--heading);
     }
@@ -1707,7 +1707,7 @@
     }
 
     .modal-box h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.3rem;
       color: var(--heading);
       margin-bottom: 1.4rem;
@@ -1720,7 +1720,7 @@
     }
 
     .auth-header .auth-crest {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       color: var(--gold);
       font-size: 1.6rem;

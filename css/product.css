@@ -47,7 +47,7 @@
         }
 
         body {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Jost', sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -60,7 +60,7 @@
         }
 
         .display {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
         }
 
         body[dir="rtl"] .display {
@@ -155,7 +155,7 @@
         }
 
         .brand-mark span {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             color: var(--gold);
             font-size: 0.95rem;
@@ -168,7 +168,7 @@
         }
 
         .brand-name b {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-weight: 500;
             font-size: 1.05rem;
             letter-spacing: 0.02em;
@@ -338,7 +338,7 @@
             border: none;
             background: transparent;
             color: var(--text);
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             font-size: 0.9rem;
             outline: none;
@@ -481,7 +481,7 @@
         }
 
         .auth-header .auth-crest {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             color: var(--gold);
             font-size: 1.6rem;
@@ -893,7 +893,7 @@
 
         /* ============ PRODUCT INFO ============ */
         .product-info h1 {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 2rem;
             font-weight: 400;
             margin-bottom: 0.4rem;
@@ -917,7 +917,7 @@
             font-size: 1.8rem;
             color: var(--bronze);
             margin: 1rem 0;
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
         }
 
         body[dir="rtl"] .product-price {
@@ -1041,7 +1041,7 @@
         }
 
         .suggestions-section h2 {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             font-weight: 400;
             font-size: 1.5rem;
@@ -1125,7 +1125,7 @@
         }
 
         .suggestion-name {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-weight: 400;
             font-size: 0.9rem;
             color: var(--heading);
@@ -1402,7 +1402,7 @@
         }
 
         .cart-head h3 {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 1.2rem;
             color: var(--heading);
         }
@@ -1570,7 +1570,7 @@
         }
 
         .modal-box h3 {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 1.3rem;
             color: var(--heading);
             margin-bottom: 1.4rem;
@@ -1706,7 +1706,7 @@
         }
 
         .footer-brand b {
-            font-family: 'Newsreader', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 1.2rem;
             color: var(--heading);
         }

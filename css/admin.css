@@ -40,7 +40,7 @@
     }
 
     body {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Jost', sans-serif;
       background: var(--bg);
       color: var(--text);
       transition: background 0.35s ease, color 0.35s ease;
@@ -109,7 +109,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Newsreader', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       color: var(--gold);
       font-size: 1.5rem;
@@ -119,7 +119,7 @@
     .login-card h1 {
       position: relative;
       z-index: 1;
-      font-family: 'Newsreader', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 400;
       font-style: italic;
       font-size: 1.5rem;
@@ -232,7 +232,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Newsreader', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       color: var(--gold);
       font-size: 0.75rem;
@@ -241,7 +241,7 @@
     }
 
     .top-header .page-title {
-      font-family: 'Newsreader', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.05rem;
       color: var(--heading);
     }
@@ -310,7 +310,7 @@
     }
 
     .screen-toolbar h2 {
-      font-family: 'Newsreader', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 400;
       font-size: 1.35rem;
       color: var(--heading);
@@ -600,7 +600,7 @@
     }
 
     .product-info .name {
-      font-family: 'Newsreader', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.02rem;
       color: var(--heading);
     }
@@ -692,7 +692,7 @@
     }
 
     .order-card-top .order-name {
-      font-family: 'Newsreader', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.05rem;
       color: var(--heading);
       margin-top: 0.15rem;
@@ -904,7 +904,7 @@
     }
 
     .sheet-head h3 {
-      font-family: 'Newsreader', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.25rem;
       color: var(--heading);
     }

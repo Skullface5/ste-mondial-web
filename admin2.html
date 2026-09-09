@@ -9,8 +9,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/admin2.css?v=25">
+<link rel="stylesheet" href="css/admin2.css?v=26">
 <link rel="icon" href="i/favicon.ico">
+<script>
+  /* apply saved theme before first paint (no flash) */
+  (function () {
+    try {
+      var th = localStorage.getItem('sm_admin_theme');
+      if (th === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) { /* noop */ }
+  })();
+</script>
 </head>
 <body data-view="login">
 
@@ -54,6 +63,10 @@
       <button type="button" data-lang="ar">ع</button>
     </div>
     <span class="conn-dot" id="conn-dot" hidden></span>
+    <button class="icon-btn icon-btn--out" id="btn-theme" data-i18n-aria="top.theme" aria-label="Thème clair / sombre" title="Thème">
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
     <button class="icon-btn icon-btn--out" id="btn-logout" data-i18n-aria="top.logout" aria-label="Déconnexion" title="Déconnexion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><path d="M12 2v10"/></svg></button>
   </header>
 
@@ -301,6 +314,6 @@
 <div id="toasts" class="toasts" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/admin2.js?v=34"></script>
+<script src="js/admin2.js?v=35"></script>
 </body>
 </html>

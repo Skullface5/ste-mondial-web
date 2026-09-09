@@ -424,3 +424,30 @@ html[dir="rtl"] .tab-badge { right: auto; left: calc(50% - 22px); }
 .rev-admin-prod { margin: 6px 0 0; color: #666; font-size: 0.85rem; }
 .rev-admin-comment { margin: 6px 0 0; line-height: 1.5; }
 .rev-admin-empty { color: #777; }
+
+/* ============================================================
+   LIGHT THEME (html[data-theme="light"]) — token overrides only.
+   All components read tokens, so this is the whole theme.
+   ============================================================ */
+html[data-theme="light"] {
+  --bg: #f4efe6;
+  --bg-2: #ece5d6;
+  --card: #ffffff;
+  --card-2: #faf6ed;
+  --line: #ddd2bd;
+  --text: #241c12;
+  --muted: #857a69;
+  --gold: #b8923f;
+  --gold-2: #9a7831;
+  --green: #2e8f63;
+  --red: #c05648;
+  --amber: #a97b2e;
+  --blue: #4a7bb5;
+}
+html[data-theme="light"] body { background: var(--bg); color: var(--text); }
+
+/* theme toggle: sun shows in dark mode, moon in light mode */
+#btn-theme .ico-moon { display: none; }
+#btn-theme .ico-sun { display: block; }
+html[data-theme="light"] #btn-theme .ico-sun { display: none; }
+html[data-theme="light"] #btn-theme .ico-moon { display: block; }

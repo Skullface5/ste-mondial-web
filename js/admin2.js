@@ -1036,7 +1036,11 @@
 
     $('pw-toggle').addEventListener('click', function () {
       var inp = $('login-password');
-      inp.type = inp.type === 'password' ? 'text' : 'password';
+      var show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password';
+      this.querySelector('.ico-eye').hidden = show;
+      this.querySelector('.ico-eye-off').hidden = !show;
+      this.setAttribute('aria-pressed', show ? 'true' : 'false');
     });
 
     // logout
@@ -1241,8 +1245,29 @@
     });
   }
 
+  /* login emblem: globe seal by default; swaps to the uploaded logo (site_settings.logo_image) if one exists */
+  function initLoginBrand() {
+    var mark = $('login-logo-mark');
+    if (!mark) return;
+    fetch(SUPABASE_URL + '/rest/v1/site_settings?select=key,value&key=eq.logo_image', {
+      cache: 'no-store',
+      headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY }
+    })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (rows) {
+        var url = (rows && rows[0] && rows[0].value && String(rows[0].value).trim()) || '';
+        if (!url) return;
+        var im = new Image();
+        im.alt = 'STE Mondial';
+        im.onload = function () { mark.textContent = ''; mark.appendChild(im); };
+        im.src = url;
+      })
+      .catch(function () { /* keep the globe seal */ });
+  }
+
   async function boot() {
     bind();
+    initLoginBrand();
     var savedLang = null;
     try { savedLang = localStorage.getItem('sm_admin_lang'); } catch (e) { /* noop */ }
     applyLang(savedLang || 'fr');

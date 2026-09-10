@@ -1809,7 +1809,7 @@ html[dir="rtl"] .arrow { transform: scaleX(-1); }
 .pm-rev-top { display: flex; align-items: center; gap: 8px; }
 .pm-rev-name { font-weight: 600; font-size: 0.85rem; color: var(--espresso); }
 .pm-rev-stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 0.08em; }
-.pm-rev-del { margin-left: auto; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.85rem; padding: 2px 4px; }
+.pm-rev-del { margin-inline-start: auto; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.85rem; padding: 2px 4px; }
 .pm-rev-del:hover { color: #b34; }
 .pm-rev-comment { margin: 6px 0 2px; font-size: 0.85rem; color: var(--ink); line-height: 1.5; }
 .pm-rev-date { font-size: 0.68rem; color: var(--muted-2); }

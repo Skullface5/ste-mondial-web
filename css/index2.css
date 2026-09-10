@@ -997,6 +997,12 @@ html[dir="rtl"] .hero-media::after {
 
 html[dir="rtl"] .cart-drawer:not(.open) { transform: translateX(-108%); }
 
+/* product gallery in RTL: slides flow right-to-left, so mirror the arrows
+   (next sits on the left, glyphs flipped) and dots follow flex order */
+html[dir="rtl"] .pm-prev { left: auto; right: 10px; }
+html[dir="rtl"] .pm-next { right: auto; left: 10px; }
+html[dir="rtl"] .pm-nav { transform: translateY(-50%) scaleX(-1); }
+
 .cart-drawer.open { transform: none; visibility: visible; }
 
 .cart-head {

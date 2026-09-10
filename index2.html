@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>STE Mondial Parfums — L'Essence du Monde</title>
-  <meta name="description" content="Parfums d'exception. Livraison partout en Tunisie à partir de 80 DT. Paiement à la livraison.">
+  <meta name="description" content="Parfums d'exception. Livraison partout en Tunisie. Paiement à la livraison.">
   <link rel="canonical" href="https://ste-mondial-web.vercel.app/">
   <link rel="preload" as="image" href="i/new/hero.jpg" fetchpriority="high">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="STE MONDIAL">
   <meta property="og:title" content="STE Mondial Parfums — L'essence du monde">
-  <meta property="og:description" content="Parfums d'exception. Livraison partout en Tunisie à partir de 80 DT. Paiement à la livraison.">
+  <meta property="og:description" content="Parfums d'exception. Livraison partout en Tunisie. Paiement à la livraison.">
   <meta property="og:url" content="https://ste-mondial-web.vercel.app/">
   <meta property="og:image" content="https://ste-mondial-web.vercel.app/i/new/hero.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
-  <link href="css/index2.css?v=9" rel="stylesheet">
+  <link href="css/index2.css?v=29" rel="stylesheet">
 </head>
 <body>
 
@@ -68,6 +68,10 @@
           <span class="lang-sep">|</span>
           <button type="button" class="lang-btn" data-lang="ar">AR</button>
         </div>
+        <button class="icon-btn" type="button" id="accountBtn" data-i18n-aria="account.icon" aria-label="Compte">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c1.2-3.6 4.1-5.4 7.5-5.4s6.3 1.8 7.5 5.4"/></svg>
+          <span class="cart-count" id="accountDot" hidden></span>
+        </button>
         <button class="icon-btn" type="button" data-nav="cart" data-i18n-aria="nav.cart" aria-label="Panier">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h3l2.6 12.4a1.8 1.8 0 0 0 1.8 1.4h8.5a1.8 1.8 0 0 0 1.8-1.4L21.5 8H6"/></svg>
           <span class="cart-count" id="cartCount" hidden>0</span>
@@ -85,6 +89,7 @@
         <li><a href="#apropos" data-scroll="apropos" data-i18n="nav.about">À propos</a></li>
         <li><a href="#contact" data-scroll="contact" data-i18n="nav.contact">Contact</a></li>
       </ul>
+      <button class="acct-menu-btn" type="button" id="accountBtnMobile" data-i18n="account.icon">Compte</button>
       <div class="mobile-lang" role="group" data-i18n-aria="nav.lang" aria-label="Langue">
         <button type="button" class="lang-btn" data-lang="fr">FR</button>
         <span class="lang-sep">|</span>
@@ -170,7 +175,6 @@
             <button type="button" class="cat-tab" data-tab="accessoires" data-i18n="categories.accessoires">Accessoires</button>
           </div>
 
-          <p class="offline-badge" id="offlineBadge" hidden data-i18n="misc.offline">Hors ligne — catalogue de démonstration</p>
 
           <div class="product-grid" id="productGrid"></div>
         </div>
@@ -212,7 +216,7 @@
             <span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.2"/></svg></span>
             <div>
               <h4 data-i18n="trust.fast">Livraison rapide</h4>
-              <p data-i18n="trust.fastSub">À partir de 80 DT</p>
+              <p data-i18n="trust.fastSub">Partout en Tunisie</p>
             </div>
           </div>
           <div class="trust-item">
@@ -227,6 +231,51 @@
     </div>
 
     <!-- ================= CHECKOUT VIEW ================= -->
+    <div class="view" id="view-cat" hidden>
+      <section class="catpage wrap page-shell">
+        <button class="page-backlink" type="button" id="catBackBtn"><span data-i18n="misc.back">Retour</span> <span aria-hidden="true">←</span></button>
+        <p class="section-eyebrow" data-i18n="cat.eyebrow">CATÉGORIE</p>
+        <h2 class="section-title" id="catPageTitle"></h2>
+        <div class="page-toolbar">
+          <div class="search-bar" role="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+            <input type="search" id="catPageSearch" data-ph="products.searchPlaceholder" placeholder="Rechercher un parfum…" autocomplete="off" aria-label="Recherche produits">
+          </div>
+        </div>
+        <p class="page-results" id="catResults" aria-live="polite"></p>
+        <div class="product-grid" id="catPageGrid"></div>
+        <div class="page-tabs" id="catPageTabs" role="tablist" aria-label="Pages" hidden></div>
+        <p class="page-empty" id="catEmpty" hidden><span class="page-empty-icon">⌕</span><span data-i18n="products.empty">Aucun produit dans cette catégorie.</span></p>
+      </section>
+    </div>
+
+    <div class="view" id="view-all" hidden>
+      <section class="catpage wrap page-shell">
+        <button class="page-backlink" type="button" id="allBackBtn"><span data-i18n="misc.back">Retour</span> <span aria-hidden="true">←</span></button>
+        <p class="section-eyebrow" data-i18n="all.eyebrow">LA COLLECTION</p>
+        <h2 class="section-title" data-i18n="all.title">Tout le catalogue</h2>
+        <div class="page-toolbar">
+          <div class="search-bar" role="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+            <input type="search" id="allSearch" data-ph="products.searchPlaceholder" placeholder="Rechercher un parfum…" autocomplete="off" aria-label="Recherche produits">
+          </div>
+          <div class="page-toolbar-row">
+            <div class="cat-tabs all-chips" id="allChips" role="tablist" aria-label="Catégories"></div>
+            <label class="all-sort"><select id="allSort" aria-label="Trier">
+              <option value="new" data-i18n="all.sortNew">Nouveautés</option>
+              <option value="asc" data-i18n="all.sortAsc">Prix croissant</option>
+              <option value="desc" data-i18n="all.sortDesc">Prix décroissant</option>
+            </select></label>
+          </div>
+        </div>
+        <p class="page-results" id="allResults" aria-live="polite"></p>
+        <div class="product-grid" id="allGrid"></div>
+        <p class="page-empty" id="allEmpty" hidden><span class="page-empty-icon">⌕</span><span data-i18n="products.empty">Aucun produit dans cette catégorie.</span>
+          <br><button class="btn-gold" type="button" id="allReset" data-i18n="all.reset">Réinitialiser les filtres</button></p>
+        <div class="page-tabs" id="allTabs" role="tablist" aria-label="Pages" hidden></div>
+      </section>
+    </div>
+
     <div class="view" id="view-checkout" hidden>
       <div class="wrap checkout-wrap">
         <button class="link-back" type="button" data-nav="cart-view">
@@ -284,7 +333,6 @@
               <span data-i18n="checkout.total">Total</span>
               <strong id="summaryTotal">0.000 DT</strong>
             </div>
-            <p class="summary-note" data-i18n="cart.shippingNote">Livraison offerte à partir de 80 DT</p>
           </aside>
         </div>
       </div>
@@ -365,7 +413,7 @@
 
     <div class="footer-bottom">
       <div class="wrap">
-        <span data-i18n="footer.copyright">© 2025 STE Mondial Parfums</span>
+        <span data-i18n="footer.copyright">© 2026 STE Mondial Parfums</span>
         <span><span data-i18n="footer.madeIn">Livraison partout en Tunisie</span> <span class="dot-sep">•</span> <span data-i18n="footer.payment">Paiement à la livraison</span></span>
       </div>
     </div>
@@ -395,6 +443,21 @@
       <p class="modal-price-row"><span class="modal-price" id="pmPrice">—</span> <s class="modal-old" id="pmOldPrice" hidden>—</s></p>
       <p class="pm-desc" id="pmDesc"></p>
       <p class="pm-stock" id="pmStock"></p>
+      <div class="pm-reviews" id="pmReviews">
+        <div class="pm-reviews-head">
+          <span class="pm-reviews-title" data-i18n="review.title">Avis clients</span>
+          <span class="pm-reviews-avg" id="pmRevAvg"></span>
+        </div>
+        <div class="pm-reviews-summary" id="pmRevSummary" hidden></div>
+        <div class="pm-reviews-list" id="pmRevList"></div>
+        <div class="pm-review-form" id="pmRevForm">
+          <p class="pm-review-cta" id="pmRevCta"></p>
+          <div class="pm-review-stars" id="pmRevStars" role="radiogroup" aria-label="Note"></div>
+          <textarea class="pm-review-text" id="pmRevText" rows="3" maxlength="500" data-ph="review.placeholder" placeholder="Votre avis…"></textarea>
+          <p class="pm-review-err" id="pmRevErr" hidden></p>
+          <button class="btn-gold pm-review-send" type="button" id="pmRevSend"><span data-i18n="review.submit">Envoyer mon avis</span></button>
+        </div>
+      </div>
       <div class="qty-row">
         <span class="qty-label" data-i18n="product.qty">Quantité</span>
         <div class="qty-stepper">
@@ -423,12 +486,12 @@
         <span data-i18n="cart.subtotal">Sous-total</span>
         <strong id="cartSubtotal">0.000 DT</strong>
       </div>
-      <p class="summary-note" data-i18n="cart.shippingNote">Livraison offerte à partir de 80 DT</p>
       <a class="btn-gold btn-block" href="#/checkout" id="cartCheckoutBtn"><span data-i18n="cart.checkout">Commander</span></a>
       <button class="link-plain" type="button" data-close="cart"><span data-i18n="cart.continue">Continuer mes achats</span></button>
     </div>
   </aside>
 
-  <script src="js/app2.js?v=9" defer></script>
+  <script src="js/account.js?v=3" defer></script>
+  <script src="js/app2.js?v=35" defer></script>
 </body>
 </html>

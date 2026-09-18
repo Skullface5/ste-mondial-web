@@ -18,7 +18,6 @@ create table if not exists public.products (
   desc_fr      text,
   desc_en      text,
   desc_ar      text,
-  category     text not null check (category in ('inspires','voiture','ambiance','musc')),
   price        numeric(10,3) not null,
   old_price    numeric(10,3),
   image_url    text,
@@ -181,7 +180,6 @@ alter table public.orders   replica identity full;
 -- ---------------------------------------------------------------------------
 -- indexes
 -- ---------------------------------------------------------------------------
-create index if not exists products_category_idx on public.products (category);
 create index if not exists products_listing_idx  on public.products (active, featured, created_at desc);
 create index if not exists orders_status_idx     on public.orders (status);
 create index if not exists orders_created_at_idx on public.orders (created_at desc);

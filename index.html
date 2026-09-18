@@ -63,16 +63,6 @@
               <li><button type="button" data-aud="unisexe" data-i18n="audience.unisexe">Unisexe</button></li>
             </ul>
           </li>
-          <li class="has-drop">
-            <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false" data-i18n="nav.collections">Collections</button>
-            <ul class="nav-drop">
-              <li><button type="button" data-cat="inspires" data-i18n="categories.inspires">Inspirés</button></li>
-              <li><button type="button" data-cat="voiture" data-i18n="categories.voiture">Voiture</button></li>
-              <li><button type="button" data-cat="ambiance" data-i18n="categories.ambiance">Ambiance</button></li>
-              <li><button type="button" data-cat="musc" data-i18n="categories.musc">Musc</button></li>
-              <li><button type="button" data-cat="accessoires" data-i18n="categories.accessoires">Accessoires</button></li>
-            </ul>
-          </li>
           <li><a href="#apropos" data-scroll="apropos" data-i18n="nav.about">À propos</a></li>
           <li><a href="#contact" data-scroll="contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
@@ -110,16 +100,6 @@
             <li><button type="button" data-aud="unisexe" data-i18n="audience.unisexe">Unisexe</button></li>
           </ul>
         </li>
-        <li class="m-drop">
-          <span class="m-drop-title" data-i18n="nav.collections">Collections</span>
-          <ul class="m-drop-list">
-              <li><button type="button" data-cat="inspires" data-i18n="categories.inspires">Inspirés</button></li>
-              <li><button type="button" data-cat="voiture" data-i18n="categories.voiture">Voiture</button></li>
-              <li><button type="button" data-cat="ambiance" data-i18n="categories.ambiance">Ambiance</button></li>
-              <li><button type="button" data-cat="musc" data-i18n="categories.musc">Musc</button></li>
-              <li><button type="button" data-cat="accessoires" data-i18n="categories.accessoires">Accessoires</button></li>
-            </ul>
-          </li>
         <li><a href="#apropos" data-scroll="apropos" data-i18n="nav.about">À propos</a></li>
         <li><a href="#contact" data-scroll="contact" data-i18n="nav.contact">Contact</a></li>
       </ul>
@@ -169,16 +149,6 @@
             </div>
           </div>
 
-          <div class="cat-tabs" id="catTabs" role="tablist" aria-label="Catégories">
-            <button type="button" class="cat-tab active" data-tab="all" data-i18n="products.tabAll">Tout</button>
-            <button type="button" class="cat-tab" data-tab="inspires" data-i18n="categories.inspires">Inspirés</button>
-            <button type="button" class="cat-tab" data-tab="voiture" data-i18n="categories.voiture">Voiture</button>
-            <button type="button" class="cat-tab" data-tab="ambiance" data-i18n="categories.ambiance">Ambiance</button>
-            <button type="button" class="cat-tab" data-tab="musc" data-i18n="categories.musc">Musc</button>
-            <button type="button" class="cat-tab" data-tab="accessoires" data-i18n="categories.accessoires">Accessoires</button>
-          </div>
-
-
           <div class="cat-tabs aud-tabs" id="audTabs" role="tablist" aria-label="Public">
             <button type="button" class="cat-tab active" data-audtab="all" data-i18n="audience.all">Tous</button>
             <button type="button" class="cat-tab" data-audtab="homme" data-i18n="audience.homme">Homme</button>
@@ -196,12 +166,12 @@
         <div class="promo-inner">
           <div class="promo-content">
             <p class="promo-eyebrow" data-i18n="promo.eyebrow">NOTRE SÉLECTION</p>
-            <h2 class="promo-title" data-i18n="categories.inspires">Parfums Inspirés</h2>
+            <h2 class="promo-title" data-i18n="nav.shop">Nos Parfums</h2>
             <p class="promo-text" data-i18n="promo.text">Des senteurs iconiques, réinterprétées avec finesse pour une expérience olfactive unique.</p>
             <button class="btn-outline" type="button" data-scroll="parfums"><span data-i18n="products.seeAll">Voir la collection</span> <span class="arrow">→</span></button>
           </div>
           <div class="promo-media">
-            <img loading="lazy" src="i/new/banner1.jpg" alt="Collection Parfums Inspirés" onerror="this.style.display='none'">
+            <img loading="lazy" src="i/new/banner1.jpg" alt="Collection" onerror="this.style.display='none'">
           </div>
         </div>
       </section>
@@ -242,24 +212,6 @@
     </div>
 
     <!-- ================= CHECKOUT VIEW ================= -->
-    <div class="view" id="view-cat" hidden>
-      <section class="catpage wrap page-shell">
-        <button class="page-backlink" type="button" id="catBackBtn"><span data-i18n="misc.back">Retour</span> <span aria-hidden="true">←</span></button>
-        <p class="section-eyebrow" data-i18n="cat.eyebrow">CATÉGORIE</p>
-        <h2 class="section-title" id="catPageTitle"></h2>
-        <div class="page-toolbar">
-          <div class="search-bar" role="search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
-            <input type="search" id="catPageSearch" data-ph="products.searchPlaceholder" placeholder="Rechercher un parfum…" autocomplete="off" aria-label="Recherche produits">
-          </div>
-        </div>
-        <p class="page-results" id="catResults" aria-live="polite"></p>
-        <div class="product-grid" id="catPageGrid"></div>
-        <div class="page-tabs" id="catPageTabs" role="tablist" aria-label="Pages" hidden></div>
-        <p class="page-empty" id="catEmpty" hidden><span class="page-empty-icon">⌕</span><span data-i18n="products.empty">Aucun produit dans cette catégorie.</span></p>
-      </section>
-    </div>
-
     <div class="view" id="view-all" hidden>
       <section class="catpage wrap page-shell">
         <button class="page-backlink" type="button" id="allBackBtn"><span data-i18n="misc.back">Retour</span> <span aria-hidden="true">←</span></button>
@@ -271,7 +223,6 @@
             <input type="search" id="allSearch" data-ph="products.searchPlaceholder" placeholder="Rechercher un parfum…" autocomplete="off" aria-label="Recherche produits">
           </div>
           <div class="page-toolbar-row">
-            <div class="cat-tabs all-chips" id="allChips" role="tablist" aria-label="Catégories"></div>
             <label class="all-sort"><select id="allSort" aria-label="Trier">
               <option value="new" data-i18n="all.sortNew">Nouveautés</option>
               <option value="asc" data-i18n="all.sortAsc">Prix croissant</option>
@@ -396,7 +347,7 @@
         <ul>
           <li><a href="#/shop" data-nav="home" data-i18n="nav.home">Accueil</a></li>
           <li><a href="#parfums" data-scroll="parfums" data-i18n="nav.shop">Nos Parfums</a></li>
-          <li><a href="#parfums" data-scroll="parfums" data-i18n="nav.collections">Collections</a></li>
+          <li><a href="#parfums" data-scroll="parfums" data-i18n="nav.shop">Nos Parfums</a></li>
           <li><a href="#apropos" data-scroll="apropos" data-i18n="nav.about">À propos</a></li>
           <li><a href="#contact" data-scroll="contact" data-i18n="nav.contact">Contact</a></li>
         </ul>

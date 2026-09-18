@@ -67,7 +67,7 @@
       'cf.delOrder': 'Supprimer définitivement cette commande ?', 'cf.delProduct': 'Supprimer',
       'cf.delProductSuffix': 'définitivement ?',
       'st.nouvelle': 'Nouvelle', 'st.confirmee': 'Confirmée', 'st.expediee': 'Expédiée', 'st.livree': 'Livrée', 'st.annulee': 'Annulée',
-      'cat.inspires': 'Inspires', 'cat.voiture': 'Voiture', 'cat.ambiance': 'Ambiance', 'cat.musc': 'Musc', 'cat.accessoires': 'Accessoires', 'aud.homme': 'Homme', 'aud.femme': 'Femme', 'aud.enfants': 'Enfants', 'aud.unisexe': 'Unisexe',
+      'aud.homme': 'Homme', 'aud.femme': 'Femme', 'aud.enfants': 'Enfants', 'aud.unisexe': 'Unisexe',
       'toast.refreshed': 'Données actualisées ✓', 'toast.refreshFail': 'Actualisation impossible',
       'toast.loadErr': 'Erreur de chargement : ', 'stock': 'stock', 'off': 'off', 'rupture': 'rupture'
     },
@@ -121,7 +121,7 @@
       'cf.delOrder': 'Permanently delete this order?', 'cf.delProduct': 'Permanently delete “',
       'cf.delProductSuffix': '”?',
       'st.nouvelle': 'New', 'st.confirmee': 'Confirmed', 'st.expediee': 'Shipped', 'st.livree': 'Delivered', 'st.annulee': 'Cancelled',
-      'cat.inspires': 'Inspires', 'cat.voiture': 'Car', 'cat.ambiance': 'Ambiance', 'cat.musc': 'Musk', 'cat.accessoires': 'Accessories', 'aud.homme': 'Men', 'aud.femme': 'Women', 'aud.enfants': 'Kids', 'aud.unisexe': 'Unisex',
+      'aud.homme': 'Men', 'aud.femme': 'Women', 'aud.enfants': 'Kids', 'aud.unisexe': 'Unisex',
       'toast.refreshed': 'Data refreshed ✓', 'toast.refreshFail': 'Refresh failed',
       'toast.loadErr': 'Loading error: ', 'stock': 'stock', 'off': 'off', 'rupture': 'out of stock'
     },
@@ -175,7 +175,7 @@
       'cf.delOrder': 'حذف هذا الطلب نهائيًا؟', 'cf.delProduct': 'حذف « ',
       'cf.delProductSuffix': ' » نهائيًا؟',
       'st.nouvelle': 'جديدة', 'st.confirmee': 'مؤكدة', 'st.expediee': 'مُرسلة', 'st.livree': 'تم التوصيل', 'st.annulee': 'ملغاة',
-      'cat.inspires': 'ملهمة', 'cat.voiture': 'السيارة', 'cat.ambiance': 'أجواء', 'cat.musc': 'مسك', 'cat.accessoires': 'إكسسوارات', 'aud.homme': 'رجال', 'aud.femme': 'نساء', 'aud.enfants': 'أطفال', 'aud.unisexe': 'للجنسين',
+      'aud.homme': 'رجال', 'aud.femme': 'نساء', 'aud.enfants': 'أطفال', 'aud.unisexe': 'للجنسين',
       'toast.refreshed': 'تم تحديث البيانات ✓', 'toast.refreshFail': 'فشل التحديث',
       'toast.loadErr': 'خطأ في التحميل: ', 'stock': 'المخزون', 'off': 'متوقف', 'rupture': 'نفذ'
     }
@@ -417,7 +417,7 @@
       ? low.map(function (p) {
         return '<button class="mini-row" data-open-product="' + esc(p.id) + '">' +
           '<span class="mini-name">' + esc(p.name_fr || p.sku) + '</span>' +
-          '<span class="mini-meta">' + esc(t('cat.' + p.category)) + '</span>' +
+          '<span class="mini-meta">' + esc(t('aud.' + (p.audience || 'unisexe'))) + '</span>' +
           '<span class="chip-status st-low">stock ' + esc(p.stock) + '</span></button>';
       }).join('')
       : '<p class="empty-sub">' + t('dash.emptyLow') + '</p>';
@@ -547,7 +547,7 @@
       return '<button class="prod-card" data-open-product="' + esc(p.id) + '">' +
         '<span class="prod-thumb">' + img + '</span>' +
         '<span class="prod-info"><span class="prod-name">' + esc(p.name_fr || p.sku || '—') + '</span>' +
-        '<span class="prod-meta">' + esc(t('cat.' + p.category)) + ' · ' + esc(t('aud.' + (p.audience || 'unisexe'))) + ' · ' + fmtDT(p.price) + '</span></span>' +
+        '<span class="prod-meta">' + esc(t('aud.' + (p.audience || 'unisexe'))) + ' · ' + fmtDT(p.price) + '</span></span>' +
         '<span class="prod-flags">' + flags + '</span></button>';
     }).join('');
   }
@@ -564,7 +564,6 @@
     $('pf-desc-fr').value = p ? (p.desc_fr || '') : '';
     $('pf-desc-en').value = p ? (p.desc_en || '') : '';
     $('pf-desc-ar').value = p ? (p.desc_ar || '') : '';
-    $('pf-category').value = p ? p.category : 'inspires';
     $('pf-audience').value = p && p.audience ? p.audience : 'unisexe';
     $('pf-sku').value = p ? (p.sku || '') : '';
     $('pf-price').value = p ? p.price : '';
@@ -698,7 +697,6 @@
         desc_fr: $('pf-desc-fr').value.trim() || null,
         desc_en: $('pf-desc-en').value.trim() || null,
         desc_ar: $('pf-desc-ar').value.trim() || null,
-        category: $('pf-category').value,
         audience: $('pf-audience').value,
         sku: $('pf-sku').value.trim() || null,
         price: price,

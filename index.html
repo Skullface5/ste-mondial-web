@@ -54,7 +54,15 @@
       <nav class="main-nav" aria-label="Navigation principale">
         <ul>
           <li><a href="#/shop" class="active" data-nav="home" data-i18n="nav.home">Accueil</a></li>
-          <li><a href="#parfums" data-scroll="parfums" data-i18n="nav.shop">Nos Parfums</a></li>
+          <li class="has-drop">
+            <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false" data-i18n="nav.shop">Nos Parfums</button>
+            <ul class="nav-drop">
+              <li><button type="button" data-aud="homme" data-i18n="audience.homme">Homme</button></li>
+              <li><button type="button" data-aud="femme" data-i18n="audience.femme">Femme</button></li>
+              <li><button type="button" data-aud="enfants" data-i18n="audience.enfants">Enfants</button></li>
+              <li><button type="button" data-aud="unisexe" data-i18n="audience.unisexe">Unisexe</button></li>
+            </ul>
+          </li>
           <li class="has-drop">
             <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false" data-i18n="nav.collections">Collections</button>
             <ul class="nav-drop">
@@ -93,7 +101,15 @@
     <div class="mobile-menu" id="mobileMenu" hidden>
       <ul>
         <li><a href="#/shop" data-nav="home" data-i18n="nav.home">Accueil</a></li>
-        <li><a href="#parfums" data-scroll="parfums" data-i18n="nav.shop">Nos Parfums</a></li>
+        <li class="m-drop">
+          <span class="m-drop-title" data-i18n="nav.shop">Nos Parfums</span>
+          <ul class="m-drop-list">
+            <li><button type="button" data-aud="homme" data-i18n="audience.homme">Homme</button></li>
+            <li><button type="button" data-aud="femme" data-i18n="audience.femme">Femme</button></li>
+            <li><button type="button" data-aud="enfants" data-i18n="audience.enfants">Enfants</button></li>
+            <li><button type="button" data-aud="unisexe" data-i18n="audience.unisexe">Unisexe</button></li>
+          </ul>
+        </li>
         <li class="m-drop">
           <span class="m-drop-title" data-i18n="nav.collections">Collections</span>
           <ul class="m-drop-list">
@@ -162,6 +178,14 @@
             <button type="button" class="cat-tab" data-tab="accessoires" data-i18n="categories.accessoires">Accessoires</button>
           </div>
 
+
+          <div class="cat-tabs aud-tabs" id="audTabs" role="tablist" aria-label="Public">
+            <button type="button" class="cat-tab active" data-audtab="all" data-i18n="audience.all">Tous</button>
+            <button type="button" class="cat-tab" data-audtab="homme" data-i18n="audience.homme">Homme</button>
+            <button type="button" class="cat-tab" data-audtab="femme" data-i18n="audience.femme">Femme</button>
+            <button type="button" class="cat-tab" data-audtab="enfants" data-i18n="audience.enfants">Enfants</button>
+            <button type="button" class="cat-tab" data-audtab="unisexe" data-i18n="audience.unisexe">Unisexe</button>
+          </div>
 
           <div class="product-grid" id="productGrid"></div>
         </div>

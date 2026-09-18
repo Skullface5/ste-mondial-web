@@ -59,7 +59,7 @@
       'pf.uploading': 'Envoi de l\'image', 'pf.imgReady': 'Image prête — enregistrée avec le produit.',
       'pf.nameFR': 'Nom (FR) *', 'pf.nameEN': 'Nom (EN)', 'pf.nameAR': 'Nom (AR)',
       'pf.descFR': 'Description (FR)', 'pf.descEN': 'Description (EN)', 'pf.descAR': 'Description (AR)',
-      'pf.cat': 'Catégorie *', 'pf.sku': 'Référence (SKU)', 'pf.price': 'Prix (DT) *', 'pf.oldPrice': 'Ancien prix',
+      'pf.cat': 'Catégorie *', 'pf.aud': 'Public *', 'pf.sku': 'Référence (SKU)', 'pf.price': 'Prix (DT) *', 'pf.oldPrice': 'Ancien prix',
       'pf.stock': 'Stock', 'pf.featured': 'Mis en avant', 'pf.active': 'Actif',
       'pf.errName': 'Le nom (FR) est obligatoire.', 'pf.errPrice': 'Prix invalide.',
       'pf.delete': 'Supprimer', 'pf.cancel': 'Annuler', 'pf.save': 'Enregistrer', 'pf.errPrefix': 'Erreur : ',
@@ -67,7 +67,7 @@
       'cf.delOrder': 'Supprimer définitivement cette commande ?', 'cf.delProduct': 'Supprimer',
       'cf.delProductSuffix': 'définitivement ?',
       'st.nouvelle': 'Nouvelle', 'st.confirmee': 'Confirmée', 'st.expediee': 'Expédiée', 'st.livree': 'Livrée', 'st.annulee': 'Annulée',
-      'cat.inspires': 'Inspires', 'cat.voiture': 'Voiture', 'cat.ambiance': 'Ambiance', 'cat.musc': 'Musc', 'cat.accessoires': 'Accessoires',
+      'cat.inspires': 'Inspires', 'cat.voiture': 'Voiture', 'cat.ambiance': 'Ambiance', 'cat.musc': 'Musc', 'cat.accessoires': 'Accessoires', 'aud.homme': 'Homme', 'aud.femme': 'Femme', 'aud.enfants': 'Enfants', 'aud.unisexe': 'Unisexe',
       'toast.refreshed': 'Données actualisées ✓', 'toast.refreshFail': 'Actualisation impossible',
       'toast.loadErr': 'Erreur de chargement : ', 'stock': 'stock', 'off': 'off', 'rupture': 'rupture'
     },
@@ -113,7 +113,7 @@
       'pf.uploading': 'Uploading image', 'pf.imgReady': 'Image ready — saved with the product.',
       'pf.nameFR': 'Name (FR) *', 'pf.nameEN': 'Name (EN)', 'pf.nameAR': 'Name (AR)',
       'pf.descFR': 'Description (FR)', 'pf.descEN': 'Description (EN)', 'pf.descAR': 'Description (AR)',
-      'pf.cat': 'Category *', 'pf.sku': 'Reference (SKU)', 'pf.price': 'Price (DT) *', 'pf.oldPrice': 'Old price',
+      'pf.cat': 'Category *', 'pf.aud': 'Audience *', 'pf.sku': 'Reference (SKU)', 'pf.price': 'Price (DT) *', 'pf.oldPrice': 'Old price',
       'pf.stock': 'Stock', 'pf.featured': 'Featured', 'pf.active': 'Active',
       'pf.errName': 'Name (FR) is required.', 'pf.errPrice': 'Invalid price.',
       'pf.delete': 'Delete', 'pf.cancel': 'Cancel', 'pf.save': 'Save', 'pf.errPrefix': 'Error: ',
@@ -121,7 +121,7 @@
       'cf.delOrder': 'Permanently delete this order?', 'cf.delProduct': 'Permanently delete “',
       'cf.delProductSuffix': '”?',
       'st.nouvelle': 'New', 'st.confirmee': 'Confirmed', 'st.expediee': 'Shipped', 'st.livree': 'Delivered', 'st.annulee': 'Cancelled',
-      'cat.inspires': 'Inspires', 'cat.voiture': 'Car', 'cat.ambiance': 'Ambiance', 'cat.musc': 'Musk', 'cat.accessoires': 'Accessories',
+      'cat.inspires': 'Inspires', 'cat.voiture': 'Car', 'cat.ambiance': 'Ambiance', 'cat.musc': 'Musk', 'cat.accessoires': 'Accessories', 'aud.homme': 'Men', 'aud.femme': 'Women', 'aud.enfants': 'Kids', 'aud.unisexe': 'Unisex',
       'toast.refreshed': 'Data refreshed ✓', 'toast.refreshFail': 'Refresh failed',
       'toast.loadErr': 'Loading error: ', 'stock': 'stock', 'off': 'off', 'rupture': 'out of stock'
     },
@@ -167,7 +167,7 @@
       'pf.uploading': 'جارٍ رفع الصورة', 'pf.imgReady': 'الصورة جاهزة — تُحفظ مع المنتج.',
       'pf.nameFR': 'الاسم (FR) *', 'pf.nameEN': 'الاسم (EN)', 'pf.nameAR': 'الاسم (AR)',
       'pf.descFR': 'الوصف (FR)', 'pf.descEN': 'الوصف (EN)', 'pf.descAR': 'الوصف (AR)',
-      'pf.cat': 'الفئة *', 'pf.sku': 'المرجع (SKU)', 'pf.price': 'السعر (د.ت) *', 'pf.oldPrice': 'السعر القديم',
+      'pf.cat': 'الفئة *', 'pf.aud': 'الفئة المستهدفة *', 'pf.sku': 'المرجع (SKU)', 'pf.price': 'السعر (د.ت) *', 'pf.oldPrice': 'السعر القديم',
       'pf.stock': 'المخزون', 'pf.featured': 'مميز', 'pf.active': 'نشط',
       'pf.errName': 'الاسم (FR) مطلوب.', 'pf.errPrice': 'سعر غير صالح.',
       'pf.delete': 'حذف', 'pf.cancel': 'إلغاء', 'pf.save': 'حفظ', 'pf.errPrefix': 'خطأ: ',
@@ -175,7 +175,7 @@
       'cf.delOrder': 'حذف هذا الطلب نهائيًا؟', 'cf.delProduct': 'حذف « ',
       'cf.delProductSuffix': ' » نهائيًا؟',
       'st.nouvelle': 'جديدة', 'st.confirmee': 'مؤكدة', 'st.expediee': 'مُرسلة', 'st.livree': 'تم التوصيل', 'st.annulee': 'ملغاة',
-      'cat.inspires': 'ملهمة', 'cat.voiture': 'السيارة', 'cat.ambiance': 'أجواء', 'cat.musc': 'مسك', 'cat.accessoires': 'إكسسوارات',
+      'cat.inspires': 'ملهمة', 'cat.voiture': 'السيارة', 'cat.ambiance': 'أجواء', 'cat.musc': 'مسك', 'cat.accessoires': 'إكسسوارات', 'aud.homme': 'رجال', 'aud.femme': 'نساء', 'aud.enfants': 'أطفال', 'aud.unisexe': 'للجنسين',
       'toast.refreshed': 'تم تحديث البيانات ✓', 'toast.refreshFail': 'فشل التحديث',
       'toast.loadErr': 'خطأ في التحميل: ', 'stock': 'المخزون', 'off': 'متوقف', 'rupture': 'نفذ'
     }
@@ -547,7 +547,7 @@
       return '<button class="prod-card" data-open-product="' + esc(p.id) + '">' +
         '<span class="prod-thumb">' + img + '</span>' +
         '<span class="prod-info"><span class="prod-name">' + esc(p.name_fr || p.sku || '—') + '</span>' +
-        '<span class="prod-meta">' + esc(t('cat.' + p.category)) + ' · ' + fmtDT(p.price) + '</span></span>' +
+        '<span class="prod-meta">' + esc(t('cat.' + p.category)) + ' · ' + esc(t('aud.' + (p.audience || 'unisexe'))) + ' · ' + fmtDT(p.price) + '</span></span>' +
         '<span class="prod-flags">' + flags + '</span></button>';
     }).join('');
   }
@@ -565,6 +565,7 @@
     $('pf-desc-en').value = p ? (p.desc_en || '') : '';
     $('pf-desc-ar').value = p ? (p.desc_ar || '') : '';
     $('pf-category').value = p ? p.category : 'inspires';
+    $('pf-audience').value = p && p.audience ? p.audience : 'unisexe';
     $('pf-sku').value = p ? (p.sku || '') : '';
     $('pf-price').value = p ? p.price : '';
     $('pf-old-price').value = (p && p.old_price != null) ? p.old_price : '';
@@ -698,6 +699,7 @@
         desc_en: $('pf-desc-en').value.trim() || null,
         desc_ar: $('pf-desc-ar').value.trim() || null,
         category: $('pf-category').value,
+        audience: $('pf-audience').value,
         sku: $('pf-sku').value.trim() || null,
         price: price,
         old_price: $('pf-old-price').value === '' ? null : Number($('pf-old-price').value),

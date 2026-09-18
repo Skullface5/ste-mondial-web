@@ -14,6 +14,7 @@
   var LANG_KEY = 'sm_lang2';
   var ORDER_KEY = 'sm_last_order2';
   var CATEGORIES = ['inspires', 'voiture', 'ambiance', 'musc'];
+  var AUDIENCES = ['homme', 'femme', 'enfants', 'unisexe'];
 
   /* ---------- State ---------- */
   var state = {
@@ -24,6 +25,7 @@
     loaded: false,
     cart: [],           // [{id, productId, nameFr, nameEn, nameAr, price, image, qty}]
     activeCat: 'all',
+    audience: 'all',
     search: '',
     modalId: null,
     modalQty: 1,
@@ -56,6 +58,11 @@
     'products.added': 'Ajouté ✓',
     'products.empty': 'Aucun produit dans cette catégorie.',
     'product.addToCart': 'Ajouter au panier',
+    'audience.all': 'Tous',
+    'audience.homme': 'Homme',
+    'audience.femme': 'Femme',
+    'audience.enfants': 'Enfants',
+    'audience.unisexe': 'Unisexe',
     'review.title': 'Avis clients',
     'review.loading': 'Chargement des avis…',
     'review.empty': 'Aucun avis pour le moment. Soyez le premier !',
@@ -187,6 +194,7 @@
       descEn: r.desc_en || '',
       descAr: r.desc_ar || '',
       category: CATEGORIES.indexOf(r.category) !== -1 ? r.category : 'inspires',
+      audience: AUDIENCES.indexOf(r.audience) !== -1 ? r.audience : 'unisexe',
       price: Number(r.price) || 0,
       oldPrice: r.old_price != null ? Number(r.old_price) : null,
       imageUrl: r.image_url || (r.images && r.images[0]) || '',
@@ -285,6 +293,9 @@
 
   function visibleProducts() {
     var list = state.products;
+    if (state.audience !== 'all') {
+      list = list.filter(function (p) { return p.audience === state.audience; });
+    }
     if (state.search) {
       var q = state.search.toLowerCase();
       return list.filter(function (p) { return productMatch(p, q); });
@@ -427,7 +438,11 @@
   }
 
   function catProducts(cat) {
-    return state.products.filter(function (p) { return p.category === cat; });
+    return state.products.filter(function (p) {
+      if (p.category !== cat) return false;
+      if (state.audience !== 'all' && p.audience !== state.audience) return false;
+      return true;
+    });
   }
 
   function renderCatPage() {
@@ -475,6 +490,7 @@
     var grid = $('#allGrid');
     if (!grid) return;
     var list = state.products.slice();
+    if (state.audience !== 'all') list = list.filter(function (p) { return p.audience === state.audience; });
     if (allPage.cat !== 'all') list = list.filter(function (p) { return p.category === allPage.cat; });
     if (allPage.q) {
       var q = allPage.q.toLowerCase();
@@ -1188,8 +1204,16 @@
 
   function setTab(cat) {
     state.activeCat = cat;
-    $all('.cat-tab').forEach(function (b) {
+    $all('#catTabs .cat-tab').forEach(function (b) {
       b.classList.toggle('active', b.getAttribute('data-tab') === cat);
+    });
+    renderGrid();
+  }
+
+  function setAud(aud) {
+    state.audience = aud;
+    $all('#audTabs .cat-tab').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-audtab') === aud);
     });
     renderGrid();
   }
@@ -1251,8 +1275,20 @@
         scrollToId('parfums');
         return;
       }
-      var tab = e.target.closest('.cat-tab');
+      var tab = e.target.closest('.cat-tab[data-tab]');
       if (tab) { setTab(tab.getAttribute('data-tab')); return; }
+
+      var atab = e.target.closest('[data-audtab]');
+      if (atab) { setAud(atab.getAttribute('data-audtab')); return; }
+
+      var aud = e.target.closest('[data-aud]');
+      if (aud) {
+        if (menu) { menu.hidden = true; burger.setAttribute('aria-expanded', 'false'); }
+        showView('shop');
+        setAud(aud.getAttribute('data-aud'));
+        scrollToId('parfums');
+        return;
+      }
 
       var add = e.target.closest('[data-add]');
       if (add) {

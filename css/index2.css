@@ -689,6 +689,8 @@ html[dir="rtl"] .has-drop:hover .nav-drop, html[dir="rtl"] .has-drop.open .nav-d
   transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
 }
 
+.aud-tabs { margin-top: 10px; }
+
 .add-btn:hover { background: var(--gold); color: #FFF; }
 .add-btn:active { transform: scale(0.98); }
 

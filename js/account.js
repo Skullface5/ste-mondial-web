@@ -9,6 +9,12 @@
   var SUPABASE_URL = 'https://xuwumbdyfywmxuzlvvul.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_qF8l43W4lTYJMXGfVDx-9g_6n6y1pH_';
   var USER_KEY = 'sm_user2';
+  var ADMIN_EMAILS = ['azmmeli146@gmail.com'];
+
+  function isAdmin() {
+    var em = user && user.email ? String(user.email).toLowerCase() : '';
+    return ADMIN_EMAILS.indexOf(em) !== -1;
+  }
 
   /* ---------- tiny helpers ---------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -23,18 +29,21 @@
   }
   var LANGS = {
     fr: {
+      'account.admin': 'Administration',
       'account.cancelBtn': 'Annuler la commande', 'account.cancelConfirm': 'Annuler cette commande ?',
       'account.cancelOk': 'Commande annul\u00e9e.', 'account.cancelFail': "Impossible d'annuler la commande.",
       'account.status.nouvelle': 'Nouvelle', 'account.status.confirmee': 'Confirm\u00e9e',
       'account.status.expediee': 'Exp\u00e9di\u00e9e', 'account.status.livree': 'Livr\u00e9e', 'account.status.annulee': 'Annul\u00e9e'
     },
     en: {
+      'account.admin': 'Admin panel',
       'account.cancelBtn': 'Cancel order', 'account.cancelConfirm': 'Cancel this order?',
       'account.cancelOk': 'Order cancelled.', 'account.cancelFail': 'Could not cancel the order.',
       'account.status.nouvelle': 'New', 'account.status.confirmee': 'Confirmed',
       'account.status.expediee': 'Shipped', 'account.status.livree': 'Delivered', 'account.status.annulee': 'Cancelled'
     },
     ar: {
+      'account.admin': 'لوحة الإدارة',
       'account.cancelBtn': '\u0625\u0644\u063a\u0627\u0621 \u0627\u0644\u0637\u0644\u0628', 'account.cancelConfirm': '\u0625\u0644\u063a\u0627\u0621 \u0647\u0630\u0627 \u0627\u0644\u0637\u0644\u0628\u061f',
       'account.cancelOk': '\u062a\u0645 \u0625\u0644\u063a\u0627\u0621 \u0627\u0644\u0637\u0644\u0628.', 'account.cancelFail': '\u062a\u0639\u0630\u0631 \u0625\u0644\u063a\u0627\u0621 \u0627\u0644\u0637\u0644\u0628.',
       'account.status.nouvelle': '\u062c\u062f\u064a\u062f\u0629', 'account.status.confirmee': '\u0645\u0624\u0643\u062f\u0629',
@@ -259,6 +268,7 @@
       '  </div>' +
       '  <button class="acct-logout" type="button" id="acctLogout">' + esc(t('account.logout')) + '</button>' +
       '</div>' +
+      (isAdmin() ? '<button class="btn-gold btn-block acct-admin-btn" type="button" data-goto-admin>' + esc(t('account.admin')) + '</button>' : '') +
       '<details class="acct-details">' +
       '  <summary>' + esc(t('account.profile')) + '</summary>' +
       '  <div class="acct-details-body">' +
@@ -491,6 +501,7 @@
       var cb = e.target.closest('[data-cancel-order]');
       if (cb) { cancelMyOrder(cb.getAttribute('data-cancel-order'), cb); return; }
       if (e.target.closest('#acctLogout')) { doLogout(); return; }
+      if (e.target.closest('[data-goto-admin]')) { window.location.href = 'admin.html'; return; }
       if (e.target.closest('[data-close="account"]')) { closeDrawer(); return; }
       if (e.target.id === 'accountOverlay') closeDrawer();
     });

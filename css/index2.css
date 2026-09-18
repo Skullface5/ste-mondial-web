@@ -1621,6 +1621,7 @@ html[dir="rtl"] .arrow { transform: scaleX(-1); }
 .acct-name { font-weight: 700; font-size: .95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .acct-sub { font-size: .78rem; opacity: .65; }
 .acct-logout { background: none; border: 1px solid var(--line, rgba(0,0,0,.15)); border-radius: 8px; padding: .4rem .6rem; cursor: pointer; font-size: .78rem; flex: none; }
+.acct-admin-btn { margin: 0 0 1rem; }
 .acct-sec-title { font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; margin: 1.1rem 0 .5rem; opacity: .75; }
 .acct-empty { font-size: .85rem; opacity: .7; }
 .acct-loading { font-size: .85rem; opacity: .7; }

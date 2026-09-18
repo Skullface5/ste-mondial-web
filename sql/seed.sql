@@ -11,49 +11,49 @@ values
    'Un oud intense et raffiné, signature d''un luxe oriental intemporel.',
    'Intense, refined oud wood — the signature of timeless oriental luxury.',
    'عود غني وفاخر، توقيع الأناقة الشرقية الخالدة.',
-   'inspires', 49.900, 65.000, 'https://picsum.photos/seed/oud-wood/800/800', 40, 5.0, 12, true, true),
+   'inspires', 49.900, 65.000, NULL, 40, 5.0, 12, true, true),
 
   ('SM-INS-002', 'J''adore', 'J''adore', 'جادور',
    'Un bouquet floral lumineux et élégant, l''éclat d''une féminité absolue.',
    'A luminous, elegant floral bouquet — the glow of absolute femininity.',
    'باقة زهرية مشرقة وأنيقة تعبّق بالأنوثة الراقية.',
-   'inspires', 49.900, 65.000, 'https://picsum.photos/seed/jadore/800/800', 35, 5.0, 8, true, true),
+   'inspires', 49.900, 65.000, NULL, 35, 5.0, 8, true, true),
 
   ('SM-INS-003', 'Bleu de Chanel', 'Bleu de Chanel', 'بلو دي شانيل',
    'Une fragrance boisée-aromatique audacieuse, entre élégance et liberté.',
    'A bold woody-aromatic fragrance — elegance and freedom combined.',
    'عطر خشبي عطري جريء يجمع بين الأناقة والحرية.',
-   'inspires', 49.900, 65.000, 'https://picsum.photos/seed/bleu-de-chanel/800/800', 30, 5.0, 15, true, true),
+   'inspires', 49.900, 65.000, NULL, 30, 5.0, 15, true, true),
 
   ('SM-INS-004', 'Bois de Santal', 'Sandalwood', 'خشب الصندل',
    'La douceur crémeuse du santal, un sillage chaleureux et enveloppant.',
    'The creamy softness of sandalwood — a warm, enveloping trail.',
    'نعومة خشب الصندل الكريمية بأثر دافئ وآسر.',
-   'inspires', 49.900, 65.000, 'https://picsum.photos/seed/bois-de-santal/800/800', 25, 4.9, 6, true, true),
+   'inspires', 49.900, 65.000, NULL, 25, 4.9, 6, true, true),
 
   ('SM-VOI-001', 'Diffuseur Voiture Vanille', 'Vanilla Car Diffuser', 'معطر سيارة بالفانيليا',
    'Une douceur vanillée qui accompagne chaque trajet.',
    'Sweet vanilla that accompanies every drive.',
    'حلاوة الفانيليا ترافقك في كل رحلة.',
-   'voiture', 8.000, null, 'https://picsum.photos/seed/diffuseur-voiture-vanille/800/800', 60, 4.8, 5, false, true),
+   'voiture', 8.000, null, NULL, 60, 4.8, 5, false, true),
 
   ('SM-AMB-001', 'Diffuseur d''Ambiance Pêche', 'Peach Ambiance Diffuser', 'معطر أجواء بالخوخ',
    'Des notes gourmandes de pêche pour une ambiance douce et fruitée.',
    'Gourmand peach notes for a soft, fruity ambiance at home.',
    'نوتات الخوخ الشهية لأجواء منزلية دافئة ومنعشة.',
-   'ambiance', 18.000, null, 'https://picsum.photos/seed/diffuseur-ambiance-peche/800/800', 30, 4.9, 4, false, true),
+   'ambiance', 18.000, null, NULL, 30, 4.9, 4, false, true),
 
   ('SM-MUS-001', 'Musc Blanc', 'White Musk', 'مسك أبيض',
    'La pureté enveloppante du musc blanc, délicatesse absolue.',
    'The enveloping purity of white musk — absolute delicacy.',
    'نقاء المسك الأبيض الفاخر بلمسة ناعمة وجذابة.',
-   'musc', 20.000, null, 'https://picsum.photos/seed/musc-blanc/800/800', 25, 5.0, 9, false, true),
+   'musc', 20.000, null, NULL, 25, 5.0, 9, false, true),
 
   ('SM-AMB-002', 'Air Fresh Cerise', 'Cherry Air Fresh', 'معطر كرز',
    'Un parfum cerise éclatant qui rafraîchit instantanément votre intérieur.',
    'A burst of cherry that instantly refreshes your home.',
    'عبق الكرز المنعش يمنح منزلك انتعاشاً فورياً.',
-   'ambiance', 40.000, null, 'https://picsum.photos/seed/air-fresh-cerise/800/800', 20, 4.8, 3, false, true)
+   'ambiance', 40.000, null, NULL, 20, 4.8, 3, false, true)
 
 on conflict (sku) do update set
   name_fr      = excluded.name_fr,
@@ -77,6 +77,5 @@ insert into public.site_settings (key, value) values
   ('shop_name', '"STE MONDIAL"'::jsonb),
   ('default_language', '"fr"'::jsonb),
   ('whatsapp', '""'::jsonb),
-  ('hero_image', '"https://picsum.photos/seed/ste-mondial-hero/1600/900"'::jsonb),
   ('announcement', '"Paiement à la livraison partout en Tunisie"'::jsonb)
 on conflict (key) do nothing;

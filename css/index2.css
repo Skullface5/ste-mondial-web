@@ -1893,3 +1893,32 @@ html[dir="rtl"] .arrow { transform: scaleX(-1); }
   .anim-grid .product-card { opacity: 1; }
   .anim-grid .product-card.in-view { animation: none; }
 }
+
+
+/* account: order items, cancel button, toast (2026-09-10) */
+.acct-order-items { display: flex; flex-wrap: wrap; gap: .35rem .6rem; margin: .45rem 0 0; }
+.acct-order-item { font-size: .78rem; color: #6b5f57; background: rgba(0,0,0,.045); border-radius: 6px; padding: .14rem .45rem; }
+.acct-order-actions { margin-top: .6rem; display: flex; justify-content: flex-end; }
+.acct-cancel-btn { font: inherit; font-size: .78rem; font-weight: 600; color: #b3403a; background: transparent; border: 1px solid rgba(179,64,58,.45); border-radius: 8px; padding: .3rem .7rem; cursor: pointer; transition: background .15s ease, color .15s ease; }
+.acct-cancel-btn:hover { background: #b3403a; color: #fff; }
+.acct-cancel-btn:disabled { opacity: .5; cursor: wait; }
+.acct-order-status.st-confirmee { background: #8a6d1f; color: #fff; }
+.acct-order-status.st-expediee { background: #1f6f8a; color: #fff; }
+.acct-toast { position: fixed; left: 50%; bottom: 1.4rem; transform: translate(-50%, 12px); background: #191512; color: #fff; font-size: .85rem; padding: .55rem 1rem; border-radius: 999px; opacity: 0; transition: opacity .25s ease, transform .25s ease; z-index: 9999; pointer-events: none; }
+.acct-toast.show { opacity: 1; transform: translate(-50%, 0); }
+html[dir="rtl"] .acct-toast { transform: translate(50%, 12px); }
+html[dir="rtl"] .acct-toast.show { transform: translate(50%, 0); }
+
+/* account: collapsible profile section (2026-09-10) */
+.acct-details { border: 1px solid var(--line, rgba(0,0,0,.12)); border-radius: 12px; margin: 0 0 .9rem; }
+.acct-details summary { cursor: pointer; list-style: none; padding: .6rem .8rem; font-weight: 700; font-size: .9rem; display: flex; align-items: center; justify-content: space-between; }
+.acct-details summary::-webkit-details-marker { display: none; }
+.acct-details summary::after { content: '\25BE'; font-size: .9rem; opacity: .6; line-height: 1; transition: transform .25s ease; }
+.acct-details[open] summary::after, .acct-details.anim-open summary::after { transform: rotate(180deg); }
+.acct-details-body { padding: .1rem .8rem .8rem; border-top: 1px solid var(--line, rgba(0,0,0,.08)); overflow: hidden; transition: height .28s ease; }
+
+/* trust bar entrance — staggered rise, JS-gated (2026-09-10) */
+@keyframes trustRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.trust-item.trust-anim { opacity: 0; }
+.trust-item.trust-anim.trust-in { animation: trustRise .5s cubic-bezier(.22,.8,.3,1) both; animation-delay: var(--td, 0ms); }
+@media (prefers-reduced-motion: reduce) { .trust-item.trust-anim { opacity: 1; animation: none !important; } }

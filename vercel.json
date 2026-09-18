@@ -17,7 +17,7 @@
       "continue": true
     },
     {
-      "src": "/admin2.html",
+      "src": "/admin.html",
       "headers": {
         "X-Robots-Tag": "noindex"
       },
@@ -32,7 +32,7 @@
     },
     {
       "src": "/",
-      "dest": "/index2.html"
+      "dest": "/index.html"
     }
   ]
 }

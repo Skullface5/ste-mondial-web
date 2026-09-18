@@ -94,7 +94,10 @@
     'checkout.total_due': 'Total à payer',
     'checkout.submitting': 'Envoi en cours…',
     'checkout.submit': 'Confirmer la commande',
-    'orders.copy': 'Copier le numéro'
+    'orders.copy': 'Copier le numéro',
+    'pm.prev': 'Précédent',
+    'pm.next': 'Suivant',
+    'review.stars': '{n} étoiles'
   };
 
   function has(key) {
@@ -114,9 +117,17 @@
     return s;
   }
 
+  // Bridge for sibling modules (account.js drawer): they reuse the live
+  // dictionary so their strings follow the site language (fr/en/ar).
+  window.SM_I18N = {
+    t: function (key) { return t(key); },
+    has: has,
+    lang: function () { return state.lang; }
+  };
+
   function fetchLocale(lang) {
     if (state.dicts[lang]) return Promise.resolve(state.dicts[lang]);
-    return fetch('i18n/' + lang + '.json?v=17', { cache: 'no-cache' })
+    return fetch('i18n/' + lang + '.json?v=18', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('i18n HTTP ' + r.status); return r.json(); })
       .then(function (json) { state.dicts[lang] = json; return json; })
       .catch(function () { state.dicts[lang] = state.dicts[lang] || {}; return state.dicts[lang]; });
@@ -263,8 +274,8 @@
       }
       return '<div class="pm-gallery" data-gallery>' +
         '<div class="pm-track" data-track>' + slides + '</div>' +
-        '<button type="button" class="pm-nav pm-prev" data-prev aria-label="Précédent">‹</button>' +
-        '<button type="button" class="pm-nav pm-next" data-next aria-label="Suivant">›</button>' +
+        '<button type="button" class="pm-nav pm-prev" data-prev aria-label="' + esc(t('pm.prev')) + '">‹</button>' +
+        '<button type="button" class="pm-nav pm-next" data-next aria-label="' + esc(t('pm.next')) + '">›</button>' +
         '<div class="pm-dots" data-dots>' + dots + '</div>' +
         '</div>';
     }
@@ -298,7 +309,29 @@
     return out;
   }
 
-  /* ---------- Card entrance animation (CSS-driven, zero libraries) ---------- */
+  /* ---------- Trust bar entrance (same pattern as card reveal) ---------- */
+  var trustObserver = ('IntersectionObserver' in window)
+    ? new IntersectionObserver(function (entries) {
+        var batch = 0;
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            en.target.style.setProperty('--td', Math.min(batch * 90, 360) + 'ms');
+            en.target.classList.add('trust-in');
+            trustObserver.unobserve(en.target);
+            batch++;
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 })
+    : null;
+
+  function initTrustBar() {
+    var items = $all('.trust-item');
+    if (!items.length) return;
+    if (!trustObserver) return; // no observer support: badges stay visible, static
+    items.forEach(function (it) { it.classList.add('trust-anim'); trustObserver.observe(it); });
+  }
+
+
   var cardObserver = ('IntersectionObserver' in window)
     ? new IntersectionObserver(function (entries) {
         var batch = 0;
@@ -923,7 +956,7 @@
         b.type = 'button';
         b.className = 'rev-star' + (i <= (revState.picker || cur) ? ' on' : '');
         b.setAttribute('data-star', String(i));
-        b.setAttribute('aria-label', i + ' étoiles');
+        b.setAttribute('aria-label', t('review.stars', { n: i }));
         b.textContent = i <= (revState.picker || cur) ? '★' : '☆';
         stars.appendChild(b);
       }
@@ -1316,6 +1349,18 @@
            no body, so generate a display reference when no DB id comes back. */
         var id = (Array.isArray(created) && created[0] && created[0].id) || null;
         if (!id) id = 'SM-' + Date.now().toString(36).toUpperCase().slice(-6);
+        try {
+          fetch(SUPABASE_URL + '/functions/v1/send-order-email', {
+            method: 'POST',
+            headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              customer_name: name, customer_phone: phone,
+              customer_email: email || (authUser ? authUser.email : null),
+              address: address || null, city: city || null,
+              items: items, total: total, ref: id, lang: state.lang || 'fr'
+            })
+          }).catch(function () { /* fire-and-forget */ });
+        } catch (eMail) { /* noop */ }
         state.orderId = id;
         try { sessionStorage.setItem(ORDER_KEY, id); } catch (e) { /* noop */ }
         state.cart = [];
@@ -1632,6 +1677,7 @@
     updateBadges();
 
     applySettings();
+    initTrustBar();
     fetchLocale(state.lang)
       .then(function () {
         applyStatic();

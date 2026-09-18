@@ -1282,11 +1282,31 @@
       if (rem) { removeLine(rem.getAttribute('data-remove')); return; }
     });
 
-    // Category strip items
-    $all('.category-item').forEach(function (item) {
+    // Category links (navbar dropdown + mobile menu) open the category page
+    $all('[data-cat]').forEach(function (item) {
       item.addEventListener('click', function () {
+        if (menu) { menu.hidden = true; burger.setAttribute('aria-expanded', 'false'); }
         openCatPage(item.getAttribute('data-cat'));
       });
+    });
+
+    // Navbar Collections dropdown (click toggle for touch; hover works via CSS on desktop)
+    $all('.nav-drop-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var li = btn.closest('.has-drop');
+        var open = li.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.has-drop')) {
+        $all('.has-drop.open').forEach(function (li) {
+          li.classList.remove('open');
+          var b = li.querySelector('.nav-drop-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+      }
     });
 
     // Category page: page tabs + back button (delegated)

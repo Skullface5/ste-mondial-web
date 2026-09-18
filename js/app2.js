@@ -11,7 +11,6 @@
   var SUPABASE_URL = 'https://xuwumbdyfywmxuzlvvul.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_qF8l43W4lTYJMXGfVDx-9g_6n6y1pH_';
   var CART_KEY = 'sm_cart2';
-  var FAVS_KEY = 'sm_favs2';
   var LANG_KEY = 'sm_lang2';
   var ORDER_KEY = 'sm_last_order2';
   var CATEGORIES = ['inspires', 'voiture', 'ambiance', 'musc'];
@@ -24,10 +23,8 @@
     offline: false,     // true when DB fetch failed -> fallback products
     loaded: false,
     cart: [],           // [{id, productId, nameFr, nameEn, nameAr, price, image, qty}]
-    favs: [],           // [product id]
     activeCat: 'all',
     search: '',
-    favsOnly: false,
     modalId: null,
     modalQty: 1,
     orderId: null,
@@ -288,10 +285,6 @@
 
   function visibleProducts() {
     var list = state.products;
-    // favorites & search bypass caps (intent-driven views show everything)
-    if (state.favsOnly) {
-      return list.filter(function (p) { return state.favs.indexOf(p.id) !== -1; });
-    }
     if (state.search) {
       var q = state.search.toLowerCase();
       return list.filter(function (p) { return productMatch(p, q); });
@@ -378,46 +371,31 @@
     }
 
     grid.innerHTML = list.map(function (p) {
-      var fav = state.favs.indexOf(p.id) !== -1;
       var old = p.oldPrice && p.oldPrice > p.price ? '<s class="old-price">' + esc(fmtPrice(p.oldPrice)) + '</s>' : '';
       return '<article class="product-card" data-id="' + esc(p.id) + '">' +
         '<div class="product-media" data-open="' + esc(p.id) + '" role="button" tabindex="0" aria-label="' + esc(pName(p)) + '">' +
         mediaHtml(p, 'grid-thumb') +
-        '<button class="wish-btn' + (fav ? ' active' : '') + '" type="button" data-fav="' + esc(p.id) + '" aria-pressed="' + fav + '">' +
-        '<svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21C7 16.5 3 13.3 3 9.5 3 7 5 5 7.5 5c1.7 0 3.2.9 4.5 2.6C13.3 5.9 14.8 5 16.5 5 19 5 21 7 21 9.5c0 3.8-4 7-9 11.5z"/></svg>' +
-        '</button></div>' +
+        '</div>' +
         '<div class="product-info">' +
         '<h3 class="product-name">' + esc(pName(p)) + '</h3>' +
         '<p class="product-sub">' + esc(t('categories.' + p.category)) + '</p>' +
         '<p class="product-price">' + old + esc(fmtPrice(p.price)) + '</p>' +
-        '<p class="product-rating"><span class="stars">' + starsHtml(p.rating) + '</span> <span>(' + p.reviewCount + ')</span></p>' +
         '<button class="add-btn" type="button" data-add="' + esc(p.id) + '">' + esc(t('product.addToCart')) + '</button>' +
         '</div></article>';
     }).join('');
     animateGrid(grid);
   }
 
-  function starsHtml(r) {
-    var full = Math.round(Number(r) || 0);
-    var out = '';
-    for (var i = 1; i <= 5; i++) out += i <= full ? '★' : '☆';
-    return out;
-  }
-
   function productCardHtml(p) {
-    var fav = state.favs.indexOf(p.id) !== -1;
     var old = p.oldPrice && p.oldPrice > p.price ? '<s class="old-price">' + esc(fmtPrice(p.oldPrice)) + '</s>' : '';
     return '<article class="product-card" data-id="' + esc(p.id) + '">' +
       '<div class="product-media" data-open="' + esc(p.id) + '" role="button" tabindex="0" aria-label="' + esc(pName(p)) + '">' +
       mediaHtml(p, 'grid-thumb') +
-      '<button class="wish-btn' + (fav ? ' active' : '') + '" type="button" data-fav="' + esc(p.id) + '" aria-pressed="' + fav + '">' +
-      '<svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21C7 16.5 3 13.3 3 9.5 3 7 5 5 7.5 5c1.7 0 3.2.9 4.5 2.6C13.3 5.9 14.8 5 16.5 5 19 5 21 7 21 9.5c0 3.8-4 7-9 11.5z"/></svg>' +
-      '</button></div>' +
+      '</div>' +
       '<div class="product-info">' +
       '<h3 class="product-name">' + esc(pName(p)) + '</h3>' +
       '<p class="product-sub">' + esc(t('categories.' + p.category)) + '</p>' +
       '<p class="product-price">' + old + esc(fmtPrice(p.price)) + '</p>' +
-      '<p class="product-rating"><span class="stars">' + starsHtml(p.rating) + '</span> <span>(' + p.reviewCount + ')</span></p>' +
       '<button class="add-btn" type="button" data-add="' + esc(p.id) + '">' + esc(t('product.addToCart')) + '</button>' +
       '</div></article>';
   }
@@ -543,30 +521,7 @@
     showView('all');
   }
 
-    /* ---------- Wishlist ---------- */
-  function loadFavs() {
-    try { state.favs = JSON.parse(localStorage.getItem(FAVS_KEY) || '[]'); }
-    catch (e) { state.favs = []; }
-    if (!Array.isArray(state.favs)) state.favs = [];
-  }
-
-  function saveFavs() {
-    try { localStorage.setItem(FAVS_KEY, JSON.stringify(state.favs)); } catch (e) { /* noop */ }
-  }
-
-  function toggleFav(id) {
-    var i = state.favs.indexOf(id);
-    if (i === -1) state.favs.push(id); else state.favs.splice(i, 1);
-    saveFavs();
-    renderGrid();
-    $all('[data-fav="' + id.replace(/"/g, '\\"') + '"]').forEach(function (b) {
-      var on = state.favs.indexOf(id) !== -1;
-      b.classList.toggle('active', on);
-      b.setAttribute('aria-pressed', String(on));
-    });
-  }
-
-  /* ---------- Cart ---------- */
+    /* ---------- Cart ---------- */
   function loadCart() {
     try { state.cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
     catch (e) { state.cart = []; }
@@ -691,7 +646,7 @@
 
   function updateBadges() {
     var n = cartCount();
-    ['cartCount', 'tabCartCount'].forEach(function (id) {
+    ['cartCount'].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.textContent = String(n);
@@ -802,7 +757,6 @@
     state.modalId = id;
     state.modalQty = 1;
     renderModalTexts();
-    loadReviews(id);
     var m = $('#productModal'), ov = $('#modalOverlay');
     if (m) {
       m.hidden = false;
@@ -839,8 +793,6 @@
       else old.hidden = true;
     }
     set('pmQty', String(state.modalQty));
-    var rating = $('#pmRating');
-    if (rating) rating.innerHTML = '<span class="stars">' + starsHtml(p.rating) + '</span> <span>(' + p.reviewCount + ' ' + esc(t('product.reviews')) + ')</span>';
     var desc = $('#pmDesc');
     if (desc) {
       desc.textContent = pDesc(p);
@@ -856,167 +808,6 @@
     if (add) {
       var span = add.querySelector('span');
       if (span) span.textContent = t('product.addToCart');
-    }
-  }
-
-  /* ---------- product reviews ---------- */
-  var revState = { productId: null, mine: null, picker: 0, loaded: false };
-
-  function smAuth() { return window.SM_AUTH || null; }
-
-  function reviewsApi(path, key, method, body, extra) {
-    var auth = smAuth();
-    var tok = auth && auth.getUser() ? auth.token() : null;
-    var h = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + (tok || key), 'Content-Type': 'application/json', 'User-Agent': 'ste-mondial-shop/1.0' };
-    if (extra) Object.keys(extra).forEach(function (k) { h[k] = extra[k]; });
-    return fetch(SUPABASE_URL + '/rest/v1/' + path, {
-      method: method || 'GET', headers: h, body: body === undefined ? undefined : JSON.stringify(body)
-    }).then(function (r) { return r.text().then(function (tx) { return { status: r.status, text: tx }; }); });
-  }
-
-  function loadReviews(productId) {
-    revState.productId = productId; revState.mine = null; revState.picker = 0; revState.loaded = false;
-    var list = $('#pmRevList'), sum = $('#pmRevSummary'), avgEl = $('#pmRevAvg'), form = $('#pmRevForm'), err = $('#pmRevErr');
-    if (list) list.innerHTML = '<p class="pm-rev-empty">' + esc(t('review.loading')) + '</p>';
-    if (sum) sum.hidden = true;
-    if (avgEl) avgEl.textContent = '';
-    if (err) err.hidden = true;
-    var auth = smAuth(), u = auth && auth.getUser();
-    reviewsApi('reviews?select=id,user_name,rating,comment,created_at,user_id&product_id=eq.' + encodeURIComponent(productId) + '&order=created_at.desc&limit=50', SUPABASE_KEY)
-      .then(function (res) {
-        if (revState.productId !== productId) return;
-        revState.loaded = true;
-        var rows = [];
-        try { rows = JSON.parse(res.text) || []; } catch (e) {}
-        renderReviews(rows);
-        if (u) {
-          var mine = null;
-          rows.forEach(function (rv) { if (rv.user_id === u.id) mine = rv; });
-          revState.mine = mine || null;
-        }
-        renderReviewForm();
-      });
-  }
-
-  function renderReviews(rows) {
-    var list = $('#pmRevList'), sum = $('#pmRevSummary'), avgEl = $('#pmRevAvg');
-    var n = rows.length;
-    var avg = 0;
-    rows.forEach(function (rv) { avg += rv.rating; });
-    avg = n ? Math.round((avg / n) * 10) / 10 : 0;
-    if (avgEl) avgEl.textContent = n ? starsHtml(avg) + ' ' + avg + '/5' : '';
-    if (n && sum) {
-      var buckets = [0, 0, 0, 0, 0];
-      rows.forEach(function (rv) { buckets[5 - rv.rating]++; });
-      var bars = '';
-      for (var s = 5; s >= 1; s--) {
-        var pct = Math.round((buckets[5 - s] / n) * 100);
-        bars += '<div class="rev-bar-row"><span class="rev-bar-n">' + s + '★</span><span class="rev-bar-track"><span class="rev-bar-fill" style="width:' + pct + '%"></span></span><span class="rev-bar-c">' + buckets[5 - s] + '</span></div>';
-      }
-      sum.innerHTML = bars;
-      sum.hidden = false;
-    }
-    if (!list) return;
-    if (!n) { list.innerHTML = '<p class="pm-rev-empty">' + esc(t('review.empty')) + '</p>'; return; }
-    list.innerHTML = rows.map(function (rv) {
-      var d = new Date(rv.created_at);
-      var ds = isNaN(d) ? '' : d.toLocaleDateString(state.lang === 'ar' ? 'ar-TN' : state.lang === 'en' ? 'en-GB' : 'fr-FR');
-      return '<div class="pm-rev-item">' +
-        '<div class="pm-rev-top"><span class="pm-rev-name">' + esc(rv.user_name || 'Client') + '</span>' +
-        '<span class="pm-rev-stars">' + starsHtml(rv.rating) + '</span>' +
-        (revState.mine && rv.id === revState.mine.id ? '<button class="pm-rev-del" type="button" data-rev-del="' + esc(rv.id) + '" aria-label="Supprimer mon avis">✕</button>' : '') +
-        '</div>' +
-        (rv.comment ? '<p class="pm-rev-comment">' + esc(rv.comment) + '</p>' : '') +
-        '<span class="pm-rev-date">' + ds + '</span>' +
-        '</div>';
-    }).join('');
-  }
-
-  function renderReviewForm() {
-    var form = $('#pmRevForm'), cta = $('#pmRevCta'), stars = $('#pmRevStars'), send = $('#pmRevSend'), txt = $('#pmRevText');
-    if (!form) return;
-    var auth = smAuth(), u = auth && auth.getUser();
-    if (!u) {
-      if (cta) cta.innerHTML = '<a href="#" id="pmRevLogin">' + esc(t('review.loginCta')) + '</a>';
-      if (stars) stars.innerHTML = '';
-      if (txt) txt.hidden = true;
-      if (send) send.hidden = true;
-      var lg = $('#pmRevLogin');
-      if (lg) lg.addEventListener('click', function (ev) { ev.preventDefault(); if (auth && auth.openDrawer) auth.openDrawer(); });
-      return;
-    }
-    if (cta) cta.textContent = revState.mine ? t('review.yours') : t('review.cta');
-    if (txt) { txt.hidden = false; txt.value = revState.mine ? (revState.mine.comment || '') : ''; }
-    if (send) { send.hidden = false; send.querySelector('span').textContent = revState.mine ? t('review.update') : t('review.submit'); }
-    if (stars) {
-      var cur = revState.mine ? revState.mine.rating : revState.picker;
-      stars.innerHTML = '';
-      for (var i = 1; i <= 5; i++) {
-        var b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'rev-star' + (i <= (revState.picker || cur) ? ' on' : '');
-        b.setAttribute('data-star', String(i));
-        b.setAttribute('aria-label', t('review.stars', { n: i }));
-        b.textContent = i <= (revState.picker || cur) ? '★' : '☆';
-        stars.appendChild(b);
-      }
-    }
-  }
-
-  function submitReview() {
-    var err = $('#pmRevErr'), auth = smAuth(), u = auth && auth.getUser();
-    if (err) err.hidden = true;
-    if (!u || !revState.productId) return;
-    var rating = revState.picker || (revState.mine && revState.mine.rating) || 0;
-    var txtEl = $('#pmRevText');
-    var comment = txtEl ? txtEl.value.trim() : '';
-    if (!rating) { if (err) { err.textContent = t('review.errStars'); err.hidden = false; } return; }
-    var send = $('#pmRevSend');
-    if (send) send.disabled = true;
-    var payload = { product_id: revState.productId, user_id: u.id, user_name: (u.name || u.email || 'Client').split('@')[0], rating: rating, comment: comment };
-    var p = revState.mine
-      ? reviewsApi('reviews?id=eq.' + encodeURIComponent(revState.mine.id), null, 'PATCH', { rating: rating, comment: comment, updated_at: new Date().toISOString() })
-      : reviewsApi('reviews', null, 'POST', payload, { 'Prefer': 'return=minimal' });
-    p.then(function (res) {
-      if (send) send.disabled = false;
-      if (res.status === 201 || res.status === 204) {
-        revState.picker = 0;
-        loadReviews(revState.productId);
-        if (typeof loadProducts === 'function') loadProducts();
-      } else if (err) {
-        err.textContent = t('review.errFail'); err.hidden = false;
-      }
-    });
-  }
-
-  function deleteMyReview() {
-    if (!revState.mine) return;
-    reviewsApi('reviews?id=eq.' + encodeURIComponent(revState.mine.id), null, 'DELETE').then(function (res) {
-      if (res.status === 204 || res.status === 404) {
-        revState.mine = null; revState.picker = 0;
-        loadReviews(revState.productId);
-        if (typeof loadProducts === 'function') loadProducts();
-      }
-    });
-  }
-
-  function bindReviewEvents() {
-    var stars = $('#pmRevStars');
-    if (stars) {
-      stars.addEventListener('click', function (e) {
-        var b = e.target.closest('[data-star]');
-        if (!b) return;
-        revState.picker = Number(b.getAttribute('data-star')) || 0;
-        renderReviewForm();
-      });
-    }
-    var send = $('#pmRevSend');
-    if (send) send.addEventListener('click', submitReview);
-    var list = $('#pmRevList');
-    if (list) {
-      list.addEventListener('click', function (e) {
-        if (e.target.closest('[data-rev-del]')) deleteMyReview();
-      });
     }
   }
 
@@ -1396,18 +1187,11 @@
   }
 
   function setTab(cat) {
-    state.favsOnly = false;
     state.activeCat = cat;
     $all('.cat-tab').forEach(function (b) {
       b.classList.toggle('active', b.getAttribute('data-tab') === cat);
     });
     renderGrid();
-  }
-
-  function setTabbarActive(key) {
-    $all('.tab-item').forEach(function (a) {
-      a.classList.toggle('active', a.getAttribute('data-tabnav') === key);
-    });
   }
 
   /* ---------- Events ---------- */
@@ -1449,7 +1233,7 @@
       if (nav) {
         e.preventDefault();
         var k = nav.getAttribute('data-nav');
-        if (k === 'home') { showView('shop'); setTabbarActive('home'); location.hash = '#/shop'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        if (k === 'home') { showView('shop'); location.hash = '#/shop'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
         if (k === 'cart') openCart();
         if (k === 'cart-view') { showView('shop'); openCart(); }
         if (menu) { menu.hidden = true; burger.setAttribute('aria-expanded', 'false'); }
@@ -1469,9 +1253,6 @@
       }
       var tab = e.target.closest('.cat-tab');
       if (tab) { setTab(tab.getAttribute('data-tab')); return; }
-
-      var fav = e.target.closest('[data-fav]');
-      if (fav) { e.stopPropagation(); toggleFav(fav.getAttribute('data-fav')); return; }
 
       var add = e.target.closest('[data-add]');
       if (add) {
@@ -1515,7 +1296,7 @@
       if (b) { catPage.page = Number(b.getAttribute('data-catpage')) || 1; renderCatPage(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
     });
     var catBack = $('#catBackBtn');
-    if (catBack) catBack.addEventListener('click', function () { showView('shop'); setTabbarActive('collections'); });
+    if (catBack) catBack.addEventListener('click', function () { showView('shop'); });
 
     // Full catalog page controls
     var allTabs = $('#allTabs');
@@ -1545,8 +1326,7 @@
       renderAllPage();
     });
     var allBack = $('#allBackBtn');
-    if (allBack) allBack.addEventListener('click', function () { showView('shop'); setTabbarActive('home'); });
-    bindReviewEvents();
+    if (allBack) allBack.addEventListener('click', function () { showView('shop'); });
     var allReset = $('#allReset');
     if (allReset) allReset.addEventListener('click', function () {
       allPage.page = 1; allPage.q = ''; allPage.cat = 'all'; allPage.sort = 'new';
@@ -1602,26 +1382,6 @@
     var co = $('#cartOverlay');
     if (co) co.addEventListener('click', closeCart);
 
-    // Tabbar
-    $all('.tab-item').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var k = a.getAttribute('data-tabnav');
-        if (k === 'cart') { e.preventDefault(); openCart(); return; }
-        if (k === 'favs') {
-          e.preventDefault();
-          showView('shop');
-          state.favsOnly = true;
-          $all('.cat-tab').forEach(function (b) { b.classList.remove('active'); });
-          renderGrid();
-          setTabbarActive('favs');
-          scrollToId('parfums');
-          return;
-        }
-        if (k === 'collections') { e.preventDefault(); setTabbarActive('collections'); scrollToId('collections'); return; }
-        setTabbarActive('home');
-      });
-    });
-
     // Search
     var searchInput = $('#shopSearch');
     if (searchInput) {
@@ -1654,10 +1414,6 @@
       }
     });
 
-    // Newsletter (no backend — just prevent default)
-    var nl = $('#newsletterForm');
-    if (nl) nl.addEventListener('submit', function (e) { e.preventDefault(); nl.reset(); });
-
     // Router
     window.addEventListener('hashchange', route);
   }
@@ -1673,7 +1429,6 @@
     if (['fr', 'en', 'ar'].indexOf(state.lang) === -1) state.lang = 'fr';
 
     loadCart();
-    loadFavs();
     updateBadges();
 
     applySettings();
@@ -1682,7 +1437,6 @@
       .then(function () {
         applyStatic();
         bindEvents();
-        setTabbarActive('home');
         route();
         renderGrid();
         renderCart();
@@ -1697,8 +1451,7 @@
         route();
       })
       .catch(function () {
-        // last resort: never leave the page broken — but no fake products
-        state.loaded = true;
+        // last resort: never leave the page broken — but no fatate.loaded = true;
         state.offline = true;
         renderGrid();
       });

@@ -874,9 +874,12 @@
           if (document.hidden) return;
           var all = host.querySelectorAll('img.promo-slide');
           if (all.length < 2) return;
-          all[idx].classList.remove('on');
+          var cur = all[idx], nxt = all[(idx + 1) % all.length];
+          cur.classList.remove('on');
+          cur.classList.add('out');
+          nxt.classList.add('on');
+          setTimeout(function () { cur.classList.remove('out'); }, 1300);
           idx = (idx + 1) % all.length;
-          all[idx].classList.add('on');
         }, 5000);
       }
     } else if (images.length === 1) {

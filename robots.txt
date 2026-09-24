@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /admin.html
+Disallow: /Alucard146.html
 
 Sitemap: https://ste-mondial-web.vercel.app/sitemap.xml

@@ -9,6 +9,7 @@
 
   var SUPABASE_URL = 'https://xuwumbdyfywmxuzlvvul.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_qF8l43W4lTYJMXGfVDx-9g_6n6y1pH_';
+  var ADMIN_EMAILS = ['azmmeli146@gmail.com'];
   var BUCKET = 'products';
   var POLL_MS = 30000;
   var STATUS_LABELS = { nouvelle: 'Nouvelle', confirmee: 'Confirmée', expediee: 'Expédiée', livree: 'Livrée', annulée: 'Annulée', annulee: 'Annulée' };
@@ -331,6 +332,29 @@
       finally { refreshInFlight = null; }
     })();
     return refreshInFlight;
+  }
+
+  async function importStorefrontSession() {
+    /* Rosa-parity: if the storefront visitor (account.js sm_user2) is an admin,
+       adopt their refresh token — the admin page opens with NO separate login. */
+    try {
+      var raw = localStorage.getItem('sm_user2');
+      if (!raw) return false;
+      var cached = JSON.parse(raw);
+      if (!cached || !cached.refresh) return false;
+      var em = String(cached.email || '').toLowerCase();
+      if (ADMIN_EMAILS.indexOf(em) === -1) return false;
+      state.user = { access_token: null, refresh_token: cached.refresh, email: cached.email };
+      var ok = await refreshSession();
+      if (!ok) { state.user = null; return false; }
+      /* token rotation: give the fresher pair back to the storefront so its
+         session doesn't die on its next refresh */
+      try {
+        cached.refresh = state.user.refresh_token;
+        localStorage.setItem('sm_user2', JSON.stringify(cached));
+      } catch (e) { /* noop */ }
+      return true;
+    } catch (e) { state.user = null; return false; }
   }
 
   async function restoreSession() {
@@ -1307,6 +1331,7 @@
     try { savedLang = localStorage.getItem('sm_admin_lang'); } catch (e) { /* noop */ }
     applyLang(savedLang || 'fr');
     var ok = await restoreSession();
+    if (!ok) ok = await importStorefrontSession();
     if (ok) enterApp();
   }
 

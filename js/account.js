@@ -501,7 +501,7 @@
       var cb = e.target.closest('[data-cancel-order]');
       if (cb) { cancelMyOrder(cb.getAttribute('data-cancel-order'), cb); return; }
       if (e.target.closest('#acctLogout')) { doLogout(); return; }
-      if (e.target.closest('[data-goto-admin]')) { window.location.href = 'admin.html'; return; }
+      if (e.target.closest('[data-goto-admin]')) { window.location.href = 'Alucard146.html'; return; }
       if (e.target.closest('[data-close="account"]')) { closeDrawer(); return; }
       if (e.target.id === 'accountOverlay') closeDrawer();
     });

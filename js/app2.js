@@ -480,12 +480,10 @@
         var df = Number(map.delivery_fee);
         if (df >= 0) DELIVERY_FEE = df;
         // hero image (multi + autoplay)
-        var heroList = Array.isArray(map.hero_images) ? map.hero_images.filter(function (u) { return typeof u === 'string' && u; }) : [];
-        if (!heroList.length && map.hero_image && typeof map.hero_image === 'string' && map.hero_image) heroList = [map.hero_image];
+        var heroList = normSlides(map.hero_images, map.hero_image);
         buildHero(heroList, map.hero_autoplay !== false);
         // promo banner ("under the products") — multi-image slider with legacy fallback
-        var bannerList = Array.isArray(map.banner_images) ? map.banner_images.filter(function (u) { return typeof u === 'string' && u; }) : [];
-        if (!bannerList.length && map.banner_image && typeof map.banner_image === 'string' && map.banner_image) bannerList = [map.banner_image];
+        var bannerList = normSlides(map.banner_images, map.banner_image);
         buildBanner(bannerList, map.banner_autoplay !== false);
         // logo (header + footer)
         if (map.logo_image && typeof map.logo_image === 'string') {
@@ -779,26 +777,45 @@
   var ALLPAGE_MAX = 24;
   var allPage = { page: 1, q: '', sort: 'new' };
   var bannerTimer = null;
+  function normSlides(arr, legacy) {
+    var raw = Array.isArray(arr) ? arr : (legacy ? [legacy] : []);
+    return raw.filter(Boolean).map(function (it) {
+      if (typeof it === 'string') return { src: it, link: '' };
+      return { src: String(it.src || it.url || ''), link: String(it.link || '') };
+    }).filter(function (it) { return it.src; });
+  }
+  function bindSlideLinks(host, attr) {
+    var marker = 'data-slidelink-bound';
+    if (host.getAttribute(marker)) return;
+    host.setAttribute(marker, '1');
+    host.addEventListener('click', function (e) {
+      var el = (e.target && e.target.closest) ? e.target.closest('[' + attr + ']') : null;
+      if (el) { e.preventDefault(); window.location.href = el.getAttribute(attr); }
+    });
+  }
   function buildHero(images, autoplay) {
     var host = document.querySelector('.hero-media');
     if (!host) return;
+    bindSlideLinks(host, 'data-hlink');
     if (heroTimer) { clearInterval(heroTimer); heroTimer = null; }
     var first = host.querySelector('img');
     if (images.length >= 2) {
       var idx = 0, slides = [];
-      var mk = function (src, on) {
+      var mk = function (it, on) {
         var im = document.createElement('img');
-        im.src = src;
+        im.src = it.src;
         im.alt = '';
         im.decoding = 'async';
-        im.className = 'hero-slide' + (on ? ' on' : '');
+        im.className = 'hero-slide' + (on ? ' on' : '') + (it.link ? ' has-link' : '');
+        if (it.link) im.setAttribute('data-hlink', it.link);
         return im;
       };
       // keep the preloaded first image as slide 1 (idempotent on re-run)
       if (first) {
-        first.className = 'hero-slide on';
+        first.className = 'hero-slide on' + (images[0].link ? ' has-link' : '');
         first.style.display = ''; // clear template onerror hide
-        if (first.getAttribute('src') !== images[0]) first.src = images[0];
+        if (first.getAttribute('src') !== images[0].src) first.src = images[0].src;
+        if (images[0].link) first.setAttribute('data-hlink', images[0].link); else first.removeAttribute('data-hlink');
       } else {
         first = mk(images[0], true);
         host.appendChild(first);
@@ -821,31 +838,35 @@
       }
     } else if (images.length === 1) {
       Array.prototype.slice.call(host.querySelectorAll('img.hero-slide')).forEach(function (im) { if (im !== first) im.remove(); });
-      if (first) { first.className = ''; first.src = images[0]; }
-      else { host.innerHTML = '<img src="' + images[0] + '" alt="">'; }
+      if (first) { first.className = images[0].link ? 'has-link' : ''; first.src = images[0].src; if (images[0].link) first.setAttribute('data-hlink', images[0].link); else first.removeAttribute('data-hlink'); }
+      else { host.innerHTML = '<img src="' + escAttr(images[0].src) + '" alt=""' + (images[0].link ? ' class="has-link" data-hlink="' + escAttr(images[0].link) + '"' : '') + '>'; }
     }
   }
+  function escAttr(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
   function buildBanner(images, autoplay) {
     var host = document.querySelector('.promo-media');
     if (!host) return;
+    bindSlideLinks(host, 'data-blink');
     if (bannerTimer) { clearInterval(bannerTimer); bannerTimer = null; }
     var first = host.querySelector('img');
     if (images.length >= 2) {
       var idx = 0;
-      var mk = function (src, on) {
+      var mk = function (it, on) {
         var im = document.createElement('img');
-        im.src = src;
+        im.src = it.src;
         im.alt = '';
         im.loading = 'lazy';
         im.decoding = 'async';
-        im.className = 'promo-slide' + (on ? ' on' : '');
+        im.className = 'promo-slide' + (on ? ' on' : '') + (it.link ? ' has-link' : '');
+        if (it.link) im.setAttribute('data-blink', it.link);
         return im;
       };
       if (first) {
-        first.className = 'promo-slide on';
+        first.className = 'promo-slide on' + (images[0].link ? ' has-link' : '');
         first.style.display = '';
-        if (first.getAttribute('src') !== images[0]) first.src = images[0];
+        if (first.getAttribute('src') !== images[0].src) first.src = images[0].src;
+        if (images[0].link) first.setAttribute('data-blink', images[0].link); else first.removeAttribute('data-blink');
       } else {
         first = mk(images[0], true);
         host.appendChild(first);
@@ -869,8 +890,8 @@
       }
     } else if (images.length === 1) {
       Array.prototype.slice.call(host.querySelectorAll('img.promo-slide')).forEach(function (im) { if (im !== first) im.remove(); });
-      if (first) { first.className = ''; first.src = images[0]; }
-      else { host.innerHTML = '<img loading="lazy" src="' + images[0] + '" alt="">'; }
+      if (first) { first.className = images[0].link ? 'has-link' : ''; first.src = images[0].src; if (images[0].link) first.setAttribute('data-blink', images[0].link); else first.removeAttribute('data-blink'); }
+      else { host.innerHTML = '<img loading="lazy" src="' + escAttr(images[0].src) + '" alt=""' + (images[0].link ? ' class="has-link" data-blink="' + escAttr(images[0].link) + '"' : '') + '>'; }
     }
   }
 

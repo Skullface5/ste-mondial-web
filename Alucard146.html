@@ -232,6 +232,10 @@
               <p class="hero-admin-help" data-i18n="set.heroHelp">Plusieurs images = diaporama. La 1re est l'image principale.</p>
               <div class="g-strip" id="heroStrip"></div>
               <label class="toggle hero-autoplay-toggle"><input type="checkbox" id="heroAutoplay" checked><span class="toggle-track"></span><span class="toggle-label" data-i18n="set.autoplay">Défilement automatique</span></label>
+                <div class="banner-link-row" id="heroLinkRow" hidden>
+                    <label class="banner-link-label"><i class="fas fa-link"></i> <span data-i18n="set.linkLbl">Lien (optionnel)</span> <b id="heroLinkTarget"></b></label>
+                    <div class="banner-link-field"><input type="url" id="heroLinkInput" placeholder="https://..." autocomplete="off"><button type="button" class="bl-clear" id="heroLinkClear" title="Retirer"><i class="fas fa-times"></i></button></div>
+                </div>
               <input type="file" id="heroFileInput" accept="image/jpeg,image/png,image/webp" multiple hidden>
               <div class="hero-admin-msg" id="heroMsg"></div>
               <div class="hero-admin-actions">
@@ -247,6 +251,10 @@
               <p class="hero-admin-help" data-i18n="set.bannerHelp">Les images de la bannière promotion de l'accueil.</p>
               <div class="g-strip" id="bannerStrip"></div>
               <label class="toggle hero-autoplay-toggle"><input type="checkbox" id="bannerAutoplay" checked><span class="toggle-track"></span><span class="toggle-label" data-i18n="set.autoplay">Défilement automatique</span></label>
+                <div class="banner-link-row" id="bannerLinkRow" hidden>
+                    <label class="banner-link-label"><i class="fas fa-link"></i> <span data-i18n="set.linkLbl">Lien (optionnel)</span> <b id="bannerLinkTarget"></b></label>
+                    <div class="banner-link-field"><input type="url" id="bannerLinkInput" placeholder="https://..." autocomplete="off"><button type="button" class="bl-clear" id="bannerLinkClear" title="Retirer"><i class="fas fa-times"></i></button></div>
+                </div>
               <input type="file" id="bannerFileInput" accept="image/jpeg,image/png,image/webp" multiple hidden>
               <div class="hero-admin-msg" id="bannerMsg"></div>
               <div class="hero-admin-actions">

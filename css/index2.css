@@ -1809,3 +1809,6 @@ html[dir="rtl"] .acct-toast.show { transform: translate(50%, 0); }
 .trust-item.trust-anim { opacity: 0; }
 .trust-item.trust-anim.trust-in { animation: trustRise .5s cubic-bezier(.22,.8,.3,1) both; animation-delay: var(--td, 0ms); }
 @media (prefers-reduced-motion: reduce) { .trust-item.trust-anim { opacity: 1; animation: none !important; } }
+
+/* clickable hero/promo slides (attached link) */
+.hero-slide.has-link,.promo-slide.has-link{cursor:pointer;}

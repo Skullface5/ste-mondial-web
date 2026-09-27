@@ -3370,7 +3370,7 @@ body.dark #dash-orders .status-sel{background:#1A140D;border-color:#2B1D12;color
 .toggle input { display: none; }
 .toggle-track { width: 46px; height: 27px; border-radius: 27px; background: var(--line, #d8cbb6); position: relative; transition: background .2s; flex: none; }
 .toggle-track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 21px; height: 21px; border-radius: 50%; background: var(--muted, #8a7a63); transition: transform .2s, background .2s; }
-.toggle input:checked + .toggle-track { background: var(--gold, #b49a6a); }
+.toggle input:checked + .toggle-track { background: var(--gold, #B08D4A); }
 .toggle input:checked + .toggle-track::after { transform: translateX(19px); background: #191512; }
 .toggle-label { font-size: .92rem; }
 .hero-autoplay-toggle { margin: .8rem 0 .4rem; }

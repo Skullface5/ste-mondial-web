@@ -51,8 +51,6 @@
       'set.saveBanner': 'Enregistrer la bannière', 'set.bannerSavedN': 'Diaporama bannière enregistré ✓',
       'set.defaultApplied': 'Aucune image — image par défaut appliquée.',
       'set.imgUpdated': 'Image mise à jour ✓ — visible sur le site après rechargement.',
-      'tab.dash': 'Bord', 'tab.orders': 'Commandes', 'tab.products': 'Produits', 'tab.reviews': 'Avis', 'tab.settings': 'Réglages',
-      'nav.reviews': 'Avis clients',
       'pf.new': 'Nouveau produit', 'pf.edit': 'Modifier le produit',
       'pf.images': 'Images du produit', 'pf.imgHelp': 'La 1ʳᵉ image = principale. Touchez ✕ pour retirer.',
       'pf.addUrl': 'Ajouter par URL (Entrée pour valider)', 'pf.imgCount': 'images — la 1ʳᵉ est l\'image principale',
@@ -105,8 +103,6 @@
       'set.saveBanner': 'Save banner', 'set.bannerSavedN': 'Banner slideshow saved ✓',
       'set.defaultApplied': 'No images — default image applied.',
       'set.imgUpdated': 'Image updated ✓ — visible on the site after reload.',
-      'tab.dash': 'Board', 'tab.orders': 'Orders', 'tab.products': 'Products', 'tab.reviews': 'Reviews', 'tab.settings': 'Settings',
-      'nav.reviews': 'Customer reviews',
       'pf.new': 'New product', 'pf.edit': 'Edit product',
       'pf.images': 'Product images', 'pf.imgHelp': '1st image = main. Tap ✕ to remove.',
       'pf.addUrl': 'Add by URL (Enter to confirm)', 'pf.imgCount': 'images — 1st is the main one',
@@ -159,8 +155,6 @@
       'set.saveBanner': 'حفظ البانر', 'set.bannerSavedN': 'تم حفظ عرض البانر ✓',
       'set.defaultApplied': 'لا صور — تم تطبيق الصورة الافتراضية.',
       'set.imgUpdated': 'تم تحديث الصورة ✓ — تظهر في الموقع بعد إعادة التحميل.',
-      'tab.dash': 'اللوحة', 'tab.orders': 'الطلبات', 'tab.products': 'المنتجات', 'tab.reviews': 'التقييمات', 'tab.settings': 'الإعدادات',
-      'nav.reviews': 'آراء العملاء',
       'pf.new': 'منتج جديد', 'pf.edit': 'تعديل المنتج',
       'pf.images': 'صور المنتج', 'pf.imgHelp': 'الصورة الأولى = الأساسية. المس ✕ للإزالة.',
       'pf.addUrl': 'إضافة برابط (Entrée للتأكيد)', 'pf.imgCount': 'صور — الأولى هي الأساسية',
@@ -983,56 +977,6 @@
   function setConnDot() { /* conn-dot UI removed per user request */ }
 
   /* ---------- boot / bind ---------- */
-  /* ---------- reviews moderation ---------- */
-  function loadRevAdmin() {
-    var box = $('revAdminList');
-    if (!box) return;
-    box.innerHTML = '<p class="rev-admin-empty">Chargement…</p>';
-    api('GET', '/rest/v1/reviews?select=id,product_id,user_name,rating,comment,created_at&order=created_at.desc&limit=200')
-      .then(function (r) { return r.text().then(function (tx) { return { s: r.status, t: tx }; }); })
-      .then(function (res) {
-        if (res.s !== 200) { box.innerHTML = '<p class="rev-admin-empty">Erreur de chargement</p>'; return; }
-        var rows = [];
-        try { rows = JSON.parse(res.t) || []; } catch (e) {}
-        if (!rows.length) { box.innerHTML = '<p class="rev-admin-empty">Aucun avis pour le moment.</p>'; return; }
-        var ids = rows.map(function (rv) { return 'id.eq.' + rv.product_id; }).join('|');
-        api('GET', '/rest/v1/products?select=id,name_fr&or=' + encodeURIComponent(ids))
-          .then(function (r2) { return r2.text().then(function (tx) { return { s: r2.status, t: tx }; }); })
-          .then(function (res2) {
-            var pmap = {};
-            try { (JSON.parse(res2.t) || []).forEach(function (pp) { pmap[pp.id] = pp.name_fr; }); } catch (e) {}
-            box.innerHTML = rows.map(function (rv) {
-              var d = new Date(rv.created_at);
-              var ds = isNaN(d) ? '' : d.toLocaleDateString('fr-FR');
-              return '<div class="rev-admin-item">' +
-                '<div class="rev-admin-top"><span class="rev-admin-name">' + esc(rv.user_name || 'Client') + '</span>' +
-                '<span class="rev-admin-stars">' + '★'.repeat(rv.rating) + '☆'.repeat(5 - rv.rating) + '</span>' +
-                '<span class="rev-admin-date">' + ds + '</span>' +
-                '<button class="rev-admin-del" type="button" data-rev-del="' + esc(rv.id) + '">Supprimer</button></div>' +
-                '<p class="rev-admin-prod">' + esc(pmap[rv.product_id] || '') + '</p>' +
-                (rv.comment ? '<p class="rev-admin-comment">' + esc(rv.comment) + '</p>' : '') +
-                '</div>';
-            }).join('');
-          });
-      });
-  }
-
-  function bindRevAdmin() {
-    var box = $('revAdminList');
-    if (!box) return;
-    box.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-rev-del]');
-      if (!b) return;
-      var id = b.getAttribute('data-rev-del');
-      confirmDialog('Supprimer cet avis ?', function () {
-        api('DELETE', '/rest/v1/reviews?id=eq.' + encodeURIComponent(id))
-          .then(function (r) {
-            if (r.status === 204 || r.status === 404) { toast('Avis supprimé'); loadRevAdmin(); }
-          });
-      });
-    });
-  }
-
   function enterApp() {
     $('view-login').hidden = true;
     $('app-shell').hidden = false;
@@ -1043,8 +987,6 @@
         renderOrders();
         renderProducts();
         renderSettings();
-        bindRevAdmin();
-        loadRevAdmin();
         startRealtime();
         setConnDot();
       })

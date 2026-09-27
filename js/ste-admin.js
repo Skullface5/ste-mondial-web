@@ -61,7 +61,6 @@
       'ord.call': 'Appeler', 'ord.received': 'Reçue', 'ord.emptyT': 'Aucune commande', 'ord.emptyS': 'Les commandes du site arrivent ici.',
       'ord.statusOk': 'Statut → ', 'ord.statusFail': "Échec du changement de statut", 'ord.deleted': 'Commande supprimée', 'ord.delFail': 'Échec de la suppression',
       'ord.del': 'Supprimer la commande', 'cf.delOrder': 'Supprimer définitivement cette commande ?',
-      'cf.delProduct': 'Supprimer « ', 'cf.delProductSuffix': ' » définitivement ?', 'cf.delReview': "Supprimer cet avis ?",
       'set.shopCard': 'Boutique & livraison', 'set.sub': 'Nom, WhatsApp, frais, annonce.', 'set.shopName': 'Nom de la boutique',
       'set.whatsapp': 'WhatsApp (ex: 21612345678)', 'set.delivery': 'Frais de livraison (DT)',
       'set.annFr': 'Bandeau annonce (FR)', 'set.annEn': 'Bandeau annonce (EN)', 'set.annAr': 'Bandeau annonce (AR)',
@@ -72,8 +71,6 @@
       'set.saveBanner': 'Enregistrer la bannière', 'set.bannerSavedN': 'Bannière enregistrée ✓',
       'set.autoplay': 'Défilement automatique', 'set.logoCard': 'Logo', 'set.logoHelp': "Affiché dans l'en-tête et le pied de page.",
       'set.uploadLogo': 'Changer le logo', 'set.imgUpdated': 'Image mise à jour ✓', 'set.defaultApplied': 'Aucune image — défaut appliqué.',
-      'nav.reviews': 'Avis clients', 'rev.empty': 'Aucun avis pour le moment.', 'rev.err': 'Indisponible',
-      'rev.del': 'Supprimer', 'rev.deleted': 'Avis supprimé',
       'toast.refreshed': 'Données actualisées ✓', 'toast.loadErr': 'Erreur de chargement : ', 'prod.delFail': 'Échec de la suppression'
     },
     en: {
@@ -112,7 +109,6 @@
       'ord.call': 'Call', 'ord.received': 'Received', 'ord.emptyT': 'No orders', 'ord.emptyS': 'Orders from the site arrive here.',
       'ord.statusOk': 'Status → ', 'ord.statusFail': 'Status change failed', 'ord.deleted': 'Order deleted', 'ord.delFail': 'Delete failed',
       'ord.del': 'Delete order', 'cf.delOrder': 'Permanently delete this order?',
-      'cf.delProduct': 'Permanently delete « ', 'cf.delProductSuffix': ' »?', 'cf.delReview': 'Delete this review?',
       'set.shopCard': 'Shop & delivery', 'set.sub': 'Name, WhatsApp, fees, announcement.', 'set.shopName': 'Shop name',
       'set.whatsapp': 'WhatsApp (e.g. 21612345678)', 'set.delivery': 'Delivery fee (DT)',
       'set.annFr': 'Announcement banner (FR)', 'set.annEn': 'Announcement banner (EN)', 'set.annAr': 'Announcement banner (AR)',
@@ -123,8 +119,6 @@
       'set.saveBanner': 'Save banner', 'set.bannerSavedN': 'Banner saved ✓',
       'set.autoplay': 'Auto-play slideshow', 'set.logoCard': 'Logo', 'set.logoHelp': 'Shown in the header and footer.',
       'set.uploadLogo': 'Change logo', 'set.imgUpdated': 'Image updated ✓', 'set.defaultApplied': 'No images — default applied.',
-      'nav.reviews': 'Customer reviews', 'rev.empty': 'No reviews yet.', 'rev.err': 'Unavailable',
-      'rev.del': 'Delete', 'rev.deleted': 'Review deleted',
       'toast.refreshed': 'Data refreshed ✓', 'toast.loadErr': 'Loading error: ', 'prod.delFail': 'Delete failed'
     },
     ar: {
@@ -163,7 +157,6 @@
       'ord.call': 'اتصال', 'ord.received': 'وصلت', 'ord.emptyT': 'لا طلبات', 'ord.emptyS': 'طلبات الموقع تصل هنا.',
       'ord.statusOk': 'الحالة ← ', 'ord.statusFail': 'فشل تغيير الحالة', 'ord.deleted': 'تم حذف الطلب', 'ord.delFail': 'فشل الحذف',
       'ord.del': 'حذف الطلب', 'cf.delOrder': 'حذف هذا الطلب نهائيًا؟',
-      'cf.delProduct': 'حذف « ', 'cf.delProductSuffix': ' » نهائيًا؟', 'cf.delReview': 'حذف هذا التقييم؟',
       'set.shopCard': 'المتجر والتوصيل', 'set.sub': 'الاسم، واتساب، الرسوم، الإعلان.', 'set.shopName': 'اسم المتجر',
       'set.whatsapp': 'واتساب (مثال: 21612345678)', 'set.delivery': 'رسوم التوصيل (د.ت)',
       'set.annFr': 'شريط الإعلان (FR)', 'set.annEn': 'شريط الإعلان (EN)', 'set.annAr': 'شريط الإعلان (AR)',
@@ -174,8 +167,6 @@
       'set.saveBanner': 'حفظ البانر', 'set.bannerSavedN': 'تم حفظ البانر ✓',
       'set.autoplay': 'تبديل تلقائي', 'set.logoCard': 'الشعار', 'set.logoHelp': 'يظهر في الترويسة والتذييل.',
       'set.uploadLogo': 'تغيير الشعار', 'set.imgUpdated': 'تم تحديث الصورة ✓', 'set.defaultApplied': 'لا صور — الافتراضي مطبق.',
-      'nav.reviews': 'آراء العملاء', 'rev.empty': 'لا تقييمات بعد.', 'rev.err': 'غير متاح',
-      'rev.del': 'حذف', 'rev.deleted': 'تم حذف التقييم',
       'toast.refreshed': 'تم التحديث ✓', 'toast.loadErr': 'خطأ في التحميل: ', 'prod.delFail': 'فشل الحذف'
     }
   };
@@ -624,7 +615,6 @@
     var bc = $('bannerCountBadge'); if (bc) bc.textContent = banSt.list.length + '+ / 6';
     var ls = $('logoStrip');
     if (ls) ls.innerHTML = settings.logo_image ? '<div class="g-thumb"><img src="' + esc(mediaUrl(settings.logo_image)) + '" alt="" style="object-fit:contain;background:#fff;"></div>' : '<p class="rev-empty">—</p>';
-    loadReviews();
   }
   function renderMediaStrip(boxId, st, delFn) {
     var box = $(boxId); if (!box) return;
@@ -684,27 +674,6 @@
       renderSettingsTab();
       showMsg('logoMsg', t('set.imgUpdated'), true);
     } catch (e) { showMsg('logoMsg', t('pf.errPrefix') + e.message); }
-  }
-
-  /* ── REVIEWS ── */
-  function loadReviews() {
-    var box = $('revBox');
-    if (!box) return;
-    api('GET', '/rest/v1/reviews?select=id,product_id,user_name,rating,comment,created_at&order=created_at.desc&limit=30')
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('')); })
-      .then(function (rows) {
-        if (!rows.length) { box.innerHTML = '<p class="rev-empty">' + t('rev.empty') + '</p>'; return; }
-        box.innerHTML = rows.map(function (rv) {
-          var p = products.filter(function (x) { return x.id === rv.product_id; })[0];
-          return '<div class="rev-item"><div class="rev-top"><span class="rev-name">' + esc(rv.user_name || 'Client') + '</span>' +
-            '<span class="rev-stars">' + '★'.repeat(Number(rv.rating) || 0) + '☆'.repeat(5 - (Number(rv.rating) || 0)) + '</span>' +
-            '<span class="rev-date">' + fmtDate(rv.created_at) + '</span>' +
-            '<button class="rev-del" data-delrev="' + esc(rv.id) + '">' + t('rev.del') + '</button></div>' +
-            (p ? '<p class="rev-prod">' + esc(p.name_fr || '') + '</p>' : '') +
-            (rv.comment ? '<p class="rev-comment">' + esc(rv.comment) + '</p>' : '') + '</div>';
-        }).join('');
-      })
-      .catch(function () { box.innerHTML = '<p class="rev-empty">' + t('rev.err') + '</p>'; });
   }
 
   /* ── realtime / polling (orders) ── */
@@ -871,15 +840,6 @@
             orders = orders.filter(function (x) { return x.id !== dord.getAttribute('data-delorder'); });
             renderOverview(); renderOrders(); toast(t('ord.deleted'));
           }).catch(function () { toast(t('ord.delFail')); });
-        }
-        return;
-      }
-      var dr = e.target.closest('[data-delrev]');
-      if (dr) {
-        if (confirm(t('cf.delReview'))) {
-          api('DELETE', '/rest/v1/reviews?id=eq.' + dr.getAttribute('data-delrev'), undefined, 'return=minimal').then(function (r) {
-            if (r.ok) { toast(t('rev.deleted')); loadReviews(); }
-          });
         }
         return;
       }

@@ -41,7 +41,6 @@
   "product.addToCart": "Add to cart",
   "product.qty": "Quantity",
   "product.description": "Description",
-  "product.reviews": "reviews",
   "product.stockIn": "In stock",
   "product.stockOut": "Out of stock",
   "cart.title": "Your cart",
@@ -167,23 +166,9 @@
   "all.eyebrow": "THE COLLECTION",
   "all.results": "product(s)",
   "all.reset": "Reset filters",
-  "review.title": "Customer reviews",
-  "review.loading": "Loading reviews…",
-  "review.empty": "No reviews yet. Be the first!",
-  "review.cta": "Rate this product",
-  "review.yours": "Your review",
-  "review.submit": "Submit my review",
-  "review.update": "Update my review",
-  "review.loginCta": "Sign in to leave a review",
-  "review.placeholder": "Your review…",
-  "review.errStars": "Pick a rating",
-  "review.errFail": "Error — try again",
   "pm": {
     "prev": "Previous",
     "next": "Next"
-  },
-  "review": {
-    "stars": "{n} stars"
   },
   "account": {
     "cancelBtn": "Cancel order",

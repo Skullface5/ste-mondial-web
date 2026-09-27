@@ -41,7 +41,6 @@
   "product.addToCart": "أضف إلى السلة",
   "product.qty": "الكمية",
   "product.description": "الوصف",
-  "product.reviews": "تقييم",
   "product.stockIn": "متوفر",
   "product.stockOut": "غير متوفر",
   "cart.title": "سلتك",
@@ -167,23 +166,9 @@
   "all.eyebrow": "المجموعة",
   "all.results": "منتج",
   "all.reset": "إعادة تعيين الفلاتر",
-  "review.title": "آراء العملاء",
-  "review.loading": "جارٍ تحميل الآراء…",
-  "review.empty": "لا توجد آراء بعد. كن الأول!",
-  "review.cta": "قيّم هذا المنتج",
-  "review.yours": "رأيك",
-  "review.submit": "أرسل رأيي",
-  "review.update": "تحديث رأيي",
-  "review.loginCta": "سجّل الدخول لكتابة مراجعة",
-  "review.placeholder": "رأيك…",
-  "review.errStars": "اختر تقييمًا",
-  "review.errFail": "خطأ — أعد المحاولة",
   "pm": {
     "prev": "السابق",
     "next": "التالي"
-  },
-  "review": {
-    "stars": "{n} نجوم"
   },
   "account": {
     "cancelBtn": "إلغاء الطلب",

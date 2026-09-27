@@ -61,18 +61,6 @@
     'audience.femme': 'Femme',
     'audience.enfants': 'Enfants',
     'audience.unisexe': 'Unisexe',
-    'review.title': 'Avis clients',
-    'review.loading': 'Chargement des avis…',
-    'review.empty': 'Aucun avis pour le moment. Soyez le premier !',
-    'review.cta': 'Donnez votre note',
-    'review.yours': 'Votre avis',
-    'review.submit': 'Envoyer mon avis',
-    'review.update': 'Mettre à jour mon avis',
-    'review.loginCta': 'Connectez-vous pour laisser un avis',
-    'review.placeholder': 'Votre avis…',
-    'review.errStars': 'Choisissez une note',
-    'review.errFail': 'Erreur — réessayez',
-    'product.reviews': 'avis',
     'product.stockIn': 'En stock',
     'product.stockOut': 'Rupture de stock',
     'cart.items': '{n} article(s)',
@@ -94,7 +82,6 @@
     'orders.copy': 'Copier le numéro',
     'pm.prev': 'Précédent',
     'pm.next': 'Suivant',
-    'review.stars': '{n} étoiles'
   };
 
   function has(key) {
@@ -192,8 +179,6 @@
       imageUrl: r.image_url || (r.images && r.images[0]) || '',
       images: Array.isArray(r.images) ? r.images.filter(Boolean) : [],
       stock: r.stock == null ? 10 : Number(r.stock),
-      rating: r.rating != null ? Number(r.rating) : 5,
-      reviewCount: r.review_count != null ? Number(r.review_count) : 0
     };
   }
 

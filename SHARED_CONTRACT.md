@@ -37,7 +37,7 @@ Arabic: NO Arabic font face allowed (user ban). font stack ends with sans-serif;
 - Palette: espresso #2B1D12, cream #F5F0E6, gold #B08D4A, olive #3A4A2E.
 
 ## ADMIN (Lane 3 — admin2.html + css/admin2.css + js/admin2.js, NEW files only)
-- Route: /admin2.html. Auth: Supabase Auth (email/password). Admin account: azmmeli146@gmail.com / password in C:/Users/USER/Desktop/hermes-can-use/ste-mondial-admin-login.txt (Lane 1 creates this user via Admin API auth.admin using service access or SQL insert into auth.users — NEVER expose the password in the UI or logs).
+- Route: /admin2.html. Auth: Supabase Auth (email/password). Admin account: azizmelti@gmail.com (set 2026-10-04; previous azmmeli146@gmail.com removed) (Lane 1 creates this user via Admin API auth.admin using service access or SQL insert into auth.users — NEVER expose the password in the UI or logs).
 - Views: Dashboard (today orders count, revenue, pending), Orders (list, filter by status, change status via dropdown → UPDATE, view customer details), Products (CRUD: add/edit/delete, set featured/active/stock/price per language fields), Settings (site_settings key/value editor).
 - Admin UI language: FR. Same Montserrat font. Espresso/gold theme.
 - If Supabase Auth is blocked for the admin user creation, fallback: admin login checks credentials against an auth.users row created via SQL; document which method was used in REPORT.

@@ -9,7 +9,7 @@
   var SUPABASE_URL = 'https://xuwumbdyfywmxuzlvvul.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_qF8l43W4lTYJMXGfVDx-9g_6n6y1pH_';
   var USER_KEY = 'sm_user2';
-  var ADMIN_EMAILS = ['azmmeli146@gmail.com'];
+  var ADMIN_EMAILS = ['azizmelti@gmail.com'];
 
   function isAdmin() {
     var em = user && user.email ? String(user.email).toLowerCase() : '';

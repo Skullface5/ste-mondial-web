@@ -63,7 +63,7 @@ returns boolean
 language sql
 stable
 as $$
-  select coalesce(auth.jwt() ->> 'email', '') = 'azmmeli146@gmail.com'
+  select coalesce(auth.jwt() ->> 'email', '') = 'azizmelti@gmail.com'
 $$;
 
 grant execute on function public.is_admin() to anon, authenticated, service_role;

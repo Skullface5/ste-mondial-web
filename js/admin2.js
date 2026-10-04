@@ -9,7 +9,7 @@
 
   var SUPABASE_URL = 'https://xuwumbdyfywmxuzlvvul.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_qF8l43W4lTYJMXGfVDx-9g_6n6y1pH_';
-  var ADMIN_EMAILS = ['azmmeli146@gmail.com'];
+  var ADMIN_EMAILS = ['azizmelti@gmail.com'];
   var BUCKET = 'products';
   var POLL_MS = 30000;
   var STATUS_LABELS = { nouvelle: 'Nouvelle', confirmee: 'Confirmée', expediee: 'Expédiée', livree: 'Livrée', annulée: 'Annulée', annulee: 'Annulée' };

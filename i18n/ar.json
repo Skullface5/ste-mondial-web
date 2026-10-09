@@ -39,6 +39,8 @@
   "products.empty": "لا توجد منتجات حاليا.",
   "product.details": "تفاصيل المنتج",
   "product.addToCart": "أضف إلى السلة",
+  "product.buyNow": "اشتري الآن",
+  "checkout.buynow_note": "الدفع عند التوصيل — املأ وأكّد",
   "product.qty": "الكمية",
   "product.description": "الوصف",
   "product.stockIn": "متوفر",

@@ -28,7 +28,8 @@
     modalId: null,
     modalQty: 1,
     orderId: null,
-    submitting: false
+    submitting: false,
+    buyNowItem: null
   };
 
   /* ---------- Tiny helpers ---------- */
@@ -56,6 +57,8 @@
     'products.added': 'Ajouté ✓',
     'products.empty': 'Aucun produit dans cette catégorie.',
     'product.addToCart': 'Ajouter au panier',
+    'product.buyNow': 'Commander',
+    'checkout.buynow_note': 'Paiement à la livraison — remplissez et confirmez',
     'audience.all': 'Tous',
     'audience.homme': 'Homme',
     'audience.femme': 'Femme',
@@ -354,7 +357,7 @@
         '<h3 class="product-name">' + esc(pName(p)) + '</h3>' +
         '<p class="product-sub">' + esc(t('audience.' + p.audience)) + '</p>' +
         '<p class="product-price">' + old + esc(fmtPrice(p.price)) + '</p>' +
-        '<button class="add-btn" type="button" data-add="' + esc(p.id) + '">' + esc(t('product.addToCart')) + '</button>' +
+        '<button class="add-btn" type="button" data-buy="' + esc(p.id) + '">' + esc(t('product.buyNow')) + '</button>' +
         '</div></article>';
     }).join('');
     animateGrid(grid);
@@ -370,7 +373,7 @@
       '<h3 class="product-name">' + esc(pName(p)) + '</h3>' +
       '<p class="product-sub">' + esc(t('audience.' + p.audience)) + '</p>' +
       '<p class="product-price">' + old + esc(fmtPrice(p.price)) + '</p>' +
-      '<button class="add-btn" type="button" data-add="' + esc(p.id) + '">' + esc(t('product.addToCart')) + '</button>' +
+      '<button class="add-btn" type="button" data-buy="' + esc(p.id) + '">' + esc(t('product.buyNow')) + '</button>' +
       '</div></article>';
   }
 
@@ -940,9 +943,11 @@
   function route() {
     var h = location.hash || '#/shop';
     if (h.indexOf('#/checkout') === 0) {
-      if (!state.cart.length) { location.hash = '#/shop'; return; }
+      if (!state.cart.length && !state.buyNowItem) { location.hash = '#/shop'; return; }
       showView('checkout');
       renderSummary();
+      var bnTitle = $('#coTitleNote');
+      if (bnTitle) bnTitle.hidden = !state.buyNowItem;
       // prefill checkout from the customer's account when available
       var au = window.SM_AUTH ? window.SM_AUTH.getUser() : null;
       if (au) {
@@ -963,6 +968,7 @@
       var el = $('#orderId');
       if (el) el.textContent = state.orderId;
     } else {
+      state.buyNowItem = null;
       showView('shop');
     }
   }
@@ -971,7 +977,8 @@
   function renderSummary() {
     var box = $('#summaryItems');
     if (!box) return;
-    box.innerHTML = state.cart.map(function (it) {
+    var src_items = state.buyNowItem ? [state.buyNowItem] : state.cart;
+    box.innerHTML = src_items.map(function (it) {
       var initial = esc((cartItemName(it) || '?').trim().charAt(0).toUpperCase());
       var img = it.image
         ? '<img src="' + esc(it.image) + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">'
@@ -983,7 +990,8 @@
         '<p class="summary-item-price">' + esc(fmtPrice(it.qty * it.price)) + '</p>' +
         '</div>';
     }).join('');
-    var fee = deliveryFee(cartTotal());
+    var base = state.buyNowItem ? state.buyNowItem.price * state.buyNowItem.qty : cartTotal();
+    var fee = deliveryFee(base);
     var sRow = $('#summaryDeliveryRow');
     if (!sRow) {
       sRow = document.createElement('div');
@@ -996,7 +1004,7 @@
     var sEl = $('#summaryDelivery');
     if (sEl) sEl.textContent = fee > 0 ? fmtPrice(fee) : t('checkout.free');
     var total = $('#summaryTotal');
-    if (total) total.textContent = fmtPrice(cartTotal() + fee);
+    if (total) total.textContent = fmtPrice(base + fee);
     var hint = $('#summaryHint');
     if (!hint && total && total.parentElement) {
       hint = document.createElement('p');
@@ -1038,10 +1046,13 @@
     var errBox = $('#coError');
     if (errBox) errBox.hidden = true;
 
-    var items = state.cart.map(function (it) {
-      return { product_id: it.productId || it.id, name: cartItemName(it), qty: it.qty, price: it.price };
-    });
-    var total = Math.round((cartTotal() + deliveryFee(cartTotal())) * 1000) / 1000;
+    var items = state.buyNowItem
+      ? [{ product_id: state.buyNowItem.productId || state.buyNowItem.id, name: state.buyNowItem.name || cartItemName(state.buyNowItem), qty: state.buyNowItem.qty || 1, price: state.buyNowItem.price }]
+      : state.cart.map(function (it) {
+          return { product_id: it.productId || it.id, name: cartItemName(it), qty: it.qty, price: it.price };
+        });
+    var baseTotal = state.buyNowItem ? state.buyNowItem.price * state.buyNowItem.qty : cartTotal();
+    var total = Math.round((baseTotal + deliveryFee(baseTotal)) * 1000) / 1000;
 
     var btn = $('#coSubmit');
     if (btn) {
@@ -1097,10 +1108,14 @@
         } catch (eMail) { /* noop */ }
         state.orderId = id;
         try { sessionStorage.setItem(ORDER_KEY, id); } catch (e) { /* noop */ }
-        state.cart = [];
-        saveCart();
-        updateBadges();
-        renderCart();
+        if (state.buyNowItem) {
+          state.buyNowItem = null;   // keep the customer's cart intact
+        } else {
+          state.cart = [];
+          saveCart();
+          updateBadges();
+          renderCart();
+        }
         renderSummary();
         var form = $('#checkoutForm');
         if (form) form.reset();
@@ -1203,6 +1218,13 @@
         showView('shop');
         setAud(aud.getAttribute('data-aud'));
         scrollToId('parfums');
+        return;
+      }
+
+      var buy = e.target.closest('[data-buy]');
+      if (buy) {
+        var pb = findProduct(buy.getAttribute('data-buy'));
+        if (pb) { state.buyNowItem = { productId: pb.id, name: cartItemName(pb), qty: 1, price: pb.price, image: (pb.images && pb.images[0]) || pb.image || '' }; location.hash = '#/checkout'; }
         return;
       }
 
@@ -1313,6 +1335,15 @@
       addToCart(p, state.modalQty);
       closeModal();
       openCart();
+    });
+
+    var pmBuy = $('#pmBuy');
+    if (pmBuy) pmBuy.addEventListener('click', function () {
+      var p = findProduct(state.modalId);
+      if (!p) return;
+      state.buyNowItem = { productId: p.id, name: cartItemName(p), qty: state.modalQty, price: p.price, image: (p.images && p.images[0]) || p.image || '' };
+      closeModal();
+      location.hash = '#/checkout';
     });
 
     // Overlays

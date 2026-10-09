@@ -245,6 +245,7 @@
           <span data-i18n="checkout.back">Retour au panier</span>
         </button>
         <h1 class="checkout-title" data-i18n="checkout.title">Finaliser la commande</h1>
+        <p class="checkout-sub" id="coTitleNote" hidden data-i18n="checkout.buynow_note">Paiement à la livraison — remplissez et confirmez.</p>
         <p class="checkout-sub" data-i18n="checkout.subtitle">Remplissez vos informations, paiement à la livraison.</p>
 
         <div class="checkout-grid">
@@ -383,7 +384,10 @@
           <button type="button" class="qty-btn" id="pmPlus" data-i18n-aria="cart.increase" aria-label="Augmenter">+</button>
         </div>
       </div>
-      <button class="btn-gold btn-block" type="button" id="pmAdd"><span data-i18n="product.addToCart">Ajouter au panier</span></button>
+      <div class="pm-actions" style="display:flex;gap:10px;">
+        <button class="btn-gold" type="button" id="pmAdd" style="flex:1;"><span data-i18n="product.addToCart">Ajouter au panier</span></button>
+        <button class="btn-gold" type="button" id="pmBuy" style="flex:1;background:var(--espresso);"><span data-i18n="product.buyNow">Commander</span></button>
+      </div>
     </div>
   </div>
 
@@ -409,6 +413,6 @@
   </aside>
 
   <script src="js/account.js?v=9" defer></script>
-  <script src="js/app2.js?v=40" defer></script>
+  <script src="js/app2.js?v=41" defer></script>
 </body>
 </html>

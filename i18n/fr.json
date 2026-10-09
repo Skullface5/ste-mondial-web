@@ -39,6 +39,8 @@
   "products.empty": "Aucun produit pour le moment.",
   "product.details": "Détails du produit",
   "product.addToCart": "Ajouter au panier",
+  "product.buyNow": "Commander",
+  "checkout.buynow_note": "Paiement à la livraison — remplissez et confirmez",
   "product.qty": "Quantité",
   "product.description": "Description",
   "product.stockIn": "En stock",

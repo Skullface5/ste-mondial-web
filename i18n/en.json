@@ -39,6 +39,8 @@
   "products.empty": "No products right now.",
   "product.details": "Product details",
   "product.addToCart": "Add to cart",
+  "product.buyNow": "Buy Now",
+  "checkout.buynow_note": "Cash on delivery — fill in and confirm",
   "product.qty": "Quantity",
   "product.description": "Description",
   "product.stockIn": "In stock",

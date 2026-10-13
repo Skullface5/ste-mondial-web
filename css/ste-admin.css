@@ -2768,7 +2768,7 @@
 .dash-tab.active{background:var(--gold-dark);border-color:var(--gold-dark);color:var(--white);font-weight:600;}
 .dash-section[hidden]{display:none !important;}
 .edit-hint{font-size:.85rem;color:var(--text-mid);margin:0 0 12px;}
-/* ── Overview (fused from Alucard146.html) ── */
+/* ── Overview (fused from admin.html) ── */
 .ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.9rem;margin:0 0 1.6rem;}
 .ov-card{position:relative;display:block;border-radius:18px;min-height:110px;padding:1rem .8rem;text-decoration:none;color:var(--white);display:flex;flex-direction:column;justify-content:flex-end;background-size:cover;background-position:center;border:1px solid var(--border-light);box-shadow:0 4px 18px rgba(43,29,18,.08);transition:transform .25s ease,box-shadow .25s ease;overflow:hidden;}
 .ov-card::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,24,16,.05) 0%,rgba(30,24,16,.62) 100%);}

@@ -104,6 +104,7 @@
         localStorage.setItem(USER_KEY, JSON.stringify({
           id: user.id, email: user.email, created: user.created_at,
           name: (user.user_metadata && user.user_metadata.full_name) || profile.full_name || '',
+          access: session.access_token || '',
           refresh: session.refresh_token || ''
         }));
       } else {

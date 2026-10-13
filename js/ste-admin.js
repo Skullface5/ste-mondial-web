@@ -271,10 +271,20 @@
       var cached = JSON.parse(raw);
       if (!cached || !cached.refresh) return false;
       if (ADMIN_EMAILS.indexOf(String(cached.email || '').toLowerCase()) === -1) return false;
+      // Prefer the stored access token (no refresh round-trip = no rotation race).
+      if (cached.access) {
+        user = { access_token: cached.access, refresh_token: cached.refresh, email: cached.email };
+        var res = await fetch(SUPABASE_URL + '/rest/v1/orders?select=id&limit=1', { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + user.access_token } });
+        if (res.status !== 401) {
+          try { localStorage.setItem('sm_admin_session', JSON.stringify(user)); } catch (e) {}
+          return true;
+        }
+      }
+      // Access token dead/absent -> refresh (fallback)
       user = { access_token: null, refresh_token: cached.refresh, email: cached.email };
       var ok = await refreshSession();
       if (!ok) { user = null; return false; }
-      try { cached.refresh = user.refresh_token; localStorage.setItem('sm_user2', JSON.stringify(cached)); } catch (e) {}
+      try { cached.refresh = user.refresh_token; cached.access = user.access_token; localStorage.setItem('sm_user2', JSON.stringify(cached)); } catch (e) {}
       return true;
     } catch (e) { user = null; return false; }
   }

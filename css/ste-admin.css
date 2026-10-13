@@ -3547,3 +3547,13 @@ body.dark .item-n{color:var(--cream);}
   --shadow-lg: 0 8px 24px rgba(43, 29, 18, 0.04);
   --shadow-hover: 0 12px 32px rgba(43, 29, 18, 0.06);
 }
+
+/* ── Promo appearance panel ── */
+.promo-sw-row{display:flex;gap:.5rem;flex-wrap:wrap;}
+.promo-sw{width:36px;height:36px;border-radius:8px;border:2px solid transparent;cursor:pointer;transition:border-color .2s,transform .2s;}
+.promo-sw:hover{transform:scale(1.05);}
+.promo-sw.is-active{border-color:var(--charcoal,#2B1D12);box-shadow:0 0 0 2px rgba(176,141,74,.3);}
+.promo-seg-row{display:flex;gap:.35rem;flex-wrap:wrap;}
+.promo-seg-row button{padding:.45rem .8rem;border:1px solid rgba(176,141,74,.3);border-radius:10px;background:none;color:var(--charcoal,#2B1D12);font-size:.78rem;cursor:pointer;font-family:inherit;transition:background-color .2s,color .2s;}
+.promo-seg-row button:hover{border-color:var(--gold,#B08D4A);}
+.promo-seg-row button.is-active{background:var(--gold,#B08D4A);color:#fff;border-color:var(--gold,#B08D4A);}

@@ -376,6 +376,7 @@
       <p class="modal-price-row"><span class="modal-price" id="pmPrice">—</span> <s class="modal-old" id="pmOldPrice" hidden>—</s></p>
       <p class="pm-desc" id="pmDesc"></p>
       <p class="pm-stock" id="pmStock"></p>
+      <div id="pmVariants"></div>
       <div class="qty-row">
         <span class="qty-label" data-i18n="product.qty">Quantité</span>
         <div class="qty-stepper">
@@ -388,6 +389,7 @@
         <button class="btn-gold" type="button" id="pmAdd" style="flex:1;"><span data-i18n="product.addToCart">Ajouter au panier</span></button>
         <button class="btn-gold" type="button" id="pmBuy" style="flex:1;background:var(--espresso);"><span data-i18n="product.buyNow">Commander</span></button>
       </div>
+      <div id="pmSuggest"></div>
     </div>
   </div>
 
@@ -412,7 +414,10 @@
     </div>
   </aside>
 
+  <script src="js/ste-variants.js?v=1" defer></script>
+  <script src="js/ste-promo.js?v=1" defer></script>
+  <script src="js/ste-promo-load.js?v=1" defer></script>
   <script src="js/account.js?v=9" defer></script>
-  <script src="js/app2.js?v=41" defer></script>
+  <script src="js/app2.js?v=42" defer></script>
 </body>
 </html>

@@ -127,6 +127,10 @@
           <div class="input-group"><label data-i18n="pf.price">Prix (DT) *</label><input type="number" id="aPrice" step="0.001" min="0" placeholder="0.000"></div>
           <div class="input-group"><label data-i18n="pf.oldPrice">Ancien prix — promo (optionnel)</label><input type="number" id="aOldPrice" step="0.001" min="0" placeholder="ex. 149"></div>
           <div class="input-group"><label data-i18n="pf.stock">Stock</label><input type="number" id="aStock" step="1" min="0" value="10"></div>
+          <div class="input-group"><label data-i18n="pf.variants">Variantes (tailles)</label>
+            <div class="variants-admin" id="variantsList"></div>
+            <button type="button" class="variants-add" id="addVariantBtn"><i class="fas fa-plus"></i> Ajouter une variante</button>
+          </div>
           <div class="tgl-row">
             <label class="tgl"><input type="checkbox" id="aFeatured"><span class="tr"></span><span data-i18n="pf.featured">Mis en avant</span></label>
             <label class="tgl"><input type="checkbox" id="aActive" checked><span class="tr"></span><span data-i18n="pf.active">Actif</span></label>
@@ -223,6 +227,48 @@
             <p class="set-msg" id="settingsMsg"></p>
           </div>
 
+          <div class="set-card">
+            <h2><i class="fas fa-tag"></i> Apparence promo</h2>
+            <p class="sc-help">Badge, couleur du prix, forme, icône panier</p>
+            <div class="input-group"><label>Couleur du badge</label>
+              <div class="promo-sw-row" id="promoBadgeColor">
+                <button type="button" class="promo-sw" data-value="green" style="background:#03B557;"></button>
+                <button type="button" class="promo-sw" data-value="red" style="background:#E0231F;"></button>
+                <button type="button" class="promo-sw" data-value="gold" style="background:#B08D4A;"></button>
+                <button type="button" class="promo-sw" data-value="black" style="background:#2B1D12;"></button>
+              </div>
+            </div>
+            <div class="input-group"><label>Couleur du prix promo</label>
+              <div class="promo-sw-row" id="promoPriceColor">
+                <button type="button" class="promo-sw" data-value="green" style="background:#03B557;"></button>
+                <button type="button" class="promo-sw" data-value="red" style="background:#E0231F;"></button>
+                <button type="button" class="promo-sw" data-value="gold" style="background:#B08D4A;"></button>
+                <button type="button" class="promo-sw" data-value="black" style="background:#2B1D12;"></button>
+              </div>
+            </div>
+            <div class="input-group"><label>Forme du badge</label>
+              <div class="promo-seg-row" id="promoBadgeShape">
+                <button type="button" data-value="pill">Pilule</button>
+                <button type="button" data-value="corner">Coin</button>
+              </div>
+            </div>
+            <div class="input-group"><label>Icône panier</label>
+              <div class="promo-seg-row" id="promoCartIcon">
+                <button type="button" data-value="plus-cart">+ Panier</button>
+                <button type="button" data-value="bag">Sac</button>
+                <button type="button" data-value="cart">Caddie</button>
+                <button type="button" data-value="bolt">Éclair</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:center;margin:.8rem 0;padding:.8rem;background:var(--input-bg,#FAF6EE);border-radius:10px;">
+              <span class="rp-badge rp-badge--pill" id="promoPreviewBadge" style="background:#03B557;">-40%</span>
+              <span style="font-size:1.1rem;color:#E0231F;font-weight:600;" id="promoPreviewPrice">89.000 DT</span>
+              <span style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid #2B1D12;border-radius:8px;color:#2B1D12;" id="promoPreviewIcon"></span>
+            </div>
+            <button class="btn-primary" id="btnSavePromo"><i class="fas fa-save"></i> Enregistrer la promo</button>
+            <p class="set-msg" id="promoMsg"></p>
+          </div>
+
           <div>
             <section class="hero-admin-card" style="margin-bottom:1rem;">
               <div class="hero-admin-head">
@@ -310,6 +356,10 @@
             <div class="input-group"><label data-i18n="pf.price">Prix (DT) *</label><input type="number" id="ePrice" step="0.001" min="0"></div>
             <div class="input-group"><label data-i18n="pf.oldPrice">Ancien prix — promo</label><input type="number" id="eOldPrice" step="0.001" min="0"></div>
             <div class="input-group"><label data-i18n="pf.stock">Stock</label><input type="number" id="eStock" step="1" min="0"></div>
+            <div class="input-group"><label data-i18n="pf.variants">Variantes (tailles)</label>
+              <div class="variants-admin" id="eVariantsList"></div>
+              <button type="button" class="variants-add" id="eAddVariantBtn"><i class="fas fa-plus"></i> Ajouter une variante</button>
+            </div>
             <div class="tgl-row">
               <label class="tgl"><input type="checkbox" id="eFeatured"><span class="tr"></span><span data-i18n="pf.featured">Mis en avant</span></label>
               <label class="tgl"><input type="checkbox" id="eActive"><span class="tr"></span><span data-i18n="pf.active">Actif</span></label>
@@ -336,6 +386,8 @@
 
   <div class="admin-footnote"><i class="fas fa-lock"></i> STE Mondial · Administration <span id="sessionEmailChip"></span></div>
 
-  <script src="js/ste-admin.js?v=4"></script>
+  <script src="js/ste-variants.js?v=1" defer></script>
+  <script src="js/ste-admin-variants.js?v=1" defer></script>
+  <script src="js/ste-admin.js?v=5"></script>
 </body>
 </html>

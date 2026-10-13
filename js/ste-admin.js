@@ -47,7 +47,7 @@
       'pf.nameFR': 'Nom (FR) *', 'pf.nameEN': 'Nom (EN)', 'pf.nameAR': 'Nom (AR)',
       'pf.descFR': 'Description (FR)', 'pf.descEN': 'Description (EN)', 'pf.descAR': 'Description (AR)',
       'pf.aud': 'Public *', 'pf.sku': 'Référence (SKU)', 'pf.price': 'Prix (DT) *', 'pf.oldPrice': 'Ancien prix — promo (optionnel)',
-      'pf.stock': 'Stock', 'pf.featured': 'Mis en avant', 'pf.active': 'Actif',
+      'pf.stock': 'Stock', 'pf.featured': 'Mis en avant', 'pf.active': 'Actif', 'pf.variants': 'Variantes (tailles)',
       'pf.images': 'Images du produit', 'pf.imgHelp': 'La 1re image = principale.',
       'pf.save': 'Enregistrer le produit', 'pf.cancel': 'Annuler', 'pf.delete': 'Supprimer',
       'pf.errName': 'Le nom (FR) est obligatoire.', 'pf.errPrice': 'Prix invalide.',
@@ -95,7 +95,7 @@
       'pf.nameFR': 'Name (FR) *', 'pf.nameEN': 'Name (EN)', 'pf.nameAR': 'Name (AR)',
       'pf.descFR': 'Description (FR)', 'pf.descEN': 'Description (EN)', 'pf.descAR': 'Description (AR)',
       'pf.aud': 'Audience *', 'pf.sku': 'Reference (SKU)', 'pf.price': 'Price (DT) *', 'pf.oldPrice': 'Old price — promo (optional)',
-      'pf.stock': 'Stock', 'pf.featured': 'Featured', 'pf.active': 'Active',
+      'pf.stock': 'Stock', 'pf.featured': 'Featured', 'pf.active': 'Active', 'pf.variants': 'Variants (sizes)',
       'pf.images': 'Product images', 'pf.imgHelp': '1st image = main.',
       'pf.save': 'Save product', 'pf.cancel': 'Cancel', 'pf.delete': 'Delete',
       'pf.errName': 'Name (FR) is required.', 'pf.errPrice': 'Invalid price.',
@@ -143,7 +143,7 @@
       'pf.nameFR': 'الاسم (FR) *', 'pf.nameEN': 'الاسم (EN)', 'pf.nameAR': 'الاسم (AR)',
       'pf.descFR': 'الوصف (FR)', 'pf.descEN': 'الوصف (EN)', 'pf.descAR': 'الوصف (AR)',
       'pf.aud': 'الفئة المستهدفة *', 'pf.sku': 'المرجع (SKU)', 'pf.price': 'السعر (د.ت) *', 'pf.oldPrice': 'السعر القديم — عرض (اختياري)',
-      'pf.stock': 'المخزون', 'pf.featured': 'مميز', 'pf.active': 'نشط',
+      'pf.stock': 'المخزون', 'pf.featured': 'مميز', 'pf.active': 'نشط', 'pf.variants': 'الأحجام',
       'pf.images': 'صور المنتج', 'pf.imgHelp': 'الصورة الأولى = الأساسية.',
       'pf.save': 'حفظ المنتج', 'pf.cancel': 'إلغاء', 'pf.delete': 'حذف',
       'pf.errName': 'الاسم (FR) مطلوب.', 'pf.errPrice': 'سعر غير صالح.',
@@ -442,6 +442,10 @@
     if (pref === 'a') { addAud = aud; } else { editAud = aud; }
     $all('#' + pref + 'AudSeg button').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-aud') === aud); });
     renderGallery(pref);
+    var varList = $(pref === 'a' ? 'variantsList' : 'eVariantsList');
+    if (varList && window.SteAdminVariants) {
+      window.SteAdminVariants.setRows(varList, (p && p.variants) ? p.variants : []);
+    }
   }
   function currentAud(pref) { return pref === 'a' ? addAud : editAud; }
   function renderGallery(pref) {
@@ -494,7 +498,10 @@
       featured: $(pref + 'Featured').checked,
       active: $(pref + 'Active').checked,
       image_url: urls[0] || null,
-      images: urls
+      images: urls,
+      variants: (window.SteAdminVariants && $(pref === 'a' ? 'variantsList' : 'eVariantsList'))
+        ? window.SteAdminVariants.readRows($(pref === 'a' ? 'variantsList' : 'eVariantsList'))
+        : []
     };
   }
   async function submitForm(pref) {
@@ -597,6 +604,103 @@
 
   /* ── SETTINGS ── */
   var SETTING_KEYS = ['shop_name', 'whatsapp', 'delivery_fee', 'announcement_fr', 'announcement_en', 'announcement_ar'];
+
+  /* ── promo appearance settings ── */
+  var PROMO_KEYS = ['promo_badge_color', 'promo_price_color', 'promo_badge_shape', 'buy_cart_icon'];
+  var promoState = {};
+  var PROMO_REACTIVE = { promo_badge_color: 'promoBadgeColor', promo_price_color: 'promoPriceColor' };
+  var PROMO_SEGS = { promo_badge_shape: 'promoBadgeShape', buy_cart_icon: 'promoCartIcon' };
+
+  function paintPromo() {
+    var RP = window.StePromo;
+    if (RP) RP.setSettings(promoState);
+    Object.keys(PROMO_REACTIVE).forEach(function (key) {
+      var box = $(PROMO_REACTIVE[key]);
+      if (!box) return;
+      box.querySelectorAll('.promo-sw').forEach(function (b) {
+        b.classList.toggle('is-active', b.dataset.value === promoState[key]);
+      });
+    });
+    Object.keys(PROMO_SEGS).forEach(function (key) {
+      var box = $(PROMO_SEGS[key]);
+      if (!box) return;
+      box.querySelectorAll('button').forEach(function (b) {
+        b.classList.toggle('is-active', b.dataset.value === promoState[key]);
+      });
+    });
+    var badge = $('promoPreviewBadge');
+    if (badge) {
+      var bg = { green: '#03B557', red: '#E0231F', gold: '#B08D4A', black: '#2B1D12' };
+      badge.style.background = bg[promoState.promo_badge_color] || '#03B557';
+      badge.className = 'rp-badge rp-badge--' + (promoState.promo_badge_shape || 'pill');
+    }
+    var price = $('promoPreviewPrice');
+    if (price) {
+      var pc = { green: '#03B557', red: '#E0231F', gold: '#B08D4A', black: '#2B1D12' };
+      price.style.color = pc[promoState.promo_price_color] || '#E0231F';
+    }
+    var icon = $('promoPreviewIcon');
+    if (icon && RP) icon.innerHTML = RP.buyIcon();
+  }
+
+  function bindPromo() {
+    Object.keys(PROMO_REACTIVE).forEach(function (key) {
+      var box = $(PROMO_REACTIVE[key]);
+      if (!box || box.__promoBound) return;
+      box.__promoBound = true;
+      box.addEventListener('click', function (e) {
+        var b = e.target.closest('.promo-sw');
+        if (!b) return;
+        promoState[key] = b.dataset.value;
+        paintPromo();
+      });
+    });
+    Object.keys(PROMO_SEGS).forEach(function (key) {
+      var box = $(PROMO_SEGS[key]);
+      if (!box || box.__promoBound) return;
+      box.__promoBound = true;
+      box.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-value]');
+        if (!b) return;
+        promoState[key] = b.dataset.value;
+        paintPromo();
+      });
+    });
+    var save = $('btnSavePromo');
+    if (save && !save.__promoBound) {
+      save.__promoBound = true;
+      save.addEventListener('click', savePromo);
+    }
+  }
+
+  async function loadPromo() {
+    try {
+      var res = await api('GET', '/rest/v1/site_settings?select=key,value');
+      if (!res.ok) return;
+      var map = {};
+      (res.data || []).forEach(function (r) { map[r.key] = r.value; });
+      PROMO_KEYS.forEach(function (k) {
+        var v = map[k];
+        if (v && typeof v === 'object' && v.value != null) v = v.value;
+        if (typeof v === 'string' && v) promoState[k] = v;
+      });
+      paintPromo();
+    } catch (e) { /* silent */ }
+  }
+
+  async function savePromo() {
+    var btn = $('btnSavePromo');
+    if (btn) btn.disabled = true;
+    try {
+      var rows = PROMO_KEYS.map(function (k) {
+        return { key: k, value: promoState[k] || (window.StePromo && window.StePromo.DEFAULTS[k]) };
+      });
+      var res = await api('POST', '/rest/v1/site_settings?on_conflict=key', rows, 'resolution=merge-duplicates,return=minimal');
+      if (res.ok) { showMsg('promoMsg', t('set.saved'), true); }
+      else showMsg('promoMsg', t('pf.errPrefix') + 'HTTP ' + res.status);
+    } catch (e) { showMsg('promoMsg', t('pf.errPrefix') + e.message); }
+    finally { if (btn) btn.disabled = false; }
+  }
   function renderSettingsTab() {
     SETTING_KEYS.forEach(function (k) {
       var el = document.querySelector('[data-setting="' + k + '"]');
@@ -966,6 +1070,8 @@
 
     /* settings */
     $('btnSaveSettings').addEventListener('click', saveSettingsTab);
+    bindPromo();
+    loadPromo();
     $('btnSaveHero').addEventListener('click', function () { saveMedia('hero'); });
     $('btnSaveBanner').addEventListener('click', function () { saveMedia('banner'); });
     $('heroFileInput').addEventListener('change', function () {

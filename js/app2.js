@@ -1,5 +1,5 @@
 /* ============================================================
-   STE Mondial Parfums — app2.js (shop logic)
+   Mondial Perfume — app2.js (shop logic)
    Plain fetch to Supabase REST (no build step, no dependencies).
    Views: shop / product modal / cart drawer / checkout / confirm
    i18n: FR (default) / EN / AR (rtl) via i18n/<lang>.json
@@ -1049,12 +1049,11 @@
       var au = window.SM_AUTH ? window.SM_AUTH.getUser() : null;
       if (au) {
         var pr = window.SM_AUTH._profileRef ? window.SM_AUTH._profileRef() : {};
-        var nEl = $('#coName'), pEl = $('#coPhone'), eEl = $('#coEmail');
+        var nEl = $('#coName'), pEl = $('#coPhone');
         if (nEl && !nEl.value.trim() && (pr.full_name || au.user_metadata && au.user_metadata.full_name)) {
           nEl.value = pr.full_name || au.user_metadata.full_name;
         }
         if (pEl && !pEl.value.trim() && pr.phone) pEl.value = pr.phone;
-        if (eEl && !eEl.value.trim() && au.email) eEl.value = au.email;
       }
     } else if (h.indexOf('#/confirm') === 0) {
       if (!state.orderId) {
@@ -1125,10 +1124,7 @@
     var nameEl = $('#coName'), phoneEl = $('#coPhone');
     var name = nameEl ? nameEl.value.trim() : '';
     var phone = phoneEl ? phoneEl.value.trim() : '';
-    var email = ($('#coEmail') && $('#coEmail').value.trim()) || '';
     var address = ($('#coAddress') && $('#coAddress').value.trim()) || '';
-    var city = ($('#coCity') && $('#coCity').value.trim()) || '';
-    var notes = ($('#coNotes') && $('#coNotes').value.trim()) || '';
 
     var nameBad = !name;
     var phoneDigits = phone.replace(/[^0-9]/g, '').replace(/^(?:00216|216)/, '');
@@ -1173,10 +1169,8 @@
       body: JSON.stringify({
         customer_name: name,
         customer_phone: phone,
-        customer_email: email || (authUser ? authUser.email : null),
+        customer_email: authUser ? authUser.email : null,
         address: address || null,
-        city: city || null,
-        notes: notes || null,
         items: items,
         total: total,
         user_id: authUser ? authUser.id : null
@@ -1197,8 +1191,8 @@
             headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
             body: JSON.stringify({
               customer_name: name, customer_phone: phone,
-              customer_email: email || (authUser ? authUser.email : null),
-              address: address || null, city: city || null,
+              customer_email: authUser ? authUser.email : null,
+              address: address || null,
               items: items, total: total, ref: id, lang: state.lang || 'fr'
             })
           }).catch(function () { /* fire-and-forget */ });

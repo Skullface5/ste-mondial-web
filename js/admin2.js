@@ -1,5 +1,5 @@
 /* ============================================================
-   STE Mondial — admin2.js (mobile-first admin)
+   Mondial Perfume — admin2.js (mobile-first admin)
    Auth + dashboard + orders (live) + products CRUD + settings
    + image upload to Supabase Storage (bucket: products).
    Plain REST — no build step.
@@ -20,7 +20,7 @@
   var I18N = {
     fr: {
       'login.sub': 'Espace administration', 'login.email': 'Email', 'login.password': 'Mot de passe',
-      'login.showPw': 'Afficher le mot de passe', 'login.btn': 'Connexion', 'login.foot': 'Accès réservé — STE Mondial Parfums',
+      'login.showPw': 'Afficher le mot de passe', 'login.btn': 'Connexion', 'login.foot': 'Accès réservé — Mondial Perfume',
       'login.errFields': 'Email et mot de passe requis.', 'login.errBad': 'Identifiants incorrects',
       'top.refresh': 'Rafraîchir', 'top.logout': 'Déconnexion', 'top.theme': 'Thème clair / sombre',
       'dash.title': 'Tableau de bord', 'dash.t1': "Aujourd'hui", 'dash.t1h': 'commandes',
@@ -72,7 +72,7 @@
     },
     en: {
       'login.sub': 'Admin area', 'login.email': 'Email', 'login.password': 'Password',
-      'login.showPw': 'Show password', 'login.btn': 'Sign in', 'login.foot': 'Restricted access — STE Mondial Parfums',
+      'login.showPw': 'Show password', 'login.btn': 'Sign in', 'login.foot': 'Restricted access — Mondial Perfume',
       'login.errFields': 'Email and password required.', 'login.errBad': 'Incorrect credentials',
       'top.refresh': 'Refresh', 'top.logout': 'Log out', 'top.theme': 'Light / dark theme',
       'dash.title': 'Dashboard', 'dash.t1': 'Today', 'dash.t1h': 'orders',
@@ -1259,7 +1259,7 @@
         var url = (rows && rows[0] && rows[0].value && String(rows[0].value).trim()) || '';
         if (!url) return;
         var im = new Image();
-        im.alt = 'STE Mondial';
+        im.alt = 'Mondial Perfume';
         im.onload = function () { mark.textContent = ''; mark.appendChild(im); };
         im.src = url;
       })

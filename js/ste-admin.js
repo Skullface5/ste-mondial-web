@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   STE Mondial — admin (Rosa-skinned)
+   Mondial Perfume — admin (Rosa-skinned)
    Same chrome as Rosa Fragrances admin (tabs, hash routing, Jost/
    Cormorant, bottom nav on mobile) over the STE Supabase schema
    (trilingual products, audience, site_settings, orders).
@@ -27,7 +27,7 @@
   var I = {
     fr: {
       'login.sub': 'Espace administration', 'login.email': 'Email', 'login.password': 'Mot de passe',
-      'login.btn': 'Connexion', 'login.foot': 'Accès réservé — STE Mondial Parfums',
+      'login.btn': 'Connexion', 'login.foot': 'Accès réservé — Mondial Perfume',
       'login.errFields': 'Email et mot de passe requis.', 'login.errBad': 'Identifiants incorrects',
       'dtab.ov': 'Aperçu', 'dtab.add': 'Ajouter', 'dtab.cat': 'Collections', 'dtab.ord': 'Commandes', 'dtab.set': 'Paramètres',
       'top.refresh': 'Rafraîchir', 'top.logout': 'Déconnexion',
@@ -75,7 +75,7 @@
     },
     en: {
       'login.sub': 'Admin area', 'login.email': 'Email', 'login.password': 'Password',
-      'login.btn': 'Sign in', 'login.foot': 'Restricted access — STE Mondial Parfums',
+      'login.btn': 'Sign in', 'login.foot': 'Restricted access — Mondial Perfume',
       'login.errFields': 'Email and password required.', 'login.errBad': 'Incorrect credentials',
       'dtab.ov': 'Overview', 'dtab.add': 'Add', 'dtab.cat': 'Collections', 'dtab.ord': 'Orders', 'dtab.set': 'Settings',
       'top.refresh': 'Refresh', 'top.logout': 'Log out',

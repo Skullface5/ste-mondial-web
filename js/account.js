@@ -1,5 +1,5 @@
 /* ============================================================
-   STE Mondial - account.js (customer accounts)
+   Mondial Perfume - account.js (customer accounts)
    Standalone IIFE. Auth via Supabase Auth REST (no deps).
    Integration: app2.js reads the SM_AUTH global at checkout.
    ============================================================ */

@@ -470,7 +470,7 @@
   function cartTotal() {
     return state.cart.reduce(function (n, it) { return n + it.qty * it.price; }, 0);
   }
-  var DELIVERY_FEE = 8.0;
+  var DELIVERY_FEE = 7.0;
   function deliveryFee(total) {
     return total > 0 ? DELIVERY_FEE : 0;
   }
@@ -485,7 +485,8 @@
         var map = {};
         (rows || []).forEach(function (row) { map[row.key] = row.value; });
         var df = Number(map.delivery_fee);
-        if (df >= 0) DELIVERY_FEE = df;
+        // missing/empty/not-a-number -> keep the built-in default (7)
+        if (map.delivery_fee !== '' && map.delivery_fee != null && df >= 0) DELIVERY_FEE = df;
         // hero image (multi + autoplay)
         var heroList = normSlides(map.hero_images, map.hero_image);
         buildHero(heroList, map.hero_autoplay !== false);

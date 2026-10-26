@@ -717,6 +717,7 @@
       if (!el) return;
       if (document.activeElement === el) return;   // keep unsaved edits
       var v = settings[k];
+      if (k === 'delivery_fee' && v == null) v = 7;   // default shown in the field
       el.value = v == null ? '' : (typeof v === 'object' ? JSON.stringify(v) : v);
     });
     heroSt.list = normMedia(settings.hero_images, settings.hero_image);

@@ -1825,3 +1825,64 @@ html[dir="rtl"] .acct-toast.show { transform: translate(50%, 0); }
 @media (max-width:480px){
   .suggest-grid{grid-template-columns:repeat(2,1fr);}
 }
+
+/* ---------------------------------------------------------------------------
+   Checkout + buy/cart buttons — re-skinned to the client's reference (rosa's
+   popup). Geometry is copied from rosa's .modal-content / .form-group /
+   .btn-primary-modal / .checkout-btn; colours stay Mondial's own tokens.
+   Scoped to .checkout-wrap / .cart-foot / .modal-info so no other view moves.
+   Appended last on purpose: it must beat the @media (min-width:768px) grid rule
+   above, which would otherwise re-open the two-column layout on desktop.
+   --------------------------------------------------------------------------- */
+.checkout-wrap{
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  box-shadow: var(--shadow-card-hover);
+  padding: 22px 20px 20px;
+}
+.checkout-wrap .checkout-title{ font-size: clamp(1.15rem, 4.6vw, 1.45rem); }
+.checkout-wrap .checkout-sub{ font-size: 0.8rem; margin: 6px 0 18px; }
+
+/* one column, summary under the form, exactly like rosa's modal */
+.checkout-wrap .checkout-grid{ grid-template-columns: 1fr; gap: 16px; }
+
+.checkout-wrap .field{ margin-bottom: 12px; }
+.checkout-wrap .field label{
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; margin-bottom: 5px;
+}
+.checkout-wrap .field input{
+  background: var(--cream-deep); border: 1px solid var(--line);
+  border-radius: 14px; padding: 0.7rem 1rem; font-size: 0.85rem;
+}
+.checkout-wrap .field input:focus{ border-color: var(--gold); box-shadow: none; }
+.checkout-wrap .field-err{ font-size: 0.7rem; }
+
+.checkout-wrap .cod-box{ border-radius: 18px; }
+
+/* rosa puts the order lines in a flat cream box, not a floating white card */
+.checkout-wrap .order-summary{
+  background: var(--cream-deep); border: 1px solid var(--line);
+  border-radius: 18px; box-shadow: none; padding: 14px; margin-top: 2px;
+}
+.checkout-wrap .summary-title{ font-size: 0.9rem; font-weight: 400; margin-bottom: 10px; }
+
+/* pill buttons: primary filled gold, exactly rosa's .checkout-btn geometry */
+.checkout-wrap .btn-gold{
+  border-radius: 50px; min-height: 52px; width: 100%;
+  font-size: 0.8rem; letter-spacing: 0.04em; margin-top: 14px;
+}
+.checkout-wrap .btn-gold:active{ transform: scale(0.98); }
+
+/* the buy + cart buttons the same pill (rosa: min-height 50-55px, radius 50px) */
+.cart-foot .btn-gold, .modal-info .btn-gold{
+  border-radius: 50px; min-height: 50px; width: 100%; font-size: 0.82rem;
+}
+.cart-foot .btn-gold:active, .modal-info .btn-gold:active{ transform: scale(0.98); }
+
+@media (min-width: 768px){
+  .checkout-wrap{ padding: 26px 24px 22px; }
+}

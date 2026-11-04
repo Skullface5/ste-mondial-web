@@ -3468,3 +3468,43 @@ main{padding-bottom:4.6rem;}
 .promo-seg-row button{padding:.45rem .8rem;border:1px solid rgba(176,141,74,.3);border-radius:10px;background:none;color:var(--charcoal,#2B1D12);font-size:.78rem;cursor:pointer;font-family:inherit;transition:background-color .2s,color .2s;}
 .promo-seg-row button:hover{border-color:var(--gold,#B08D4A);}
 .promo-seg-row button.is-active{background:var(--gold,#B08D4A);color:#fff;border-color:var(--gold,#B08D4A);}
+
+/* ── Collapsible optional folds (translations / advanced options) ── */
+details.fold{
+  margin-bottom:1rem;
+  border:1px solid var(--border-light,rgba(176,141,74,.18));
+  border-radius:14px;
+  background:var(--cream-dark,#EFE7D7);
+  overflow:hidden;
+}
+details.fold > summary{
+  list-style:none;
+  cursor:pointer;
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.7rem .85rem;
+  font-family:'Montserrat',sans-serif;
+  font-size:.68rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--gold-dark,#8A6A2F);
+  user-select:none;
+  transition:color .2s ease;
+}
+details.fold > summary::-webkit-details-marker{display:none;}
+details.fold > summary::marker{content:'';}
+details.fold > summary i{
+  font-size:.72rem;
+  color:var(--gold,#B08D4A);
+  transition:transform .2s ease;
+}
+details.fold[open] > summary{
+  border-bottom:1px solid var(--border-light,rgba(176,141,74,.18));
+}
+details.fold[open] > summary i{transform:rotate(180deg);}
+details.fold > summary:hover{color:var(--charcoal,#2B1D12);}
+details.fold .fold-body{padding-top:.6rem;}
+details.fold .fold-body > .input-group:first-child{padding-top:.2rem;}
+details.fold .fold-body > :last-child{margin-bottom:1rem;}

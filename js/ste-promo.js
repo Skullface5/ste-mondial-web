@@ -52,7 +52,14 @@
     '  .product-actions .rp-cart-btn{width:64px;min-height:60px;border-radius:10px;}',
     '  .product-actions .rp-cart-btn svg{width:24px;height:24px;}',
     '}',
-    '@media (max-width:420px){.rp-badge--pill,.rp-badge--corner{height:24px;min-width:50px;font-size:14px;padding:0 10px;}}'
+    '@media (max-width:420px){.rp-badge--pill,.rp-badge--corner{height:24px;min-width:50px;font-size:14px;padding:0 10px;}}',
+    /* In a product card the cart square must match the buy button's height, so
+       let the row stretch it instead of using the standalone 56px min-height. */
+    '.product-card .rp-buy-row{align-items:stretch;}',
+    '.product-card .rp-buy-row .rp-cart-btn{min-height:0;}',
+    /* the card button carries margin-top:10px for its standalone layout; inside
+       the buy row it would push the row 10px taller than the cart square */
+    '.product-card .rp-buy-row .add-btn{margin-top:0;}'
   ].join('\n');
 
   var cssDone = false;
@@ -124,7 +131,11 @@
   }
   function manualPercentOf(p) {
     var v = (p.promo_percent !== undefined && p.promo_percent !== null && p.promo_percent !== '') ? p.promo_percent : p.promoPercent;
-    return (v === undefined || v === null || v === '') ? NaN : parseFloat(v);
+    var n = (v === undefined || v === null || v === '') ? NaN : parseFloat(v);
+    /* Clamp: a manual value outside 1..99 is ignored (falls back to the value
+       computed from old_price) rather than letting a stray DB value win. */
+    if (!isFinite(n) || n < 1 || n > 99) return NaN;
+    return n;
   }
 
   function percent(p) {
@@ -145,7 +156,9 @@
   function badgeHtml(p) {
     var pct = percent(p);
     if (pct == null) return '';
-    return '<span class="rp-badge rp-badge--' + shape() + '">-' + pct + '%</span>';
+    /* Inline background so a cold/failed settings fetch can never leave the badge
+       at the CSS-default green; repaint() keeps it correct after settings load. */
+    return '<span class="rp-badge rp-badge--' + shape() + '" style="background:' + bg() + '">-' + pct + '%</span>';
   }
 
   function badge(p) {

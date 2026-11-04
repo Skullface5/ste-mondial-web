@@ -134,6 +134,9 @@
             <summary><i class="fas fa-chevron-down"></i> <span data-i18n="pf.foldAdv">Options avancées</span></summary>
             <div class="fold-body">
               <div class="input-group"><label data-i18n="pf.oldPrice">Ancien prix — promo (optionnel)</label><input type="number" id="aOldPrice" step="0.001" min="0" placeholder="ex. 149"></div>
+              <div class="input-group"><label data-i18n="pf.promoPercent">Remise % (badge promo)</label><input type="number" id="aPromoPercent" step="1" min="0" max="90" placeholder="auto">
+                <div class="info-text"><i class="fas fa-percent"></i> <span data-i18n="pf.promoPercentHint">Laissez vide : le % se calcule automatiquement depuis l'ancien prix. Sinon, il remplace celui du badge.</span></div>
+              </div>
               <div class="input-group"><label data-i18n="pf.variants">Variantes (tailles)</label>
                 <div class="variants-admin" id="variantsList"></div>
                 <button type="button" class="variants-add" id="addVariantBtn"><i class="fas fa-plus"></i> Ajouter une variante</button>
@@ -370,6 +373,9 @@
               <summary><i class="fas fa-chevron-down"></i> <span data-i18n="pf.foldAdv">Options avancées</span></summary>
               <div class="fold-body">
                 <div class="input-group"><label data-i18n="pf.oldPrice">Ancien prix — promo</label><input type="number" id="eOldPrice" step="0.001" min="0"></div>
+                <div class="input-group"><label data-i18n="pf.promoPercent">Remise % (badge promo)</label><input type="number" id="ePromoPercent" step="1" min="0" max="90" placeholder="auto">
+                  <div class="info-text"><i class="fas fa-percent"></i> <span data-i18n="pf.promoPercentHint">Laissez vide : le % se calcule automatiquement depuis l'ancien prix. Sinon, il remplace celui du badge.</span></div>
+                </div>
                 <div class="input-group"><label data-i18n="pf.variants">Variantes (tailles)</label>
                   <div class="variants-admin" id="eVariantsList"></div>
                   <button type="button" class="variants-add" id="eAddVariantBtn"><i class="fas fa-plus"></i> Ajouter une variante</button>
@@ -396,6 +402,7 @@
 
   <script src="js/ste-variants.js?v=1" defer></script>
   <script src="js/ste-admin-variants.js?v=1" defer></script>
-  <script src="js/ste-admin.js?v=13"></script>
+  <script src="js/ste-promo.js?v=5"></script>
+  <script src="js/ste-admin.js?v=14"></script>
 </body>
 </html>

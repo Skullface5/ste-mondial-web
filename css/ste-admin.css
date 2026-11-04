@@ -3481,6 +3481,9 @@ main{padding-bottom:4.6rem;}
   font-family:'Montserrat',sans-serif;font-weight:600;letter-spacing:.01em;
   color:#fff;text-align:center;line-height:1;
   min-width:54px;height:26px;padding:0 11px;font-size:15px;
+  /* js/ste-promo.js now loads in admin.html and injects .rp-badge{position:absolute}
+     for the storefront overlay; here the badge sits in normal flow, so neutralise it. */
+  position:static;z-index:auto;
 }
 #promoPreviewBadge.rp-badge--pill{border-radius:999px;}
 #promoPreviewBadge.rp-badge--corner{border-radius:0 0 12px 0;}

@@ -49,6 +49,8 @@
       'pf.nameFR': 'Nom (FR) *', 'pf.nameEN': 'Nom (EN)', 'pf.nameAR': 'Nom (AR)',
       'pf.descFR': 'Description (FR)', 'pf.descEN': 'Description (EN)', 'pf.descAR': 'Description (AR)',
       'pf.aud': 'Public *', 'pf.price': 'Prix (DT) *', 'pf.oldPrice': 'Ancien prix — promo (optionnel)',
+      'pf.promoPercent': 'Remise % (badge promo)',
+      'pf.promoPercentHint': "Laissez vide : le % se calcule automatiquement depuis l'ancien prix. Sinon, il remplace celui du badge.",
       'pf.stock': 'Stock', 'pf.featured': 'Mis en avant', 'pf.active': 'Actif', 'pf.variants': 'Variantes (tailles)',
       'pf.images': 'Images du produit', 'pf.imgHelp': 'La 1re image = principale.',
       'pf.save': 'Enregistrer le produit', 'pf.cancel': 'Annuler', 'pf.delete': 'Supprimer',
@@ -99,6 +101,8 @@
       'pf.nameFR': 'Name (FR) *', 'pf.nameEN': 'Name (EN)', 'pf.nameAR': 'Name (AR)',
       'pf.descFR': 'Description (FR)', 'pf.descEN': 'Description (EN)', 'pf.descAR': 'Description (AR)',
       'pf.aud': 'Audience *', 'pf.price': 'Price (DT) *', 'pf.oldPrice': 'Old price — promo (optional)',
+      'pf.promoPercent': 'Discount % (promo badge)',
+      'pf.promoPercentHint': 'Leave empty: the % is computed automatically from the old price. Otherwise it replaces the badge one.',
       'pf.stock': 'Stock', 'pf.featured': 'Featured', 'pf.active': 'Active', 'pf.variants': 'Variants (sizes)',
       'pf.images': 'Product images', 'pf.imgHelp': '1st image = main.',
       'pf.save': 'Save product', 'pf.cancel': 'Cancel', 'pf.delete': 'Delete',
@@ -149,6 +153,8 @@
       'pf.nameFR': 'الاسم (FR) *', 'pf.nameEN': 'الاسم (EN)', 'pf.nameAR': 'الاسم (AR)',
       'pf.descFR': 'الوصف (FR)', 'pf.descEN': 'الوصف (EN)', 'pf.descAR': 'الوصف (AR)',
       'pf.aud': 'الفئة المستهدفة *', 'pf.price': 'السعر (د.ت) *', 'pf.oldPrice': 'السعر القديم — عرض (اختياري)',
+      'pf.promoPercent': 'نسبة الخصم % (شارة العرض)',
+      'pf.promoPercentHint': 'اتركه فارغاً ليُحسب تلقائياً من السعر القديم، وإلا فسيحلّ محل نسبة الشارة.',
       'pf.stock': 'المخزون', 'pf.featured': 'مميز', 'pf.active': 'نشط', 'pf.variants': 'الأحجام',
       'pf.images': 'صور المنتج', 'pf.imgHelp': 'الصورة الأولى = الأساسية.',
       'pf.save': 'حفظ المنتج', 'pf.cancel': 'إلغاء', 'pf.delete': 'حذف',
@@ -450,6 +456,7 @@
     $(pref + 'DescAr').value = p ? (p.desc_ar || '') : '';
     $(pref + 'Price').value = p ? p.price : '';
     $(pref + 'OldPrice').value = (p && p.old_price != null) ? p.old_price : '';
+    $(pref + 'PromoPercent').value = (p && p.promo_percent != null) ? p.promo_percent : '';
     $(pref + 'Stock').value = p ? (p.stock != null ? p.stock : 10) : 10;
     $(pref + 'Featured').checked = !!(p && p.featured);
     $(pref + 'Active').checked = p ? p.active !== false : true;
@@ -493,6 +500,13 @@
       }).catch(reject);
     });
   }
+  /* Manual promo badge percent. Empty -> null (badge falls back to the value
+     computed from old_price); keep only a finite, strictly-positive number. */
+  function normalizePromoPercent(raw) {
+    if (raw === '' || raw == null) return null;
+    var n = Number(raw);
+    return (isFinite(n) && n >= 1 && n <= 99) ? n : null;
+  }
   function collectPayload(pref) {
     var g = formState(pref);
     var urls = g.urls.slice();
@@ -506,6 +520,7 @@
       audience: currentAud(pref),
       price: Number($(pref + 'Price').value),
       old_price: $(pref + 'OldPrice').value === '' ? null : Number($(pref + 'OldPrice').value),
+      promo_percent: normalizePromoPercent($(pref + 'PromoPercent').value),
       stock: $(pref + 'Stock').value === '' ? 0 : Math.max(0, parseInt($(pref + 'Stock').value, 10)),
       featured: $(pref + 'Featured').checked,
       active: $(pref + 'Active').checked,
@@ -530,13 +545,21 @@
         payload.images.push(url);
       }
       if (payload.images.length) payload.image_url = payload.images[0];
-      var res;
-      if (pref === 'e' && editingId) {
-        res = await api('PATCH', '/rest/v1/products?id=eq.' + editingId, payload, 'return=minimal');
-      } else {
-        res = await api('POST', '/rest/v1/products', payload, 'return=representation');
+      var method = (pref === 'e' && editingId) ? 'PATCH' : 'POST';
+      var path = method === 'PATCH' ? '/rest/v1/products?id=eq.' + editingId : '/rest/v1/products';
+      var prefer = method === 'PATCH' ? 'return=minimal' : 'return=representation';
+      var res = await api(method, path, payload, prefer);
+      if (!res.ok) {
+        var errTxt = await res.text();
+        // Defensive: the promo_percent column may not be migrated yet on a given
+        // deployment — retry the save without it instead of failing outright.
+        if (/promo_percent/.test(errTxt) && Object.prototype.hasOwnProperty.call(payload, 'promo_percent')) {
+          delete payload.promo_percent;
+          res = await api(method, path, payload, prefer);
+          errTxt = res.ok ? '' : await res.text();
+        }
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + errTxt.slice(0, 140));
       }
-      if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + (await res.text()).slice(0, 140));
       await loadAll();
       if (pref === 'a') { fillForm('a', null); goto_('collections'); }
       else { editingId = null; try { sessionStorage.removeItem('ste_edit_id'); } catch (e) {} goto_('collections'); }
@@ -622,31 +645,40 @@
   var promoState = {};
   var PROMO_REACTIVE = { promo_badge_color: 'promoBadgeColor', promo_price_color: 'promoPriceColor' };
   var PROMO_SEGS = { promo_badge_shape: 'promoBadgeShape', buy_cart_icon: 'promoCartIcon' };
-  // Admin-local defaults — MUST match js/ste-promo.js DEFAULTS exactly. admin.html
-  // does not load js/ste-promo.js, so window.StePromo is undefined here; every
-  // row therefore needs a real fallback so the POST body never carries a missing
-  // 'value' key (PostgREST rejects it with 400 PGRST102 'All object keys must match').
-  var LOCAL_PROMO_DEFAULTS = {
-    promo_badge_color: 'green',
-    promo_price_color: 'red',
-    promo_badge_shape: 'pill',
-    buy_cart_icon: 'plus-cart'
-  };
-  // Admin-local copy of js/ste-promo.js :: ICONS. admin.html never loads
-  // js/ste-promo.js, so window.StePromo is undefined here; without this map
-  // #promoPreviewIcon stayed an empty box for every cart icon the owner clicked.
-  // Keep the strings byte-identical to js/ste-promo.js (note: 'plus-cart' and
-  // 'bag' are the same glyph there too — the storefront renders them alike).
-  var LOCAL_PROMO_ICONS = {
-    'plus-cart': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 6h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 10a4 4 0 0 1-8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
-    'bag': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 6h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 10a4 4 0 0 1-8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
-    'cart': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h2l2 9h9l2-6H7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="18.5" r="1.4"/><circle cx="16" cy="18.5" r="1.4"/></svg>',
-    'bolt': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 6.5 13H11l-1 8 7-10.5H12.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>'
-  };
+  // admin.html now loads js/ste-promo.js before this file, so window.StePromo is
+  // the single source for defaults / colours / icons. The tiny literals below are
+  // a last-resort fallback for the degenerate "module missing" case only — they
+  // are never the normal path, so nothing drifts from the storefront.
+  function promoDefaults() {
+    var RP = window.StePromo;
+    return (RP && RP.DEFAULTS) || { promo_badge_color: 'green', promo_price_color: 'red', promo_badge_shape: 'pill', buy_cart_icon: 'plus-cart' };
+  }
+  function promoColors() {
+    var RP = window.StePromo;
+    return (RP && RP.COLORS) || { green: '#03B557', red: '#E0231F', gold: '#B08D4A', black: '#2B1D12' };
+  }
+  function promoIconHtml() {
+    var RP = window.StePromo;
+    if (RP && RP.buyIcon) { try { return RP.buyIcon(); } catch (e) {} }
+    return '';
+  }
+  // Real badge percent of the shop's first promo product (so a manual
+  // promo_percent shows through), else the static sample.
+  function previewBadgeText() {
+    try {
+      var RP = window.StePromo;
+      if (RP && RP.percent && Array.isArray(products)) {
+        for (var i = 0; i < products.length; i++) {
+          var pct = RP.percent(products[i]);
+          if (pct != null) return '-' + pct + '%';
+        }
+      }
+    } catch (e) {}
+    return '-40%';
+  }
   function promoValueFor(k) {
     var v = promoState[k];
-    if (v === undefined || v === null || v === '') v = (window.StePromo && window.StePromo.DEFAULTS && window.StePromo.DEFAULTS[k]);
-    if (v === undefined || v === null || v === '') v = LOCAL_PROMO_DEFAULTS[k];
+    if (v === undefined || v === null || v === '') v = promoDefaults()[k];
     return v;
   }
 
@@ -669,18 +701,18 @@
     });
     var badge = $('promoPreviewBadge');
     if (badge) {
-      var bg = { green: '#03B557', red: '#E0231F', gold: '#B08D4A', black: '#2B1D12' };
+      var bg = promoColors();
       badge.style.background = bg[promoState.promo_badge_color] || '#03B557';
       badge.className = 'rp-badge rp-badge--' + (promoState.promo_badge_shape || 'pill');
+      badge.textContent = previewBadgeText();
     }
     var price = $('promoPreviewPrice');
     if (price) {
-      var pc = { green: '#03B557', red: '#E0231F', gold: '#B08D4A', black: '#2B1D12' };
+      var pc = promoColors();
       price.style.color = pc[promoState.promo_price_color] || '#E0231F';
     }
     var icon = $('promoPreviewIcon');
-    if (icon) icon.innerHTML = (RP && RP.buyIcon) ? RP.buyIcon()
-      : (LOCAL_PROMO_ICONS[promoState.buy_cart_icon] || LOCAL_PROMO_ICONS['plus-cart']);
+    if (icon) icon.innerHTML = promoIconHtml();
   }
 
   function bindPromo() {
@@ -775,6 +807,9 @@
     var bc = $('bannerCountBadge'); if (bc) bc.textContent = banSt.list.length + '+ / 6';
     var ls = $('logoStrip');
     if (ls) ls.innerHTML = settings.logo_image ? '<div class="g-thumb"><img src="' + esc(mediaUrl(settings.logo_image)) + '" alt="" style="object-fit:contain;background:#fff;"></div>' : '<p class="sc-help">—</p>';
+    // Repaint the promo preview here too: this runs after every loadAll(), so the
+    // preview badge figure follows the real product rows (incl. manual promo_percent).
+    paintPromo();
   }
   function normMedia(arr, legacy) {
     var raw = Array.isArray(arr) ? arr : (legacy ? [legacy] : []);

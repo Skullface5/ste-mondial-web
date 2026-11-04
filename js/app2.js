@@ -179,6 +179,7 @@
       audience: AUDIENCES.indexOf(r.audience) !== -1 ? r.audience : 'unisexe',
       price: Number(r.price) || 0,
       oldPrice: r.old_price != null ? Number(r.old_price) : null,
+      promoPercent: (r.promo_percent != null && r.promo_percent !== '') ? Number(r.promo_percent) : null,
       imageUrl: r.image_url || (r.images && r.images[0]) || '',
       images: Array.isArray(r.images) ? r.images.filter(Boolean) : [],
       stock: r.stock == null ? 10 : Number(r.stock),
@@ -327,6 +328,31 @@
     });
   }
 
+  /* Card price is rendered through StePromo so the promo_price_color setting
+     reaches the card: .rp-price--promo reads --rp-price-color. Falls back to the
+     original struck-old-price markup when js/ste-promo.js is not loaded. */
+  function cardPriceHtml(p) {
+    if (window.StePromo && window.StePromo.priceHtml) {
+      try {
+        var html = window.StePromo.priceHtml(p, fmtPrice);
+        if (html) return html;
+      } catch (e) {}
+    }
+    var old = (p.oldPrice && p.oldPrice > p.price) ? '<s class="old-price">' + esc(fmtPrice(p.oldPrice)) + '</s>' : '';
+    return old + esc(fmtPrice(p.price));
+  }
+
+  /* Buy-now + configurable cart button, matching rosa's .rp-buy-row. The cart
+     button uses data-cart-add so it never touches the buy button's data-buy
+     flow; addToCart -> updateBadges refreshes the header count. */
+  function cardBuyRow(p) {
+    var icon = (window.StePromo && window.StePromo.buyIcon) ? window.StePromo.buyIcon() : '';
+    return '<div class="rp-buy-row">' +
+      '<button class="add-btn rp-buy-btn" type="button" data-buy="' + esc(p.id) + '">' + esc(t('product.buyNow')) + '</button>' +
+      '<button type="button" class="rp-cart-btn rp-add-btn" title="' + esc(t('product.addToCart')) + '" aria-label="' + esc(t('product.addToCart')) + '" data-cart-add="' + esc(p.id) + '">' + icon + '</button>' +
+      '</div>';
+  }
+
   function renderGrid() {
     var grid = $('#productGrid');
     if (!grid) return;
@@ -351,7 +377,7 @@
     grid.innerHTML = list.map(function (p) {
       var promoBadge = (window.StePromo && window.StePromo.isPromo(p)) ? window.StePromo.badge(p) : '';
       var variantChip = (p.variants && p.variants.length > 0) ? '<span class="variant-chip">' + p.variants.length + ' taille' + (p.variants.length > 1 ? 's' : '') + '</span>' : '';
-      var old = p.oldPrice && p.oldPrice > p.price ? '<s class="old-price">' + esc(fmtPrice(p.oldPrice)) + '</s>' : '';
+      var priceHtml = cardPriceHtml(p);
       return '<article class="product-card" data-id="' + esc(p.id) + '">' +
         '<div class="product-media" data-open="' + esc(p.id) + '" role="button" tabindex="0" aria-label="' + esc(pName(p)) + '">' +
         mediaHtml(p, 'grid-thumb') + promoBadge +
@@ -359,24 +385,25 @@
         '<div class="product-info">' +
         '<h3 class="product-name">' + esc(pName(p)) + '</h3>' +
         '<p class="product-sub">' + esc(t('audience.' + p.audience)) + '</p>' + variantChip +
-        '<p class="product-price">' + old + esc(fmtPrice(p.price)) + '</p>' +
-        '<button class="add-btn" type="button" data-buy="' + esc(p.id) + '">' + esc(t('product.buyNow')) + '</button>' +
+        '<p class="product-price">' + priceHtml + '</p>' +
+        cardBuyRow(p) +
         '</div></article>';
     }).join('');
     animateGrid(grid);
   }
 
   function productCardHtml(p) {
-    var old = p.oldPrice && p.oldPrice > p.price ? '<s class="old-price">' + esc(fmtPrice(p.oldPrice)) + '</s>' : '';
+    var promoBadge = (window.StePromo && window.StePromo.isPromo(p)) ? window.StePromo.badge(p) : '';
+    var priceHtml = cardPriceHtml(p);
     return '<article class="product-card" data-id="' + esc(p.id) + '">' +
       '<div class="product-media" data-open="' + esc(p.id) + '" role="button" tabindex="0" aria-label="' + esc(pName(p)) + '">' +
-      mediaHtml(p, 'grid-thumb') +
+      mediaHtml(p, 'grid-thumb') + promoBadge +
       '</div>' +
       '<div class="product-info">' +
       '<h3 class="product-name">' + esc(pName(p)) + '</h3>' +
       '<p class="product-sub">' + esc(t('audience.' + p.audience)) + '</p>' +
-      '<p class="product-price">' + old + esc(fmtPrice(p.price)) + '</p>' +
-      '<button class="add-btn" type="button" data-buy="' + esc(p.id) + '">' + esc(t('product.buyNow')) + '</button>' +
+      '<p class="product-price">' + priceHtml + '</p>' +
+      cardBuyRow(p) +
       '</div></article>';
   }
 
@@ -1337,6 +1364,13 @@
           }, 1100);
           void old;
         }
+        return;
+      }
+
+      var cartAdd = e.target.closest('[data-cart-add]');
+      if (cartAdd) {
+        var pca = findProduct(cartAdd.getAttribute('data-cart-add'));
+        if (pca) addToCart(pca, 1);
         return;
       }
 

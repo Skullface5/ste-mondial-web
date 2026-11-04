@@ -53,7 +53,7 @@
       'pf.images': 'Images du produit', 'pf.imgHelp': 'La 1re image = principale.',
       'pf.save': 'Enregistrer le produit', 'pf.cancel': 'Annuler', 'pf.delete': 'Supprimer',
       'pf.errName': 'Le nom (FR) est obligatoire.', 'pf.errPrice': 'Prix invalide.',
-      'pf.uploading': "Envoi de l'image", 'pf.errPrefix': 'Erreur : ', 'pf.imgBad': 'URL invalide — http(s):// requis.',
+      'pf.uploading': "Envoi de l'image", 'pf.errPrefix': 'Erreur : ',
       'ord.title': 'Gestion des commandes', 'ord.search': 'ID, nom, téléphone, ville...', 'ord.all': 'Toutes',
       'badgeWord': 'commandes',
       'stRevenue': "Chiffre d'affaires", 'stRevenueSub': 'expédiées + livrées', 'stTotal': 'Total commandes',
@@ -103,7 +103,7 @@
       'pf.images': 'Product images', 'pf.imgHelp': '1st image = main.',
       'pf.save': 'Save product', 'pf.cancel': 'Cancel', 'pf.delete': 'Delete',
       'pf.errName': 'Name (FR) is required.', 'pf.errPrice': 'Invalid price.',
-      'pf.uploading': 'Uploading image', 'pf.errPrefix': 'Error: ', 'pf.imgBad': 'Invalid URL — needs http(s)://.',
+      'pf.uploading': 'Uploading image', 'pf.errPrefix': 'Error: ',
       'ord.title': 'Order management', 'ord.search': 'ID, name, phone, city...', 'ord.all': 'All',
       'badgeWord': 'orders',
       'stRevenue': 'Revenue', 'stRevenueSub': 'shipped + delivered', 'stTotal': 'Total orders',
@@ -153,7 +153,7 @@
       'pf.images': 'صور المنتج', 'pf.imgHelp': 'الصورة الأولى = الأساسية.',
       'pf.save': 'حفظ المنتج', 'pf.cancel': 'إلغاء', 'pf.delete': 'حذف',
       'pf.errName': 'الاسم (FR) مطلوب.', 'pf.errPrice': 'سعر غير صالح.',
-      'pf.uploading': 'رفع الصورة', 'pf.errPrefix': 'خطأ: ', 'pf.imgBad': 'رابط غير صالح — يلزم http(s)://.',
+      'pf.uploading': 'رفع الصورة', 'pf.errPrefix': 'خطأ: ',
       'ord.title': 'إدارة الطلبات', 'ord.search': 'المعرّف، الاسم، الهاتف، المدينة...', 'ord.all': 'الكل',
       'badgeWord': 'طلب',
       'stRevenue': 'رقم المعاملات', 'stRevenueSub': 'مُرسلة + مستلمة', 'stTotal': 'إجمالي الطلبات',
@@ -495,9 +495,7 @@
   }
   function collectPayload(pref) {
     var g = formState(pref);
-    var urlBox = $(pref === 'a' ? 'aImageUrl' : 'eImageUrl');
     var urls = g.urls.slice();
-    if (urlBox && urlBox.value.trim()) { var v = urlBox.value.trim(); if (urls.indexOf(v) === -1) urls.push(v); }
     return {
       name_fr: $(pref + 'NameFr').value.trim(),
       name_en: $(pref + 'NameEn').value.trim() || $(pref + 'NameFr').value.trim(),
@@ -1031,14 +1029,6 @@
       Array.prototype.slice.call(this.files || []).forEach(function (f) { if (f.size <= 5 * 1024 * 1024) g.files.push(f); });
       renderGallery('a'); this.value = '';
     });
-    $('aImageUrl').addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter') return;
-      e.preventDefault();
-      var v = this.value.trim();
-      if (!v) return;
-      if (/^https?:\/\//i.test(v) && aG.urls.indexOf(v) === -1) { aG.urls.push(v); renderGallery('a'); this.value = ''; }
-      else showMsg('aMsg', t('pf.imgBad'));
-    });
     $('aSubmit').addEventListener('click', function () { submitForm('a'); });
 
     /* edit form */
@@ -1049,14 +1039,6 @@
       var g = formState('e');
       Array.prototype.slice.call(this.files || []).forEach(function (f) { if (f.size <= 5 * 1024 * 1024) g.files.push(f); });
       renderGallery('e'); this.value = '';
-    });
-    $('eImageUrl').addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter') return;
-      e.preventDefault();
-      var v = this.value.trim();
-      if (!v) return;
-      if (/^https?:\/\//i.test(v) && eG.urls.indexOf(v) === -1) { eG.urls.push(v); renderGallery('e'); this.value = ''; }
-      else showMsg('eMsg', t('pf.imgBad'));
     });
     $('eSubmit').addEventListener('click', function () { submitForm('e'); });
     $('eDelete').addEventListener('click', function () {

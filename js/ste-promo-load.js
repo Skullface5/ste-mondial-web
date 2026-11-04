@@ -9,7 +9,15 @@
   var URL = 'https://xuwumbdyfywmxuzlvvul.supabase.co';
   var KEYS = ['promo_badge_color', 'promo_price_color', 'promo_badge_shape', 'buy_cart_icon'];
   var CACHE_KEY = 'ste_promo_settings';
-  var CACHE_MS = 6 * 60 * 60 * 1000;
+  /* Short on purpose: a 6h cache is what let a saved change look ignored for
+     hours. The fetch below always re-applies, so a stale entry self-heals. */
+  var CACHE_MS = 5 * 60 * 1000;
+  /* This shop publishes no anon key (no window.__steSupabase, no
+     script[data-anon-key], no ste_anon_key) — which is why the guard in run()
+     used to bail out and the promo settings were NEVER fetched, so the shop
+     always painted the hardcoded defaults whatever the owner saved.
+     Same public publishable key js/app2.js already ships inline. */
+  var PUBLISHABLE_KEY = 'sb_publishable_qF8l43W4lTYJMXGfVDx-9g_6n6y1pH_';
 
   function anonKey() {
     try {
@@ -30,8 +38,8 @@
         if (v && v.indexOf('.') > 20) return v;
       }
     } catch (e) {}
-    try { return localStorage.getItem('ste_anon_key') || null; } catch (e) {}
-    return null;
+    try { var ls = localStorage.getItem('ste_anon_key'); if (ls) return ls; } catch (e) {}
+    return PUBLISHABLE_KEY;
   }
 
   function apply(obj) {
@@ -60,6 +68,7 @@
     if (!key || typeof fetch !== 'function') return;
 
     fetch(URL + '/rest/v1/site_settings?select=key,value', {
+      cache: 'no-store',
       headers: { apikey: key, Authorization: 'Bearer ' + key }
     })
       .then(function (r) { return r.ok ? r.json() : null; })

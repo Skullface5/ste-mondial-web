@@ -28,8 +28,8 @@
     '.rp-badge{position:absolute;z-index:4;display:inline-flex;align-items:center;justify-content:center;',
     'font-family:\'Montserrat\',sans-serif;font-weight:600;letter-spacing:.01em;color:#fff;text-align:center;line-height:1;',
     'background:var(--rp-badge-bg,' + COLORS.green + ');pointer-events:none;border:0;box-shadow:none;}',
-    '.rp-badge--pill{top:11px;left:11px;min-width:54px;height:26px;padding:0 11px;border-radius:999px;font-size:15px;}',
-    '.rp-badge--corner{top:0;left:0;min-width:54px;height:26px;padding:0 11px;border-radius:0 0 12px 0;font-size:15px;}',
+    '.rp-badge--pill{top:var(--rp-badge-top,11px);left:var(--rp-badge-left,11px);min-width:54px;height:26px;padding:0 11px;border-radius:var(--rp-badge-radius,999px);font-size:15px;}',
+    '.rp-badge--corner{top:var(--rp-badge-top,0);left:var(--rp-badge-left,0);min-width:54px;height:26px;padding:0 11px;border-radius:var(--rp-badge-radius,0 0 12px 0);font-size:15px;}',
     '.rp-price--promo{color:var(--rp-price-color,' + COLORS.red + ')!important;}',
     '.rp-buy-row{display:flex;gap:.4rem;align-items:center;}',
     '.rp-buy-row.product-actions{justify-content:center;max-width:480px;margin-left:auto;margin-right:auto;width:100%;}',
@@ -67,7 +67,46 @@
 
   function setSettings(s) {
     S = Object.assign({}, DEFAULTS, s || {});
+    repaint();
     return S;
+  }
+
+  /* Publish the current look to the document so the shop can be repainted
+     without re-rendering the cards. Without this, a saved change only showed
+     on the next full render of the grid (which is why the owner saw nothing). */
+  function publish() {
+    try {
+      var root = document.documentElement;
+      root.style.setProperty('--rp-badge-bg', bg());
+      root.style.setProperty('--rp-price-color', priceColor());
+      if (shape() === 'corner') {
+        root.style.setProperty('--rp-badge-radius', '0 0 12px 0');
+        root.style.setProperty('--rp-badge-top', '0');
+        root.style.setProperty('--rp-badge-left', '0');
+      } else {
+        root.style.setProperty('--rp-badge-radius', '999px');
+        root.style.setProperty('--rp-badge-top', '11px');
+        root.style.setProperty('--rp-badge-left', '11px');
+      }
+    } catch (e) {}
+  }
+
+  /* Repaint what is already on screen: badges drawn earlier keep an inline
+     background from the old markup, and any cart button keeps its old glyph. */
+  function repaint() {
+    publish();
+    try {
+      var badges = document.querySelectorAll('.rp-badge');
+      for (var i = 0; i < badges.length; i++) badges[i].style.background = bg();
+    } catch (e) {}
+    try {
+      var btns = document.querySelectorAll('.rp-cart-btn');
+      for (var j = 0; j < btns.length; j++) {
+        if (btns[j].getAttribute('data-rp-icon') === S.buy_cart_icon) continue;
+        btns[j].setAttribute('data-rp-icon', S.buy_cart_icon);
+        btns[j].innerHTML = buyIcon();
+      }
+    } catch (e) {}
   }
 
   function bg() { return COLORS[S.promo_badge_color] || COLORS.green; }
@@ -75,10 +114,23 @@
   function shape() { return ['pill', 'corner'].indexOf(S.promo_badge_shape) >= 0 ? S.promo_badge_shape : 'pill'; }
   function buyIcon() { return ICONS[S.buy_cart_icon] || ICONS['plus-cart']; }
 
+  /* app2.js hands us normalized rows (oldPrice / promoPercent) while variant
+     objects use the raw column names (old_price / promo_percent). Accept both:
+     reading only the snake_case names made isPromo() false for every storefront
+     product, so no badge ever rendered there. */
+  function oldPriceOf(p) {
+    var v = (p.old_price !== undefined && p.old_price !== null && p.old_price !== '') ? p.old_price : p.oldPrice;
+    return (v === undefined || v === null || v === '') ? NaN : parseFloat(v);
+  }
+  function manualPercentOf(p) {
+    var v = (p.promo_percent !== undefined && p.promo_percent !== null && p.promo_percent !== '') ? p.promo_percent : p.promoPercent;
+    return (v === undefined || v === null || v === '') ? NaN : parseFloat(v);
+  }
+
   function percent(p) {
     if (!p) return null;
-    var manual = p.promo_percent != null && p.promo_percent !== '' ? parseFloat(p.promo_percent) : NaN;
-    var op = p.old_price != null && p.old_price !== '' ? parseFloat(p.old_price) : NaN;
+    var manual = manualPercentOf(p);
+    var op = oldPriceOf(p);
     var cp = parseFloat(p.price);
     if (!isFinite(op) || !isFinite(cp) || op <= cp) {
       if (isFinite(manual) && manual > 0) return Math.round(manual);
@@ -93,7 +145,7 @@
   function badgeHtml(p) {
     var pct = percent(p);
     if (pct == null) return '';
-    return '<span class="rp-badge rp-badge--' + shape() + '" style="background:' + bg() + '">-' + pct + '%</span>';
+    return '<span class="rp-badge rp-badge--' + shape() + '">-' + pct + '%</span>';
   }
 
   function badge(p) {
@@ -104,7 +156,7 @@
   function priceHtml(p, fmt) {
     var f = typeof fmt === 'function' ? fmt : function (v) { return String(v); };
     var pct = percent(p);
-    var op = p.old_price != null && p.old_price !== '' ? parseFloat(p.old_price) : NaN;
+    var op = oldPriceOf(p);
     var cp = parseFloat(p.price);
     if (pct != null && isFinite(op) && op > cp) {
       return '<s class="rp-old-price" style="opacity:.5;font-weight:300;font-size:.8em;margin-inline-end:7px;">' + f(op) + '</s>' +
@@ -131,6 +183,8 @@
     priceColor: priceColor,
     shape: shape,
     buyIcon: buyIcon,
+    publish: publish,
+    repaint: repaint,
     injectCss: injectCss
   };
 

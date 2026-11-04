@@ -86,7 +86,23 @@
       .catch(function () { /* offline: defaults stay */ });
   }
 
-  if (window.StePromo) run();
-  else document.addEventListener('DOMContentLoaded', run);
-  window.addEventListener('load', run);
+  /* A tab that was already open keeps whatever look it loaded with, so a save in
+     the admin stayed invisible until a manual reload — which reads as "it still
+     doesn't work". Re-read whenever the tab comes back to the front. */
+  var lastRun = 0;
+  function refresh() {
+    if (Date.now() - lastRun < 15000) return;   /* 'visible' and 'focus' fire together */
+    lastRun = Date.now();
+    run();
+  }
+
+  function boot() { lastRun = Date.now(); run(); }
+
+  if (window.StePromo) boot();
+  else document.addEventListener('DOMContentLoaded', boot);
+  window.addEventListener('load', boot);
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') refresh();
+  });
+  window.addEventListener('focus', refresh);
 })();

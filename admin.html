@@ -66,12 +66,6 @@
     <!-- ── OVERVIEW ── -->
     <section class="dash-section" id="dash-overview">
       <div class="admin-wrapper">
-        <div class="admin-header">
-          <img src="i/ste-mondial-perfumes.png" width="48" height="48" alt="Mondial Perfume">
-          <h1 data-i18n="dash.title">Tableau de bord</h1>
-          <span class="logged-in-as" id="loggedInAsOv"></span>
-        </div>
-
         <div class="stats-grid" style="margin-bottom:1.1rem;">
           <div class="stat-card"><div class="stat-label" data-i18n="dash.t1">Aujourd'hui</div><div class="stat-value" id="ovToday">0</div><div class="stat-sub" data-i18n="dash.t1h">commandes</div></div>
           <div class="stat-card highlight"><div class="stat-label" data-i18n="dash.t2">CA du jour</div><div class="stat-value" id="ovCA">—</div><div class="stat-sub" data-i18n="dash.t2h">hors annulées</div></div>
@@ -90,7 +84,7 @@
           <h3><i class="fas fa-clock-rotate-left"></i> <span data-i18n="dash.recent">Dernières commandes</span></h3>
           <div id="dashRecent"></div>
         </div>
-        <div class="ov-panel">
+        <div class="ov-panel" id="lowPanel">
           <h3><i class="fas fa-triangle-exclamation"></i> <span data-i18n="dash.lowcard">Stock faible (≤ 5)</span></h3>
           <div id="dashLow"></div>
         </div>
@@ -404,6 +398,6 @@
 
   <script src="js/ste-variants.js?v=1" defer></script>
   <script src="js/ste-admin-variants.js?v=1" defer></script>
-  <script src="js/ste-admin.js?v=9"></script>
+  <script src="js/ste-admin.js?v=10"></script>
 </body>
 </html>

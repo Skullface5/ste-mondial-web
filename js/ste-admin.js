@@ -34,7 +34,7 @@
       'dash.title': 'Tableau de bord', 'dash.t1': "Aujourd'hui", 'dash.t1h': 'commandes',
       'dash.t2': 'CA du jour', 'dash.t2h': 'hors annulées', 'dash.t3': 'En attente', 'dash.t3h': 'nouvelle + confirmée',
       'dash.t4': 'Stock faible', 'dash.t4h': 'stock ≤ 5', 'dash.recent': 'Dernières commandes', 'dash.lowcard': 'Stock faible (≤ 5)',
-      'dash.emptyRecent': 'Pas encore de commandes.', 'dash.emptyLow': 'Tous les stocks sont bons ✓',
+      'dash.emptyRecent': 'Pas encore de commandes.',
       'aud.homme': 'Homme', 'aud.femme': 'Femme', 'aud.unisexe': 'Unisexe', 'aud.enfants': 'Enfants',
       'cat.all': 'Tous', 'catTitle.all': 'Tous les produits',
       'prod.new': '+ Nouveau produit', 'prod.count': 'produit(s)', 'prod.search': 'Rechercher un produit...',
@@ -84,7 +84,7 @@
       'dash.title': 'Dashboard', 'dash.t1': 'Today', 'dash.t1h': 'orders',
       'dash.t2': "Today's revenue", 'dash.t2h': 'excl. cancelled', 'dash.t3': 'Pending', 'dash.t3h': 'new + confirmed',
       'dash.t4': 'Low stock', 'dash.t4h': 'stock ≤ 5', 'dash.recent': 'Latest orders', 'dash.lowcard': 'Low stock (≤ 5)',
-      'dash.emptyRecent': 'No orders yet.', 'dash.emptyLow': 'All stock levels are good ✓',
+      'dash.emptyRecent': 'No orders yet.',
       'aud.homme': 'Men', 'aud.femme': 'Women', 'aud.unisexe': 'Unisex', 'aud.enfants': 'Kids',
       'cat.all': 'All', 'catTitle.all': 'All products',
       'prod.new': '+ New product', 'prod.count': 'product(s)', 'prod.search': 'Search products...',
@@ -134,7 +134,7 @@
       'dash.title': 'لوحة التحكم', 'dash.t1': 'اليوم', 'dash.t1h': 'طلبات',
       'dash.t2': 'مداخيل اليوم', 'dash.t2h': 'بلا الملغاة', 'dash.t3': 'في الانتظار', 'dash.t3h': 'جديدة + مؤكدة',
       'dash.t4': 'مخزون منخفض', 'dash.t4h': 'المخزون ≤ 5', 'dash.recent': 'آخر الطلبات', 'dash.lowcard': 'مخزون منخفض (≤ 5)',
-      'dash.emptyRecent': 'لا طلبات بعد.', 'dash.emptyLow': 'كل المخزون جيد ✓',
+      'dash.emptyRecent': 'لا طلبات بعد.',
       'aud.homme': 'رجالي', 'aud.femme': 'نسائي', 'aud.unisexe': 'للجنسين', 'aud.enfants': 'أطفال',
       'cat.all': 'الكل', 'catTitle.all': 'كل المنتجات',
       'prod.new': '+ منتج جديد', 'prod.count': 'منتج', 'prod.search': 'البحث عن منتج...',
@@ -375,9 +375,9 @@
     }).join('') : '<p class="sc-help">' + t('dash.emptyRecent') + '</p>';
     $('dashLow').innerHTML = low.length ? low.map(function (p) {
       return '<button class="mini-row" data-open-product="' + esc(p.id) + '"><span class="mr-name">' + esc(p.name_fr || '—') + '</span><span>' + esc(audLabel(p.audience)) + '</span><span class="mini-chip st-warn">stock ' + esc(p.stock) + '</span></button>';
-    }).join('') : '<p class="sc-help">' + t('dash.emptyLow') + '</p>';
+    }).join('') : '';
+    var lp = $('lowPanel'); if (lp) lp.hidden = low.length === 0;
     var em = $('sessionEmailChip'); if (em && user) em.textContent = '· ' + user.email;
-    var ov = $('loggedInAsOv'); if (ov && user) ov.textContent = user.email;
   }
 
   /* ── COLLECTIONS ── */

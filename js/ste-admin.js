@@ -622,6 +622,22 @@
   var promoState = {};
   var PROMO_REACTIVE = { promo_badge_color: 'promoBadgeColor', promo_price_color: 'promoPriceColor' };
   var PROMO_SEGS = { promo_badge_shape: 'promoBadgeShape', buy_cart_icon: 'promoCartIcon' };
+  // Admin-local defaults — MUST match js/ste-promo.js DEFAULTS exactly. admin.html
+  // does not load js/ste-promo.js, so window.StePromo is undefined here; every
+  // row therefore needs a real fallback so the POST body never carries a missing
+  // 'value' key (PostgREST rejects it with 400 PGRST102 'All object keys must match').
+  var LOCAL_PROMO_DEFAULTS = {
+    promo_badge_color: 'green',
+    promo_price_color: 'red',
+    promo_badge_shape: 'pill',
+    buy_cart_icon: 'plus-cart'
+  };
+  function promoValueFor(k) {
+    var v = promoState[k];
+    if (v === undefined || v === null || v === '') v = (window.StePromo && window.StePromo.DEFAULTS && window.StePromo.DEFAULTS[k]);
+    if (v === undefined || v === null || v === '') v = LOCAL_PROMO_DEFAULTS[k];
+    return v;
+  }
 
   function paintPromo() {
     var RP = window.StePromo;
@@ -705,11 +721,19 @@
     if (btn) btn.disabled = true;
     try {
       var rows = PROMO_KEYS.map(function (k) {
-        return { key: k, value: promoState[k] || (window.StePromo && window.StePromo.DEFAULTS[k]) };
+        return { key: k, value: promoValueFor(k) };
       });
       var res = await api('POST', '/rest/v1/site_settings?on_conflict=key', rows, 'resolution=merge-duplicates,return=minimal');
       if (res.ok) { showMsg('promoMsg', t('set.saved'), true); }
-      else showMsg('promoMsg', t('pf.errPrefix') + 'HTTP ' + res.status);
+      else {
+        var msg = '';
+        try {
+          var txt = await res.clone().text();
+          var parsed = txt ? JSON.parse(txt) : null;
+          if (parsed) msg = parsed.message || parsed.hint || '';
+        } catch (e) { msg = ''; }
+        showMsg('promoMsg', t('pf.errPrefix') + 'HTTP ' + res.status + (msg ? ' — ' + msg : ''));
+      }
     } catch (e) { showMsg('promoMsg', t('pf.errPrefix') + e.message); }
     finally { if (btn) btn.disabled = false; }
   }

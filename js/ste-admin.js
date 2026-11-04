@@ -632,6 +632,17 @@
     promo_badge_shape: 'pill',
     buy_cart_icon: 'plus-cart'
   };
+  // Admin-local copy of js/ste-promo.js :: ICONS. admin.html never loads
+  // js/ste-promo.js, so window.StePromo is undefined here; without this map
+  // #promoPreviewIcon stayed an empty box for every cart icon the owner clicked.
+  // Keep the strings byte-identical to js/ste-promo.js (note: 'plus-cart' and
+  // 'bag' are the same glyph there too — the storefront renders them alike).
+  var LOCAL_PROMO_ICONS = {
+    'plus-cart': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 6h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 10a4 4 0 0 1-8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
+    'bag': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 6h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 10a4 4 0 0 1-8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
+    'cart': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h2l2 9h9l2-6H7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="18.5" r="1.4"/><circle cx="16" cy="18.5" r="1.4"/></svg>',
+    'bolt': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 6.5 13H11l-1 8 7-10.5H12.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>'
+  };
   function promoValueFor(k) {
     var v = promoState[k];
     if (v === undefined || v === null || v === '') v = (window.StePromo && window.StePromo.DEFAULTS && window.StePromo.DEFAULTS[k]);
@@ -668,7 +679,8 @@
       price.style.color = pc[promoState.promo_price_color] || '#E0231F';
     }
     var icon = $('promoPreviewIcon');
-    if (icon && RP) icon.innerHTML = RP.buyIcon();
+    if (icon) icon.innerHTML = (RP && RP.buyIcon) ? RP.buyIcon()
+      : (LOCAL_PROMO_ICONS[promoState.buy_cart_icon] || LOCAL_PROMO_ICONS['plus-cart']);
   }
 
   function bindPromo() {
@@ -705,8 +717,14 @@
     try {
       var res = await api('GET', '/rest/v1/site_settings?select=key,value');
       if (!res.ok) return;
+      // api() returns a raw fetch Response — it has no `.data`. Read the body
+      // with res.json(); `res.data` was always undefined, so the saved promo
+      // values never came back and the card silently showed the defaults on
+      // every reload (the other half of the owner's "I see no change").
+      var rows = [];
+      try { rows = await res.json(); } catch (e) { rows = []; }
       var map = {};
-      (res.data || []).forEach(function (r) { map[r.key] = r.value; });
+      (rows || []).forEach(function (r) { map[r.key] = r.value; });
       PROMO_KEYS.forEach(function (k) {
         var v = map[k];
         if (v && typeof v === 'object' && v.value != null) v = v.value;

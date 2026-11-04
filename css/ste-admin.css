@@ -3468,6 +3468,26 @@ main{padding-bottom:4.6rem;}
 .promo-seg-row button{padding:.45rem .8rem;border:1px solid rgba(176,141,74,.3);border-radius:10px;background:none;color:var(--charcoal,#2B1D12);font-size:.78rem;cursor:pointer;font-family:inherit;transition:background-color .2s,color .2s;}
 .promo-seg-row button:hover{border-color:var(--gold,#B08D4A);}
 .promo-seg-row button.is-active{background:var(--gold,#B08D4A);color:#fff;border-color:var(--gold,#B08D4A);}
+/* ── Promo preview: badge shape + cart icon ──
+   The .rp-badge geometry and its two shapes normally arrive in the stylesheet
+   js/ste-promo.js injects at runtime, which admin.html never loads. These rules
+   are id-scoped so they can never leak into the storefront (which never loads
+   this file anyway). In the admin the badge sits in normal flow inside the
+   preview row (it is not overlaid on a product image here), so no
+   positioning/top/left is applied — the shape difference is carried entirely by
+   border-radius. */
+#promoPreviewBadge.rp-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-weight:600;letter-spacing:.01em;
+  color:#fff;text-align:center;line-height:1;
+  min-width:54px;height:26px;padding:0 11px;font-size:15px;
+}
+#promoPreviewBadge.rp-badge--pill{border-radius:999px;}
+#promoPreviewBadge.rp-badge--corner{border-radius:0 0 12px 0;}
+#promoPreviewIcon svg{width:23px;height:23px;display:block;}
+/* Active-state ring on the segmented controls (the shared .promo-seg-row rule
+   already fills the selection gold); the swatch ring is .promo-sw.is-active. */
+#promoBadgeShape button.is-active,#promoCartIcon button.is-active{box-shadow:0 0 0 2px rgba(176,141,74,.35);}
 
 /* ── Collapsible optional folds (translations / advanced options) ── */
 details.fold{

@@ -164,14 +164,13 @@
   }
 
   /* ---------- Product helpers ---------- */
-  function pName(p) { return p['name' + cap(state.lang)] || p.nameFr || p.sku || '—'; }
+  function pName(p) { return p['name' + cap(state.lang)] || p.nameFr || '—'; }
   function pDesc(p) { return p['desc' + cap(state.lang)] || p.descFr || ''; }
 
   function normalizeRow(r) {
     return {
       id: r.id,
-      sku: r.sku || '',
-      nameFr: r.name_fr || r.sku || 'Produit',
+      nameFr: r.name_fr || 'Produit',
       nameEn: r.name_en || r.name_fr || 'Product',
       nameAr: r.name_ar || r.name_fr || 'منتج',
       descFr: r.desc_fr || '',
@@ -402,7 +401,6 @@
       var initials = n.split(/[\s'\-]+/).map(function (w) { return w.charAt(0); }).join('');
       if (q.length >= 2 && initials.indexOf(q) !== -1) return true;        // "cc" -> Coco Mademoiselle
     }
-    if ((p.sku || '').toLowerCase().indexOf(q) !== -1) return true;
     var descs = [p.descFr, p.descEn, p.descAr].filter(Boolean).map(function (s) { return s.toLowerCase(); });
     return descs.some(function (d) { return d.indexOf(q) !== -1; });
   }

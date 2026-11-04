@@ -48,7 +48,7 @@
       'pf.foldTr': 'Traductions — optionnel', 'pf.foldAdv': 'Options avancées',
       'pf.nameFR': 'Nom (FR) *', 'pf.nameEN': 'Nom (EN)', 'pf.nameAR': 'Nom (AR)',
       'pf.descFR': 'Description (FR)', 'pf.descEN': 'Description (EN)', 'pf.descAR': 'Description (AR)',
-      'pf.aud': 'Public *', 'pf.sku': 'Référence (SKU)', 'pf.price': 'Prix (DT) *', 'pf.oldPrice': 'Ancien prix — promo (optionnel)',
+      'pf.aud': 'Public *', 'pf.price': 'Prix (DT) *', 'pf.oldPrice': 'Ancien prix — promo (optionnel)',
       'pf.stock': 'Stock', 'pf.featured': 'Mis en avant', 'pf.active': 'Actif', 'pf.variants': 'Variantes (tailles)',
       'pf.images': 'Images du produit', 'pf.imgHelp': 'La 1re image = principale.',
       'pf.save': 'Enregistrer le produit', 'pf.cancel': 'Annuler', 'pf.delete': 'Supprimer',
@@ -98,7 +98,7 @@
       'pf.foldTr': 'Translations — optional', 'pf.foldAdv': 'Advanced options',
       'pf.nameFR': 'Name (FR) *', 'pf.nameEN': 'Name (EN)', 'pf.nameAR': 'Name (AR)',
       'pf.descFR': 'Description (FR)', 'pf.descEN': 'Description (EN)', 'pf.descAR': 'Description (AR)',
-      'pf.aud': 'Audience *', 'pf.sku': 'Reference (SKU)', 'pf.price': 'Price (DT) *', 'pf.oldPrice': 'Old price — promo (optional)',
+      'pf.aud': 'Audience *', 'pf.price': 'Price (DT) *', 'pf.oldPrice': 'Old price — promo (optional)',
       'pf.stock': 'Stock', 'pf.featured': 'Featured', 'pf.active': 'Active', 'pf.variants': 'Variants (sizes)',
       'pf.images': 'Product images', 'pf.imgHelp': '1st image = main.',
       'pf.save': 'Save product', 'pf.cancel': 'Cancel', 'pf.delete': 'Delete',
@@ -148,7 +148,7 @@
       'pf.foldTr': 'الترجمات — اختياري', 'pf.foldAdv': 'خيارات متقدمة',
       'pf.nameFR': 'الاسم (FR) *', 'pf.nameEN': 'الاسم (EN)', 'pf.nameAR': 'الاسم (AR)',
       'pf.descFR': 'الوصف (FR)', 'pf.descEN': 'الوصف (EN)', 'pf.descAR': 'الوصف (AR)',
-      'pf.aud': 'الفئة المستهدفة *', 'pf.sku': 'المرجع (SKU)', 'pf.price': 'السعر (د.ت) *', 'pf.oldPrice': 'السعر القديم — عرض (اختياري)',
+      'pf.aud': 'الفئة المستهدفة *', 'pf.price': 'السعر (د.ت) *', 'pf.oldPrice': 'السعر القديم — عرض (اختياري)',
       'pf.stock': 'المخزون', 'pf.featured': 'مميز', 'pf.active': 'نشط', 'pf.variants': 'الأحجام',
       'pf.images': 'صور المنتج', 'pf.imgHelp': 'الصورة الأولى = الأساسية.',
       'pf.save': 'حفظ المنتج', 'pf.cancel': 'إلغاء', 'pf.delete': 'حذف',
@@ -374,7 +374,7 @@
       return '<button class="mini-row" data-open-order="' + esc(o.id) + '"><span class="mr-name">' + esc(o.customer_name || '—') + '</span><span>' + fmtDT(o.total) + ' · ' + fmtDate(o.created_at) + '</span><span class="mini-chip">' + esc(t('st.' + o.status)) + '</span></button>';
     }).join('') : '<p class="sc-help">' + t('dash.emptyRecent') + '</p>';
     $('dashLow').innerHTML = low.length ? low.map(function (p) {
-      return '<button class="mini-row" data-open-product="' + esc(p.id) + '"><span class="mr-name">' + esc(p.name_fr || p.sku || '—') + '</span><span>' + esc(audLabel(p.audience)) + '</span><span class="mini-chip st-warn">stock ' + esc(p.stock) + '</span></button>';
+      return '<button class="mini-row" data-open-product="' + esc(p.id) + '"><span class="mr-name">' + esc(p.name_fr || '—') + '</span><span>' + esc(audLabel(p.audience)) + '</span><span class="mini-chip st-warn">stock ' + esc(p.stock) + '</span></button>';
     }).join('') : '<p class="sc-help">' + t('dash.emptyLow') + '</p>';
     var em = $('sessionEmailChip'); if (em && user) em.textContent = '· ' + user.email;
     var ov = $('loggedInAsOv'); if (ov && user) ov.textContent = user.email;
@@ -398,7 +398,7 @@
     var list = products.filter(function (p) { return catAud === 'all' || (p.audience || 'unisexe') === catAud; });
     if (searchTerm) {
       var q = searchTerm.toLowerCase();
-      list = list.filter(function (p) { return [p.name_fr, p.name_en, p.name_ar, p.sku].some(function (v) { return String(v || '').toLowerCase().indexOf(q) !== -1; }); });
+      list = list.filter(function (p) { return [p.name_fr, p.name_en, p.name_ar].some(function (v) { return String(v || '').toLowerCase().indexOf(q) !== -1; }); });
     }
     $('productCount').textContent = list.length;
     var box = $('productsTableContent');
@@ -423,7 +423,7 @@
       var priceHtml = (p.old_price != null && Number(p.old_price) > Number(p.price)) ? '<span class="old-p">' + fmtDT(p.old_price) + '</span>' : '';
       priceHtml += fmtDT(p.price);
       html += '<tr data-product-id="' + esc(p.id) + '"><td>' + imgHtml + '</td>' +
-        '<td><strong>' + esc(p.name_fr || p.sku || '—') + '</strong>' + flags + '<div style="font-size:.62rem;opacity:.65;">' + esc(p.sku || '') + '</div></td>' +
+        '<td><strong>' + esc(p.name_fr || '—') + '</strong>' + flags + '</td>' +
         '<td>' + esc(audLabel(p.audience)) + '</td>' +
         '<td>' + priceHtml + '</td>' +
         '<td>' + badge + '</td>' +
@@ -448,7 +448,6 @@
     $(pref + 'DescFr').value = p ? (p.desc_fr || '') : '';
     $(pref + 'DescEn').value = p ? (p.desc_en || '') : '';
     $(pref + 'DescAr').value = p ? (p.desc_ar || '') : '';
-    $(pref + 'Sku').value = p ? (p.sku || '') : '';
     $(pref + 'Price').value = p ? p.price : '';
     $(pref + 'OldPrice').value = (p && p.old_price != null) ? p.old_price : '';
     $(pref + 'Stock').value = p ? (p.stock != null ? p.stock : 10) : 10;
@@ -507,7 +506,6 @@
       desc_en: $(pref + 'DescEn').value.trim() || null,
       desc_ar: $(pref + 'DescAr').value.trim() || null,
       audience: currentAud(pref),
-      sku: $(pref + 'Sku').value.trim() || null,
       price: Number($(pref + 'Price').value),
       old_price: $(pref + 'OldPrice').value === '' ? null : Number($(pref + 'OldPrice').value),
       stock: $(pref + 'Stock').value === '' ? 0 : Math.max(0, parseInt($(pref + 'Stock').value, 10)),
@@ -563,7 +561,7 @@
     if (!p) { $('editFormContainer').style.display = 'none'; $('editHint').style.display = 'block'; $('editChip').textContent = ''; return; }
     $('editHint').style.display = 'none';
     $('editFormContainer').style.display = 'block';
-    $('editChip').textContent = (p.sku || p.name_fr || '').slice(0, 24);
+    $('editChip').textContent = (p.name_fr || '').slice(0, 24);
     fillForm('e', p);
   }
 
@@ -931,7 +929,7 @@
       var dl = e.target.closest('[data-del]');
       if (dl) {
         var p = products.filter(function (x) { return x.id === dl.getAttribute('data-del'); })[0];
-        if (p && confirm(t('cf.delProduct') + (p.name_fr || p.sku) + t('cf.delProductSuffix'))) {
+        if (p && confirm(t('cf.delProduct') + (p.name_fr) + t('cf.delProductSuffix'))) {
           api('DELETE', '/rest/v1/products?id=eq.' + p.id, undefined, 'return=minimal').then(function (r) {
             if (r.ok) return loadAll().then(function () { toast(t('prod.deleted')); });
             throw new Error();
@@ -1063,7 +1061,7 @@
     $('eSubmit').addEventListener('click', function () { submitForm('e'); });
     $('eDelete').addEventListener('click', function () {
       var p = products.filter(function (x) { return x.id === editingId; })[0];
-      if (p && confirm(t('cf.delProduct') + (p.name_fr || p.sku) + t('cf.delProductSuffix'))) {
+      if (p && confirm(t('cf.delProduct') + (p.name_fr) + t('cf.delProductSuffix'))) {
         api('DELETE', '/rest/v1/products?id=eq.' + p.id, undefined, 'return=minimal').then(function (r) {
           if (!r.ok) throw new Error();
           editingId = null; try { sessionStorage.removeItem('ste_edit_id'); } catch (e) {}

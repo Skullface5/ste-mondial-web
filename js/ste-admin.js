@@ -879,23 +879,10 @@
     $all('.dash-tab').forEach(function (b) {
       b.addEventListener('click', function () { goto_(b.getAttribute('data-dashtab')); });
     });
-    /* lang + theme */
+    /* lang */
     $all('.lang-option').forEach(function (b) {
       b.addEventListener('click', function () { lang = b.getAttribute('data-lang'); applyLang(); });
     });
-    var tt = $('themeToggle');
-    function paintTheme() {
-      document.body.classList.toggle('dark', localStorage.getItem('theme') === 'dark');
-      var sun = tt.querySelector('.fa-sun'), moon = tt.querySelector('.fa-moon');
-      var dark = document.body.classList.contains('dark');
-      if (sun) sun.style.display = dark ? 'none' : 'inline-block';
-      if (moon) moon.style.display = dark ? 'inline-block' : 'none';
-    }
-    if (tt) tt.addEventListener('click', function () {
-      try { localStorage.setItem('theme', document.body.classList.contains('dark') ? 'light' : 'dark'); } catch (e) {}
-      paintTheme();
-    });
-    paintTheme();
 
     /* login */
     $('login-form').addEventListener('submit', function (e) {

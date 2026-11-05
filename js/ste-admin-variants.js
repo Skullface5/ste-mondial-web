@@ -6,6 +6,9 @@
 (function () {
   'use strict';
 
+  var SUPABASE_URL = 'https://xuwumbdyfywmxuzlvvul.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_qF8l43W4lTYJMXGfVDx-9g_6n6y1pH_';
+
   var CSS = [
     '.variants-admin{display:flex;flex-direction:column;gap:.5rem;}',
     '.variants-admin .var-row{display:flex;flex-direction:column;gap:.4rem;padding:.6rem;border:1px solid rgba(176,141,74,.12);border-radius:14px;background:#FAF6EE;}',
@@ -130,21 +133,17 @@
   function uploadVariantImage(inputEl, file) {
     var row = inputEl.closest('.var-row');
     var strip = row ? row.querySelector('.var-imgs') : null;
-    var sb = window.__steSupabase || window.supabase;
-    if (!sb) { alert('Supabase non initialisé'); return; }
-
     compress(file, function (blob, ext) {
       var slug = 'variant';
       var labelInput = row ? row.querySelector('.var-label') : null;
       if (labelInput && labelInput.value) slug = labelInput.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 20) || 'variant';
       var path = 'admin/variants/' + slug + '-' + Date.now() + '-' + Math.floor(Math.random() * 1e4) + '.' + ext;
-      sb.storage.from('products').upload(path, blob, { contentType: 'image/' + ext, upsert: true })
-        .then(function (r) {
-          if (r && r.error) { alert('Upload échoué: ' + r.error.message); return; }
-          var pub = sb.storage.from('products').getPublicUrl(path);
-          appendThumb(strip, pub.data.publicUrl);
-        })
-        .catch(function (err) { alert('Upload échoué: ' + err); });
+      // reuse the admin's uploader: it carries the logged-in user's JWT, which the
+      // storage RLS requires (the anon key is refused with 'row-level security policy')
+      if (typeof window.__steUpload !== 'function') { alert('Uploader indisponible — rechargez la page'); return; }
+      window.__steUpload(blob, 'admin/variants', ext)
+        .then(function (url) { appendThumb(strip, url); })
+        .catch(function (err) { alert('Upload échoué: ' + (err && err.message ? err.message : err)); });
     });
   }
 

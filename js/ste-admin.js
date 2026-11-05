@@ -522,6 +522,7 @@
       }).catch(reject);
     });
   }
+  window.__steUpload = uploadToBucket;   // the variant editor reuses it (needs the user JWT)
   /* Manual promo badge percent. Empty -> null (badge falls back to the value
      computed from old_price); keep only a finite, strictly-positive number. */
   function normalizePromoPercent(raw) {

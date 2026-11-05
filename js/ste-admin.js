@@ -54,6 +54,7 @@
       'pf.stock': 'Stock', 'pf.featured': 'Mis en avant', 'pf.active': 'Actif', 'pf.variants': 'Variantes (tailles)',
       'pf.images': 'Images du produit', 'pf.imgHelp': 'La 1re image = principale.',
       'pf.save': 'Enregistrer le produit', 'pf.cancel': 'Annuler', 'pf.delete': 'Supprimer',
+      'pf.variantsKept': "Variantes existantes conservées (la liste n'avait pas été chargée).",
       'pf.errName': 'Le nom (FR) est obligatoire.', 'pf.errPrice': 'Prix invalide.',
       'pf.uploading': "Envoi de l'image", 'pf.errPrefix': 'Erreur : ',
       'ord.title': 'Gestion des commandes', 'ord.search': 'ID, nom, téléphone, ville...', 'ord.all': 'Toutes',
@@ -113,6 +114,7 @@
       'pf.stock': 'Stock', 'pf.featured': 'Featured', 'pf.active': 'Active', 'pf.variants': 'Variants (sizes)',
       'pf.images': 'Product images', 'pf.imgHelp': '1st image = main.',
       'pf.save': 'Save product', 'pf.cancel': 'Cancel', 'pf.delete': 'Delete',
+      'pf.variantsKept': 'Existing variants kept (the list had not loaded).',
       'pf.errName': 'Name (FR) is required.', 'pf.errPrice': 'Invalid price.',
       'pf.uploading': 'Uploading image', 'pf.errPrefix': 'Error: ',
       'ord.title': 'Order management', 'ord.search': 'ID, name, phone, city...', 'ord.all': 'All',
@@ -172,6 +174,7 @@
       'pf.stock': 'المخزون', 'pf.featured': 'مميز', 'pf.active': 'نشط', 'pf.variants': 'الأحجام',
       'pf.images': 'صور المنتج', 'pf.imgHelp': 'الصورة الأولى = الأساسية.',
       'pf.save': 'حفظ المنتج', 'pf.cancel': 'إلغاء', 'pf.delete': 'حذف',
+      'pf.variantsKept': 'تم الاحتفاظ بالأحجام الموجودة (لم يتم تحميل القائمة).',
       'pf.errName': 'الاسم (FR) مطلوب.', 'pf.errPrice': 'سعر غير صالح.',
       'pf.uploading': 'رفع الصورة', 'pf.errPrefix': 'خطأ: ',
       'ord.title': 'إدارة الطلبات', 'ord.search': 'المعرّف، الاسم، الهاتف، المدينة...', 'ord.all': 'الكل',
@@ -549,10 +552,23 @@
       active: $(pref + 'Active').checked,
       image_url: urls[0] || null,
       images: urls,
-      variants: (window.SteAdminVariants && $(pref === 'a' ? 'variantsList' : 'eVariantsList'))
-        ? window.SteAdminVariants.readRows($(pref === 'a' ? 'variantsList' : 'eVariantsList'))
-        : []
+      variants: readVariantRows(pref)
     };
+  }
+  /* Guard against silent data loss: if the variant editor has no rows for a product
+     that DID have variants stored, keep the stored ones instead of writing an empty
+     array (the editor failing to load/mount used to wipe them on the next save). */
+  var keptVariants = false;
+  function readVariantRows(pref) {
+    keptVariants = false;
+    var list = $(pref === 'a' ? 'variantsList' : 'eVariantsList');
+    var rows = (window.SteAdminVariants && list) ? window.SteAdminVariants.readRows(list) : [];
+    if (pref === 'e' && !rows.length && editingId) {
+      var cur = products.filter(function (x) { return x.id === editingId; })[0];
+      var stored = (cur && Array.isArray(cur.variants)) ? cur.variants : [];
+      if (stored.length) { rows = stored; keptVariants = true; }
+    }
+    return rows;
   }
   async function submitForm(pref) {
     var msgId = pref + 'Msg', btn = $(pref === 'a' ? 'aSubmit' : 'eSubmit');
@@ -590,8 +606,13 @@
       }
       await loadAll();
       if (pref === 'a') { fillForm('a', null); goto_('collections'); }
-      else { editingId = null; try { sessionStorage.removeItem('ste_edit_id'); } catch (e) {} goto_('collections'); }
+      else {
+        editingId = null;
+        try { sessionStorage.removeItem('ste_edit_id'); } catch (e) {}
+        goto_('collections');
+      }
       toast(t(pref === 'a' ? 'prod.created' : 'prod.updated'));
+      if (keptVariants) setTimeout(function () { toast(t('pf.variantsKept')); }, 2500);
       showMsg(msgId, '');
     } catch (e) { showMsg(msgId, t('pf.errPrefix') + e.message); }
     finally { btn.disabled = false; }

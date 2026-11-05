@@ -76,7 +76,7 @@
   "checkout.submitting": "جارٍ الإرسال…",
   "checkout.total": "المجموع",
   "checkout.summary": "ملخص الطلب",
-  "checkout.back": "العودة إلى السلة",
+  "checkout.back": "رجوع",
   "checkout.errName": "يرجى إدخال اسمك.",
   "checkout.errPhone": "رقم غير صالح — 8 أرقام (مثال: 22 123 456)",
   "checkout.error": "حدث خطأ. أعد المحاولة أو اتصل بنا.",

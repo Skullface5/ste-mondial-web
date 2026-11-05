@@ -76,7 +76,7 @@
   "checkout.submitting": "Envoi en cours…",
   "checkout.total": "Total",
   "checkout.summary": "Récapitulatif",
-  "checkout.back": "Retour au panier",
+  "checkout.back": "Retour",
   "checkout.errName": "Veuillez indiquer votre nom.",
   "checkout.errPhone": "Numéro invalide — 8 chiffres (ex: 22 123 456)",
   "checkout.error": "Une erreur est survenue. Réessayez ou appelez-nous.",

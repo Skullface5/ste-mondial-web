@@ -76,7 +76,7 @@
   "checkout.submitting": "Sending…",
   "checkout.total": "Total",
   "checkout.summary": "Order summary",
-  "checkout.back": "Back to cart",
+  "checkout.back": "Back",
   "checkout.errName": "Please enter your name.",
   "checkout.errPhone": "Invalid number — 8 digits (e.g. 22 123 456)",
   "checkout.error": "Something went wrong. Try again or call us.",

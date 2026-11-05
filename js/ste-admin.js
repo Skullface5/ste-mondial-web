@@ -491,6 +491,7 @@
     var varList = $(pref === 'a' ? 'variantsList' : 'eVariantsList');
     if (varList && window.SteAdminVariants) {
       window.SteAdminVariants.setRows(varList, (p && p.variants) ? p.variants : []);
+      variantsLoadedFor = p ? (p.id || 'new') : pref;   // the editor now mirrors the product
     }
   }
   function currentAud(pref) { return pref === 'a' ? addAud : editAud; }
@@ -559,11 +560,15 @@
      that DID have variants stored, keep the stored ones instead of writing an empty
      array (the editor failing to load/mount used to wipe them on the next save). */
   var keptVariants = false;
+  var variantsLoadedFor = null;   // product id whose variants the editor is currently showing
   function readVariantRows(pref) {
     keptVariants = false;
     var list = $(pref === 'a' ? 'variantsList' : 'eVariantsList');
     var rows = (window.SteAdminVariants && list) ? window.SteAdminVariants.readRows(list) : [];
-    if (pref === 'e' && !rows.length && editingId) {
+    /* Only when the editor never rendered this product's variants do we refuse to
+       write an empty array (that is a failed load, not a deletion). If it was
+       populated, an empty list is the owner deleting them — honour it. */
+    if (pref === 'e' && !rows.length && editingId && variantsLoadedFor !== editingId) {
       var cur = products.filter(function (x) { return x.id === editingId; })[0];
       var stored = (cur && Array.isArray(cur.variants)) ? cur.variants : [];
       if (stored.length) { rows = stored; keptVariants = true; }

@@ -24,9 +24,50 @@ body{font-family:'Montserrat',sans-serif;background:#2B1D12;color:#F5F0E6;min-he
 <body>
 <main class="wrap">
 <div class="code">404</div>
-<p class="msg">Page introuvable — Cette page n'existe pas ou a été déplacée.</p>
-<a class="btn" href="/">Retour à la boutique</a>
-<p class="alt"><a href="/?lang=en">Back to shop</a>·<a href="/?lang=ar" lang="ar">العودة إلى المتجر</a></p>
+<p class="msg" id="nfMsg">Page introuvable — Cette page n'existe pas ou a été déplacée.</p>
+<a class="btn" id="nfCta" href="/">Retour à la boutique</a>
+<p class="alt" id="nfAlt" hidden></p>
 </main>
+<script>
+/* Trilingual 404. Reads the shop's own language choice (localStorage sm_lang2,
+   written by js/app2.js), a ?lang= query parameter, or the browser language -
+   in that order - so a visitor who was browsing in Arabic stays in Arabic. */
+(function () {
+  var STR = {
+    fr: { title: 'Page introuvable — Mondial Perfume',
+          msg: "Page introuvable — Cette page n'existe pas ou a été déplacée.",
+          cta: 'Retour à la boutique', back: 'Retour à la boutique' },
+    en: { title: 'Page not found — Mondial Perfume',
+          msg: 'Page not found — This page does not exist or has been moved.',
+          cta: 'Back to the shop', back: 'Back to the shop' },
+    ar: { title: 'الصفحة غير موجودة — مونديال برفوم',
+          msg: 'الصفحة غير موجودة — هذه الصفحة غير متوفرة أو تم نقلها.',
+          cta: 'العودة إلى المتجر', back: 'العودة إلى المتجر' }
+  };
+  var lang = null;
+  try {
+    var q = (location.search.match(/[?&]lang=(fr|en|ar)(?:&|$)/) || [])[1];
+    if (q) lang = q;
+    if (!lang) { var s = localStorage.getItem('sm_lang2'); if (s && STR[s]) lang = s; }
+  } catch (e) { /* private mode */ }
+  if (!lang) {
+    var nav = (navigator.language || 'fr').slice(0, 2);
+    lang = (nav === 'ar' || nav === 'en') ? nav : 'fr';
+  }
+  var t = STR[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.title = t.title;
+  var msg = document.getElementById('nfMsg'); if (msg) msg.textContent = t.msg;
+  var cta = document.getElementById('nfCta'); if (cta) cta.textContent = t.cta;
+  var alt = document.getElementById('nfAlt');
+  if (alt) {
+    alt.innerHTML = ['fr', 'en', 'ar'].filter(function (x) { return x !== lang; })
+      .map(function (x) { return '<a href="/?lang=' + x + '" lang="' + x + '">' + STR[x].back + '</a>'; })
+      .join('·');
+    alt.hidden = false;
+  }
+})();
+</script>
 </body>
 </html>

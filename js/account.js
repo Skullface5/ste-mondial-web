@@ -30,6 +30,7 @@
   var LANGS = {
     fr: {
       'account.admin': 'Administration',
+      'misc.close': 'Fermer',
       'account.cancelBtn': 'Annuler la commande', 'account.cancelConfirm': 'Annuler cette commande ?',
       'account.cancelOk': 'Commande annul\u00e9e.', 'account.cancelFail': "Impossible d'annuler la commande.",
       'account.status.nouvelle': 'Nouvelle', 'account.status.confirmee': 'Confirm\u00e9e',
@@ -37,17 +38,21 @@
     },
     en: {
       'account.admin': 'Admin panel',
+      'misc.close': 'Close',
       'account.cancelBtn': 'Cancel order', 'account.cancelConfirm': 'Cancel this order?',
       'account.cancelOk': 'Order cancelled.', 'account.cancelFail': 'Could not cancel the order.',
       'account.status.nouvelle': 'New', 'account.status.confirmee': 'Confirmed',
-      'account.status.expediee': 'Shipped', 'account.status.livree': 'Delivered', 'account.status.annulee': 'Cancelled'
+      'account.status.expediee': 'Shipped', 'account.status.livree': 'Delivered', 'account.status.annulee': 'Cancelled',
+      'account.profileSaved': 'Details saved \u2713'
     },
     ar: {
       'account.admin': 'لوحة الإدارة',
+      'misc.close': '\u0625\u063a\u0644\u0627\u0642',
       'account.cancelBtn': '\u0625\u0644\u063a\u0627\u0621 \u0627\u0644\u0637\u0644\u0628', 'account.cancelConfirm': '\u0625\u0644\u063a\u0627\u0621 \u0647\u0630\u0627 \u0627\u0644\u0637\u0644\u0628\u061f',
       'account.cancelOk': '\u062a\u0645 \u0625\u0644\u063a\u0627\u0621 \u0627\u0644\u0637\u0644\u0628.', 'account.cancelFail': '\u062a\u0639\u0630\u0631 \u0625\u0644\u063a\u0627\u0621 \u0627\u0644\u0637\u0644\u0628.',
       'account.status.nouvelle': '\u062c\u062f\u064a\u062f\u0629', 'account.status.confirmee': '\u0645\u0624\u0643\u062f\u0629',
-      'account.status.expediee': '\u062a\u0645 \u0627\u0644\u0634\u062d\u0646', 'account.status.livree': '\u062a\u0645 \u0627\u0644\u062a\u0648\u0635\u064a\u0644', 'account.status.annulee': '\u0645\u0644\u063a\u0627\u0629'
+      'account.status.expediee': '\u062a\u0645 \u0627\u0644\u0634\u062d\u0646', 'account.status.livree': '\u062a\u0645 \u0627\u0644\u062a\u0648\u0635\u064a\u0644', 'account.status.annulee': '\u0645\u0644\u063a\u0627\u0629',
+      'account.profileSaved': '\u062a\u0645 \u062d\u0641\u0638 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u2713'
     }
   };
   function t(key) {
@@ -72,7 +77,8 @@
       'account.errCreds': 'Email ou mot de passe incorrect.', 'account.errExists': 'Un compte existe déjà avec cet email.',
       'account.errGeneric': 'Erreur : ',
       'account.cancelBtn': 'Annuler la commande', 'account.cancelConfirm': 'Annuler cette commande ?',
-      'account.cancelOk': 'Commande annul\u00e9e.', 'account.cancelFail': "Impossible d'annuler la commande."
+      'account.cancelOk': 'Commande annul\u00e9e.', 'account.cancelFail': "Impossible d'annuler la commande.",
+      'account.profileSaved': 'Informations enregistr\u00e9es \u2713'
     };
     return FB[key] || key;
   }
@@ -179,7 +185,7 @@
       '<aside class="cart-drawer account-drawer" id="accountDrawer" role="dialog" aria-modal="true" hidden>' +
       '  <div class="cart-head">' +
       '    <h2 data-i18n="account.title">' + esc(t('account.title')) + '</h2>' +
-      '    <button class="icon-btn" type="button" data-close="account" aria-label="close">' +
+      '    <button class="icon-btn" type="button" data-close="account" data-i18n-aria="misc.close" aria-label="' + esc(t('misc.close')) + '">' +
       '      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
       '    </button>' +
       '  </div>' +

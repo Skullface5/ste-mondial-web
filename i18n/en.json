@@ -185,5 +185,8 @@
       "annulee": "Cancelled"
     },
     "empty": "No orders yet."
-  }
+  },
+  "pm.prev": "Previous",
+  "pm.next": "Next",
+  "brand.tagline": "THE ESSENCE OF THE WORLD"
 }

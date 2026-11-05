@@ -185,5 +185,8 @@
       "annulee": "Annulée"
     },
     "empty": "Aucune commande pour le moment."
-  }
+  },
+  "pm.prev": "Précédent",
+  "pm.next": "Suivant",
+  "brand.tagline": "L'ESSENCE DU MONDE"
 }

@@ -63,7 +63,7 @@
   "checkout.phone": "الهاتف",
   "checkout.phonePh": "+216 .. ... ...",
   "checkout.email": "البريد الإلكتروني (اختياري)",
-  "checkout.emailPh": "you@example.com",
+  "checkout.emailPh": "example@mail.com",
   "checkout.address": "العنوان",
   "checkout.addressPh": "الشارع، العمارة، إلخ.",
   "checkout.city": "المدينة",
@@ -185,5 +185,8 @@
       "annulee": "ملغاة"
     },
     "empty": "لا توجد طلبات حاليًا."
-  }
+  },
+  "pm.prev": "السابق",
+  "pm.next": "التالي",
+  "brand.tagline": "روح العالم"
 }

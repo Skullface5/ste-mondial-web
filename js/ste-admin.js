@@ -645,7 +645,7 @@
       '<div class="oc-items">' + (items || '<div class="item-row" style="opacity:.6;">—</div>') + '</div>' +
       '<div class="oc-footer"><div class="oc-total">' + t('ord.total') + ' : <span>' + fmtDT(o.total) + '</span></div>' +
       '<select class="status-sel" data-status-for="' + esc(o.id) + '">' + opts + '</select></div>' +
-      '<div style="padding:.4rem .85rem .75rem;"><button class="rev-del" data-delorder="' + esc(o.id) + '"><i class="fas fa-trash-alt"></i> ' + t('ord.del') + '</button></div>' +
+      '<div class="oc-delrow"><button class="rev-del" data-delorder="' + esc(o.id) + '"><i class="fas fa-trash-alt"></i> ' + t('ord.del') + '</button></div>' +
       '</div>';
   }
 

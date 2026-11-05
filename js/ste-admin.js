@@ -533,6 +533,11 @@
   }
   async function submitForm(pref) {
     var msgId = pref + 'Msg', btn = $(pref === 'a' ? 'aSubmit' : 'eSubmit');
+    /* A hidden submit means the form is not open — after a successful save the
+       panel switches to collections but the button stays in the DOM. Without
+       this guard a second click re-submits with editingId already cleared,
+       which POSTs a duplicate product. */
+    if (!btn || !btn.offsetParent) return;
     var payload = collectPayload(pref);
     if (!payload.name_fr) { showMsg(msgId, t('pf.errName')); return; }
     if (!(payload.price > 0)) { showMsg(msgId, t('pf.errPrice')); return; }

@@ -69,11 +69,14 @@
       'set.whatsapp': 'WhatsApp (ex: 21612345678)', 'set.delivery': 'Frais de livraison (DT)',
       'set.annFr': 'Bandeau annonce (FR)', 'set.annEn': 'Bandeau annonce (EN)', 'set.annAr': 'Bandeau annonce (AR)',
       'set.linkLbl': 'Lien (optionnel)', 'set.save': 'Enregistrer', 'set.saved': 'Réglages enregistrés ✓', 'set.nothing': 'Rien à enregistrer.',
-      'set.heroCard': 'Images héro (diaporama)', 'set.heroHelp': "Plusieurs images = diaporama. La 1re est l'image principale.",
+      'set.heroCard': 'Images héro (diaporama)', 'set.heroHelp': "Images (JPG, PNG, WebP, AVIF) ou vidéos (MP4, WebM, MOV) — 6 max. Cliquez une vignette pour lui attacher un lien. La 1re est l'image principale.",
       'set.saveHero': 'Enregistrer le héro', 'set.heroSaved1': 'Image héro enregistrée ✓', 'set.heroSavedN': 'Diaporama héro enregistré ✓',
-      'set.bannerCard': 'Bannière promo', 'set.bannerHelp': "L'image affichée dans la section promotion de l'accueil.",
+      'set.bannerCard': 'Bannière promo', 'set.bannerHelp': "Images ou vidéos de la section promotion de l'accueil — 6 max. Cliquez une vignette pour lui attacher un lien.",
       'set.saveBanner': 'Enregistrer la bannière', 'set.bannerSavedN': 'Bannière enregistrée ✓',
       'set.autoplay': 'Défilement automatique', 'set.imgUpdated': 'Image mise à jour ✓', 'set.defaultApplied': 'Aucune image — défaut appliqué.',
+      'set.mediaAdd': 'Ajouter une image ou une vidéo', 'set.mediaRemove': 'Retirer ce média',
+      'set.mediaLimit': 'Maximum 6 médias par carte.', 'set.mediaTooBig': 'Vidéo trop lourde (max 25 Mo).',
+      'set.mediaSaved': 'Enregistré ✓',
       'toast.refreshed': 'Données actualisées ✓', 'toast.loadErr': 'Erreur de chargement : ', 'prod.delFail': 'Échec de la suppression'
     },
     en: {
@@ -120,11 +123,14 @@
       'set.whatsapp': 'WhatsApp (e.g. 21612345678)', 'set.delivery': 'Delivery fee (DT)',
       'set.annFr': 'Announcement banner (FR)', 'set.annEn': 'Announcement banner (EN)', 'set.annAr': 'Announcement banner (AR)',
       'set.linkLbl': 'Link (optional)', 'set.save': 'Save', 'set.saved': 'Settings saved ✓', 'set.nothing': 'Nothing to save.',
-      'set.heroCard': 'Hero images (slideshow)', 'set.heroHelp': 'Multiple images = slideshow. The 1st is the main one.',
+      'set.heroCard': 'Hero images (slideshow)', 'set.heroHelp': 'Images (JPG, PNG, WebP, AVIF) or videos (MP4, WebM, MOV) — 6 max. Click a thumbnail to attach a link to it. The 1st is the main one.',
       'set.saveHero': 'Save hero', 'set.heroSaved1': 'Hero image saved ✓', 'set.heroSavedN': 'Hero slideshow saved ✓',
-      'set.bannerCard': 'Promo banner', 'set.bannerHelp': 'The image shown in the home promo section.',
+      'set.bannerCard': 'Promo banner', 'set.bannerHelp': 'Images or videos for the home promo section — 6 max. Click a thumbnail to attach a link to it.',
       'set.saveBanner': 'Save banner', 'set.bannerSavedN': 'Banner saved ✓',
       'set.autoplay': 'Auto-play slideshow', 'set.imgUpdated': 'Image updated ✓', 'set.defaultApplied': 'No images — default applied.',
+      'set.mediaAdd': 'Add an image or a video', 'set.mediaRemove': 'Remove this media',
+      'set.mediaLimit': 'Maximum 6 media per card.', 'set.mediaTooBig': 'Video too heavy (max 25 MB).',
+      'set.mediaSaved': 'Saved ✓',
       'toast.refreshed': 'Data refreshed ✓', 'toast.loadErr': 'Loading error: ', 'prod.delFail': 'Delete failed'
     },
     ar: {
@@ -171,11 +177,14 @@
       'set.whatsapp': 'واتساب (مثال: 21612345678)', 'set.delivery': 'رسوم التوصيل (د.ت)',
       'set.annFr': 'شريط الإعلان (FR)', 'set.annEn': 'شريط الإعلان (EN)', 'set.annAr': 'شريط الإعلان (AR)',
       'set.linkLbl': 'رابط (اختياري)', 'set.save': 'حفظ', 'set.saved': 'تم الحفظ ✓', 'set.nothing': 'لا شيء للحفظ.',
-      'set.heroCard': 'صور الواجهة', 'set.heroHelp': 'عدة صور = عرض متبدل. الأولى هي الأساسية.',
+      'set.heroCard': 'صور الواجهة', 'set.heroHelp': 'صور (JPG، PNG، WebP، AVIF) أو فيديوهات (MP4، WebM، MOV) — 6 كحد أقصى. اضغط على صورة مصغّرة لإرفاق رابط بها. الأولى هي الأساسية.',
       'set.saveHero': 'حفظ الواجهة', 'set.heroSaved1': 'تم حفظ الصورة ✓', 'set.heroSavedN': 'تم حفظ العرض ✓',
-      'set.bannerCard': 'لافتة ترويجية', 'set.bannerHelp': 'الصور المعروضة في قسم الترويج بالرئيسية.',
+      'set.bannerCard': 'لافتة ترويجية', 'set.bannerHelp': 'صور أو فيديوهات لقسم الترويج بالرئيسية — 6 كحد أقصى. اضغط على صورة مصغّرة لإرفاق رابط بها.',
       'set.saveBanner': 'حفظ البانر', 'set.bannerSavedN': 'تم حفظ البانر ✓',
       'set.autoplay': 'تبديل تلقائي', 'set.imgUpdated': 'تم تحديث الصورة ✓', 'set.defaultApplied': 'لا صور — الافتراضي مطبق.',
+      'set.mediaAdd': 'إضافة صورة أو فيديو', 'set.mediaRemove': 'إزالة هذا الملف',
+      'set.mediaLimit': '6 ملفات كحد أقصى لكل بطاقة.', 'set.mediaTooBig': 'الفيديو ثقيل جدًا (25 ميغا كحد أقصى).',
+      'set.mediaSaved': 'تم الحفظ ✓',
       'toast.refreshed': 'تم التحديث ✓', 'toast.loadErr': 'خطأ في التحميل: ', 'prod.delFail': 'فشل الحذف'
     }
   };
@@ -191,7 +200,7 @@
   var orderFilter = 'all', searchTerm = '', oSearchTerm = '';
   var editingId = null, editAud = 'homme', addAud = 'homme';
   var aG = { urls: [], files: [] }, eG = { urls: [], files: [] };
-  var heroSt = { list: [], files: [], sel: -1 }, banSt = { list: [], files: [], sel: -1 };
+  var heroSt = { list: [], files: [], sel: -1, saving: false }, banSt = { list: [], files: [], sel: -1, saving: false };
   var channel = null, pollTimer = null, refreshInFlight = null;
 
   function $(id) { return document.getElementById(id); }
@@ -481,9 +490,10 @@
     }).join('');
     box.innerHTML = html;
   }
-  function uploadToBucket(file, pathPrefix) {
+  function uploadToBucket(file, pathPrefix, extOverride) {
     return new Promise(function (resolve, reject) {
-      var ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
+      var nm = String((file && file.name) || '');
+      var ext = extOverride || (nm.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
       var name = pathPrefix + '/' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7) + '.' + ext;
       fetch(SUPABASE_URL + '/storage/v1/object/' + BUCKET + '/' + name, {
         method: 'POST',
@@ -803,22 +813,40 @@
     heroSt.sel = -1; banSt.sel = -1;
     $('heroAutoplay').checked = settings.hero_autoplay !== false;
     $('bannerAutoplay').checked = settings.banner_autoplay !== false;
-    renderMediaStrip('heroStrip', heroSt, function (i) { heroSt.list.splice(i, 1); renderMediaStrip('heroStrip', heroSt); });
-    renderMediaStrip('bannerStrip', banSt, function (i) { banSt.list.splice(i, 1); renderMediaStrip('bannerStrip', banSt); });
-    var hc = $('heroCountBadge'); if (hc) hc.textContent = heroSt.list.length + '+ / 6';
-    var bc = $('bannerCountBadge'); if (bc) bc.textContent = banSt.list.length + '+ / 6';
+    renderMediaStrip('heroStrip', heroSt);
+    renderMediaStrip('bannerStrip', banSt);
     // Repaint the promo preview here too: this runs after every loadAll(), so the
     // preview badge figure follows the real product rows (incl. manual promo_percent).
     paintPromo();
   }
+  /* ── media cards (hero slideshow + promo banner) ──────────────────────────
+     Item shape stored in site_settings: { src, type: 'image'|'video', link }
+     Legacy shapes still load: plain URL strings, and {src, link} objects.
+     Images are downscaled to 1600px on the long edge and re-encoded to WebP
+     before upload; videos are uploaded untouched.                              */
+  var MEDIA_MAX = 6;
+  var VIDEO_EXT = /\.(mp4|webm|mov|m4v)(\?|$)/i;
+  var VIDEO_MAX_BYTES = 25 * 1024 * 1024;
+  function isVideoSrc(u) { return VIDEO_EXT.test(String(u || '')); }
+  function mediaType(file) {
+    var mt = (file && file.type) || '';
+    if (/^video\//i.test(mt)) return 'video';
+    if (/^image\//i.test(mt)) return 'image';
+    return isVideoSrc(file && file.name) ? 'video' : 'image';
+  }
   function normMedia(arr, legacy) {
     var raw = Array.isArray(arr) ? arr : (legacy ? [legacy] : []);
     return raw.filter(Boolean).map(function (it) {
-      return (typeof it === 'string') ? { src: it, link: '' } : { src: String(it.src || it.url || ''), link: String(it.link || '') };
-    }).filter(function (it) { return it.src; });
+      if (typeof it === 'string') return { src: it, type: isVideoSrc(it) ? 'video' : 'image', link: '' };
+      var src = String(it.src || it.url || '');
+      return { src: src, type: (it.type === 'video' || isVideoSrc(src)) ? 'video' : 'image', link: String(it.link || '') };
+    }).filter(function (it) { return it.src; }).slice(0, MEDIA_MAX);
   }
+  function mediaKey(boxId) { return boxId === 'heroStrip' ? 'hero' : 'banner'; }
+  function mediaState(kind) { return kind === 'hero' ? heroSt : banSt; }
+  function mediaBox(kind) { return kind === 'hero' ? 'heroStrip' : 'bannerStrip'; }
   function linkEls(boxId) {
-    var k = boxId === 'heroStrip' ? 'hero' : 'banner';
+    var k = mediaKey(boxId);
     return { row: $(k + 'LinkRow'), inp: $(k + 'LinkInput'), tgt: $(k + 'LinkTarget') };
   }
   function selItem(boxId, st) {
@@ -834,23 +862,87 @@
     if (it) {
       le.tgt.textContent = '#' + (st.sel + 1) + '/' + (st.list.length + st.files.length);
       if (document.activeElement !== le.inp) le.inp.value = it.link || '';
+    } else if (le.inp) {
+      le.inp.value = '';
     }
   }
-  function renderMediaStrip(boxId, st, delFn) {
+  function mediaMsg(kind, text, ok) {
+    var el = $(kind + 'Msg'); if (!el) return;
+    el.textContent = text || '';
+    el.className = 'hero-admin-msg' + (text ? ' show' + (ok ? ' ok' : ' err') : '');
+  }
+  function flashSaved(kind) {
+    var b = $(kind + 'SavedBadge'); if (!b) return;
+    b.hidden = false;
+    clearTimeout(flashSaved['_t' + kind]);
+    flashSaved['_t' + kind] = setTimeout(function () { b.hidden = true; }, 3500);
+  }
+  /* canvas downscale to 1600px on the long edge -> WebP; falls back to the raw file */
+  function compressImage(file) {
+    return new Promise(function (resolve) {
+      var url = URL.createObjectURL(file);
+      function fallback() { resolve({ blob: file, ext: (String(file.name || 'jpg').split('.').pop() || 'jpg').toLowerCase() }); }
+      var img = new Image();
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        try {
+          var w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+          if (!w || !h) { fallback(); return; }
+          if (Math.max(w, h) > 1600) { var k = 1600 / Math.max(w, h); w = Math.round(w * k); h = Math.round(h * k); }
+          var canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          canvas.toBlob(function (blob) {
+            if (blob && blob.type === 'image/webp') resolve({ blob: blob, ext: 'webp' });
+            else fallback();
+          }, 'image/webp', 0.85);
+        } catch (e) { fallback(); }
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); fallback(); };
+      img.src = url;
+    });
+  }
+  function renderMediaStrip(boxId, st) {
     var box = $(boxId); if (!box) return;
+    var total = st.list.length + st.files.length;
+    if (st.sel >= total) st.sel = -1;
+    function thumbHtml(it, li, isNew, delAttr) {
+      var v = it.type === 'video';
+      var src = isNew ? (it.url || (it.url = URL.createObjectURL(it.file))) : mediaUrl(it.src);
+      var media = v
+        ? '<video src="' + esc(src) + '" muted preload="metadata" playsinline></video><span class="g-vid-tag" aria-hidden="true"><i class="fas fa-play"></i></span>'
+        : '<img src="' + esc(src) + '" alt=""' + (isNew ? '' : ' loading="lazy"') + '>';
+      return '<div class="g-thumb' + (v ? ' g-thumb--vid' : '') + (isNew ? ' g-thumb--new' : '') +
+        (st.sel === li ? ' g-thumb--active' : '') + '" data-gsel="' + li + '">' + media +
+        (it.link ? '<span class="g-link-tag" aria-hidden="true"><i class="fas fa-link"></i></span>' : '') +
+        '<button type="button" class="g-del" ' + delAttr + ' aria-label="' + esc(t('set.mediaRemove')) + '">&#10005;</button></div>';
+    }
     var html = st.list.map(function (it, i) {
-      return '<div class="g-thumb' + (st.sel === i ? ' g-thumb--active' : '') + '" data-gsel="' + i + '"><img src="' + esc(mediaUrl(it.src)) + '" alt="" loading="lazy">' +
-        (it.link ? '<span class="g-link-tag"><i class="fas fa-link"></i></span>' : '') +
-        '<button type="button" class="g-del" data-mdel="' + boxId + ':' + i + '">✕</button></div>';
+      return thumbHtml(it, i, false, 'data-mdel="' + boxId + ':' + i + '"');
     }).join('');
     html += (st.files || []).map(function (f, i) {
-      var li = st.list.length + i;
-      return '<div class="g-thumb g-thumb--new' + (st.sel === li ? ' g-thumb--active' : '') + '" data-gsel="' + li + '"><img src="' + esc(URL.createObjectURL(f.file || f)) + '" alt="">' +
-        ((f.file && f.link) ? '<span class="g-link-tag"><i class="fas fa-link"></i></span>' : '') +
-        '<button type="button" class="g-del" data-mfile="' + boxId + ':' + i + '">✕</button></div>';
+      return thumbHtml(f, st.list.length + i, true, 'data-mfile="' + boxId + ':' + i + '"');
     }).join('');
+    if (total < MEDIA_MAX) {
+      html += '<label class="g-add" for="' + mediaKey(boxId) + 'FileInput" aria-label="' + esc(t('set.mediaAdd')) + '">+</label>';
+    }
     box.innerHTML = html;
+    var badge = $(mediaKey(boxId) + 'CountBadge');
+    if (badge) badge.textContent = total + '/' + MEDIA_MAX;
     syncLinkRow(boxId, st);
+  }
+  function addMediaFiles(kind, fileList) {
+    var st = mediaState(kind);
+    var msg = '';
+    Array.prototype.slice.call(fileList || []).forEach(function (file) {
+      if (st.list.length + st.files.length >= MEDIA_MAX) { msg = t('set.mediaLimit'); return; }
+      var type = mediaType(file);
+      if (type === 'video' && file.size > VIDEO_MAX_BYTES) { msg = t('set.mediaTooBig'); return; }
+      st.files.push({ file: file, type: type, link: '' });
+    });
+    if (st.files.length) st.sel = st.list.length + st.files.length - 1;
+    if (msg) mediaMsg(kind, '⚠ ' + msg, false);
+    renderMediaStrip(mediaBox(kind), st);
   }
   async function saveSettingsTab() {
     var rows = [];
@@ -867,31 +959,48 @@
     else showMsg('settingsMsg', t('pf.errPrefix') + 'HTTP ' + res.status);
   }
   async function saveMedia(kind) {
-    var st = kind === 'hero' ? heroSt : banSt;
-    var msgId = kind === 'hero' ? 'heroMsg' : 'bannerMsg';
-    var btn = kind === 'hero' ? $('btnSaveHero') : $('btnSaveBanner');
+    var st = mediaState(kind);
+    var btn = $(kind === 'hero' ? 'btnSaveHero' : 'btnSaveBanner');
+    if (st.saving) return;
+    st.saving = true;
     if (btn) btn.disabled = true;
     try {
-      var list = st.list.map(function (it) { return { src: it.src, link: it.link || '' }; });
+      var list = st.list.map(function (it) {
+        return { src: it.src, type: it.type === 'video' ? 'video' : 'image', link: it.link || '' };
+      });
       for (var i = 0; i < st.files.length; i++) {
-        showMsg(msgId, t('pf.uploading') + ' ' + (i + 1) + '/' + st.files.length + '...');
         var fi = st.files[i];
-        var src = await uploadToBucket(fi.file || fi, 'site');
-        list.push({ src: src, link: (fi.link || '').trim() });
+        mediaMsg(kind, t('pf.uploading') + ' ' + (i + 1) + '/' + st.files.length + '...', true);
+        var src;
+        if (fi.type === 'video') {
+          src = await uploadToBucket(fi.file, 'site');           // videos are uploaded untouched
+        } else {
+          var c = await compressImage(fi.file);                  // images: 1600px max, WebP
+          src = await uploadToBucket(c.blob, 'site', c.ext);
+        }
+        list.push({ src: src, type: fi.type === 'video' ? 'video' : 'image', link: (fi.link || '').trim() });
       }
       var key = kind === 'hero' ? 'hero_images' : 'banner_images';
       var apKey = kind === 'hero' ? 'hero_autoplay' : 'banner_autoplay';
-      var ap = kind === 'hero' ? $('heroAutoplay') : $('bannerAutoplay');
+      var ap = $(kind === 'hero' ? 'heroAutoplay' : 'bannerAutoplay');
+      var apVal = !(ap && ap.checked === false);
       var res = await api('POST', '/rest/v1/site_settings?on_conflict=key', [
         { key: key, value: list },
-        { key: apKey, value: !!ap.checked }
+        { key: apKey, value: apVal }
       ], 'resolution=merge-duplicates,return=minimal');
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      st.list = list; st.files = [];
+      // keep the local settings cache in sync, otherwise renderAll() repaints
+      // the strips from the pre-save values
+      settings[key] = list; settings[apKey] = apVal;
+      st.list = list; st.files = []; st.sel = -1;
       renderSettingsTab();
-      showMsg(msgId, list.length > 1 ? t(kind === 'hero' ? 'set.heroSavedN' : 'set.bannerSavedN') : t(kind === 'hero' ? 'set.heroSaved1' : 'set.imgUpdated'), true);
-    } catch (e) { showMsg(msgId, t('pf.errPrefix') + e.message); }
-    finally { if (btn) btn.disabled = false; }
+      mediaMsg(kind, list.length > 1 ? t(kind === 'hero' ? 'set.heroSavedN' : 'set.bannerSavedN') : t(kind === 'hero' ? 'set.heroSaved1' : 'set.imgUpdated'), true);
+      flashSaved(kind);
+      toast(t('set.mediaSaved'));
+    } catch (e) {
+      mediaMsg(kind, t('pf.errPrefix') + (e && e.message ? e.message : ''));
+    }
+    finally { st.saving = false; if (btn) btn.disabled = false; }
   }
   /* ── realtime / polling (orders) ── */
   function startRealtime() {
@@ -1020,7 +1129,8 @@
         var gbox = gsel.closest('.g-strip');
         if (gbox) {
           var gst = gbox.id === 'heroStrip' ? heroSt : banSt;
-          gst.sel = +gsel.getAttribute('data-gsel');
+          var gi = +gsel.getAttribute('data-gsel');
+          gst.sel = (gst.sel === gi) ? -1 : gi;
           renderMediaStrip(gbox.id, gst);
           return;
         }
@@ -1125,26 +1235,23 @@
     $('btnSaveHero').addEventListener('click', function () { saveMedia('hero'); });
     $('btnSaveBanner').addEventListener('click', function () { saveMedia('banner'); });
     $('heroFileInput').addEventListener('change', function () {
-      Array.prototype.slice.call(this.files || []).forEach(function (f) { if (f.size <= 5 * 1024 * 1024) heroSt.files.push({ file: f, link: '' }); });
-      if (heroSt.files.length) heroSt.sel = heroSt.list.length + heroSt.files.length - 1;
-      renderMediaStrip('heroStrip', heroSt); this.value = '';
+      addMediaFiles('hero', this.files);
+      this.value = '';
     });
     $('bannerFileInput').addEventListener('change', function () {
-      Array.prototype.slice.call(this.files || []).forEach(function (f) { if (f.size <= 5 * 1024 * 1024) banSt.files.push({ file: f, link: '' }); });
-      if (banSt.files.length) banSt.sel = banSt.list.length + banSt.files.length - 1;
-      renderMediaStrip('bannerStrip', banSt); this.value = '';
+      addMediaFiles('banner', this.files);
+      this.value = '';
     });
     ['hero', 'banner'].forEach(function (k) {
       var inp = $(k + 'LinkInput'); if (!inp) return;
       inp.addEventListener('input', function () {
-        var boxId = k === 'hero' ? 'heroStrip' : 'bannerStrip';
-        var st = k === 'hero' ? heroSt : banSt;
-        var it = selItem(boxId, st);
+        var st = mediaState(k);
+        var it = selItem(mediaBox(k), st);
         if (it) it.link = inp.value.trim();
-        var th = $(boxId) && $(boxId).querySelector('[data-gsel="' + st.sel + '"]');
+        var th = $(mediaBox(k)) && $(mediaBox(k)).querySelector('[data-gsel="' + st.sel + '"]');
         if (th) {
           var tag = th.querySelector('.g-link-tag');
-          if (it && it.link && !tag) th.insertAdjacentHTML('beforeend', '<span class="g-link-tag"><i class="fas fa-link"></i></span>');
+          if (it && it.link && !tag) th.insertAdjacentHTML('beforeend', '<span class="g-link-tag" aria-hidden="true"><i class="fas fa-link"></i></span>');
           if ((!it || !it.link) && tag) tag.remove();
         }
       });

@@ -1886,3 +1886,33 @@ html[dir="rtl"] .acct-toast.show { transform: translate(50%, 0); }
 @media (min-width: 768px){
   .checkout-wrap{ padding: 26px 24px 22px; }
 }
+/* ── admin media v2: video slides in the hero + promo banner ──
+   Same geometry/transition as the image slides; videos are muted, inline, looping. */
+.hero-media video.hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+  background: #1A1208;
+  pointer-events: none;
+}
+.hero-media video.hero-slide.on { opacity: 1; }
+.hero-media video.hero-slide.has-link { pointer-events: auto; cursor: pointer; }
+
+.promo-media video.promo-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: transform 1.1s ease, opacity 1.1s ease;
+  background: #1A1208;
+}
+.promo-media video.promo-slide.on { opacity: 1; transform: translateX(0); }
+.promo-media video.promo-slide.out { opacity: 0; transform: translateX(-100%); }

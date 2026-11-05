@@ -1020,12 +1020,17 @@
   var ALLPAGE_MAX = 24;
   var allPage = { page: 1, q: '', sort: 'new' };
   var bannerTimer = null;
+  /* Slides from site_settings: {src, type:'image'|'video', link} — legacy plain
+     strings and {src,link} objects still load. Max 6, as enforced by the admin. */
+  var VIDEO_SRC_RE = /\.(mp4|webm|mov|m4v)(\?|$)/i;
+  function isVideoSrc(u) { return VIDEO_SRC_RE.test(String(u || '')); }
   function normSlides(arr, legacy) {
     var raw = Array.isArray(arr) ? arr : (legacy ? [legacy] : []);
     return raw.filter(Boolean).map(function (it) {
-      if (typeof it === 'string') return { src: it, link: '' };
-      return { src: String(it.src || it.url || ''), link: String(it.link || '') };
-    }).filter(function (it) { return it.src; });
+      if (typeof it === 'string') return { src: it, type: isVideoSrc(it) ? 'video' : 'image', link: '' };
+      var src = String(it.src || it.url || '');
+      return { src: src, type: (it.type === 'video' || isVideoSrc(src)) ? 'video' : 'image', link: String(it.link || '') };
+    }).filter(function (it) { return it.src; }).slice(0, 6);
   }
   function bindSlideLinks(host, attr) {
     var marker = 'data-slidelink-bound';
@@ -1036,106 +1041,139 @@
       if (el) { e.preventDefault(); window.location.href = el.getAttribute(attr); }
     });
   }
-  function buildHero(images, autoplay) {
+  function playSlide(n) {
+    if (!n || n.tagName !== 'VIDEO') return;
+    try { var p = n.play(); if (p && p.catch) p.catch(function () { /* autoplay blocked */ }); } catch (e) { /* older browsers */ }
+  }
+  function pauseSlide(n) {
+    if (!n || n.tagName !== 'VIDEO') return;
+    try { n.pause(); } catch (e) { /* noop */ }
+  }
+  /* One slide node: image, or a silent looping video (storefront videos never carry sound). */
+  function slideNode(it, cls, linkAttr, on) {
+    var n;
+    if (it.type === 'video') {
+      n = document.createElement('video');
+      n.src = it.src;
+      n.muted = true; n.loop = true; n.playsInline = true; n.preload = 'metadata';
+      n.setAttribute('muted', ''); n.setAttribute('loop', '');
+      n.setAttribute('playsinline', ''); n.setAttribute('webkit-playsinline', '');
+      n.setAttribute('preload', 'metadata');
+      n.setAttribute('aria-hidden', 'true');
+    } else {
+      n = document.createElement('img');
+      n.src = it.src; n.alt = ''; n.decoding = 'async';
+      if (cls === 'promo-slide') n.setAttribute('loading', 'lazy');
+    }
+    n.className = cls + (on ? ' on' : '') + (it.link ? ' has-link' : '');
+    if (it.link) n.setAttribute(linkAttr, it.link);
+    return n;
+  }
+  /* 5s rotation, paused on hidden tabs; hero crossfades, the promo banner slides. */
+  function cycleSlides(host, cls, autoplay, withOut) {
+    var idx = 0;
+    function all() { return Array.prototype.slice.call(host.querySelectorAll('.' + cls)); }
+    function show(target) {
+      var s = all();
+      if (s.length < 2) return;
+      target = ((target % s.length) + s.length) % s.length;
+      if (target === idx) return;
+      var cur = s[idx], nxt = s[target];
+      cur.classList.remove('on');
+      if (withOut) cur.classList.add('out');
+      nxt.classList.add('on');
+      pauseSlide(cur); playSlide(nxt);
+      if (withOut) setTimeout(function () { cur.classList.remove('out'); }, 1300);
+      idx = target;
+    }
+    host.__goTo = show;
+    if (autoplay === false) return null;
+    return setInterval(function () { if (!document.hidden) show(idx + 1); }, 5000);
+  }
+  function buildHero(slides, autoplay) {
     var host = document.querySelector('.hero-media');
     if (!host) return;
     bindSlideLinks(host, 'data-hlink');
     if (heroTimer) { clearInterval(heroTimer); heroTimer = null; }
-    var first = host.querySelector('img');
-    if (images.length >= 2) {
-      var idx = 0, slides = [];
-      var mk = function (it, on) {
-        var im = document.createElement('img');
-        im.src = it.src;
-        im.alt = '';
-        im.decoding = 'async';
-        im.className = 'hero-slide' + (on ? ' on' : '') + (it.link ? ' has-link' : '');
-        if (it.link) im.setAttribute('data-hlink', it.link);
-        return im;
-      };
-      // keep the preloaded first image as slide 1 (idempotent on re-run)
-      if (first) {
-        first.className = 'hero-slide on' + (images[0].link ? ' has-link' : '');
-        first.style.display = ''; // clear template onerror hide
-        if (first.getAttribute('src') !== images[0].src) first.src = images[0].src;
-        if (images[0].link) first.setAttribute('data-hlink', images[0].link); else first.removeAttribute('data-hlink');
+    if (!slides || !slides.length) return;
+    var tpl = host.querySelector('[data-hero-tpl]') || host.querySelector('img');
+    if (tpl) tpl.setAttribute('data-hero-tpl', '1');
+    // drop slides left over from a previous run (the template img is reused or hidden)
+    Array.prototype.slice.call(host.querySelectorAll('.hero-slide')).forEach(function (n) {
+      if (n !== tpl) n.remove();
+    });
+    var firstVid = slides[0].type === 'video';
+    if (slides.length < 2 && !firstVid) {
+      // single image: reuse the template <img> in place — no clone, no flash
+      if (tpl) {
+        tpl.className = slides[0].link ? 'has-link' : '';
+        tpl.style.display = ''; // clear the template onerror hide
+        if (tpl.getAttribute('src') !== slides[0].src) tpl.src = slides[0].src;
+        if (slides[0].link) tpl.setAttribute('data-hlink', slides[0].link); else tpl.removeAttribute('data-hlink');
       } else {
-        first = mk(images[0], true);
-        host.appendChild(first);
+        host.insertBefore(slideNode(slides[0], 'hero-slide', 'data-hlink', true), host.firstChild);
       }
-      // rebuild secondary slides fresh every call (no dupes)
-      Array.prototype.slice.call(host.querySelectorAll('img.hero-slide')).forEach(function (im) {
-        if (im !== first) im.remove();
-      });
-      for (var s = 1; s < images.length; s++) host.appendChild(mk(images[s], false));
-      slides = host.querySelectorAll('img.hero-slide');
-      if (autoplay) {
-        heroTimer = setInterval(function () {
-          if (document.hidden) return;
-          var all = host.querySelectorAll('img.hero-slide');
-          if (all.length < 2) return;
-          all[idx].classList.remove('on');
-          idx = (idx + 1) % all.length;
-          all[idx].classList.add('on');
-        }, 5000);
-      }
-    } else if (images.length === 1) {
-      Array.prototype.slice.call(host.querySelectorAll('img.hero-slide')).forEach(function (im) { if (im !== first) im.remove(); });
-      if (first) { first.className = images[0].link ? 'has-link' : ''; first.src = images[0].src; if (images[0].link) first.setAttribute('data-hlink', images[0].link); else first.removeAttribute('data-hlink'); }
-      else { host.innerHTML = '<img src="' + escAttr(images[0].src) + '" alt=""' + (images[0].link ? ' class="has-link" data-hlink="' + escAttr(images[0].link) + '"' : '') + '>'; }
+      playSlide(host.querySelector('.hero-slide.on'));
+      return;
     }
+    var start = 0;
+    if (tpl && !firstVid) {
+      // keep the preloaded first image as slide 1
+      tpl.className = 'hero-slide on' + (slides[0].link ? ' has-link' : '');
+      tpl.style.display = '';
+      if (tpl.getAttribute('src') !== slides[0].src) tpl.src = slides[0].src;
+      if (slides[0].link) tpl.setAttribute('data-hlink', slides[0].link); else tpl.removeAttribute('data-hlink');
+      start = 1;
+    } else if (tpl) {
+      // a video opens the deck: keep the template image as a hidden fallback
+      tpl.className = '';
+      tpl.style.display = 'none';
+      tpl.removeAttribute('data-hlink');
+    }
+    for (var s = start; s < slides.length; s++) host.appendChild(slideNode(slides[s], 'hero-slide', 'data-hlink', start === 0 && s === 0));
+    playSlide(host.querySelector('.hero-slide.on'));
+    heroTimer = cycleSlides(host, 'hero-slide', autoplay, false);
   }
-  function escAttr(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
-
-  function buildBanner(images, autoplay) {
+  function buildBanner(slides, autoplay) {
     var host = document.querySelector('.promo-media');
     if (!host) return;
     bindSlideLinks(host, 'data-blink');
     if (bannerTimer) { clearInterval(bannerTimer); bannerTimer = null; }
-    var first = host.querySelector('img');
-    if (images.length >= 2) {
-      var idx = 0;
-      var mk = function (it, on) {
-        var im = document.createElement('img');
-        im.src = it.src;
-        im.alt = '';
-        im.loading = 'lazy';
-        im.decoding = 'async';
-        im.className = 'promo-slide' + (on ? ' on' : '') + (it.link ? ' has-link' : '');
-        if (it.link) im.setAttribute('data-blink', it.link);
-        return im;
-      };
-      if (first) {
-        first.className = 'promo-slide on' + (images[0].link ? ' has-link' : '');
-        first.style.display = '';
-        if (first.getAttribute('src') !== images[0].src) first.src = images[0].src;
-        if (images[0].link) first.setAttribute('data-blink', images[0].link); else first.removeAttribute('data-blink');
+    if (!slides || !slides.length) return;
+    var tpl = host.querySelector('[data-promo-tpl]') || host.querySelector('img');
+    if (tpl) tpl.setAttribute('data-promo-tpl', '1');
+    Array.prototype.slice.call(host.querySelectorAll('.promo-slide')).forEach(function (n) {
+      if (n !== tpl) n.remove();
+    });
+    var firstVid = slides[0].type === 'video';
+    if (slides.length < 2 && !firstVid) {
+      // single image: reuse the template <img> in place (no clone, no flash)
+      if (tpl) {
+        tpl.className = slides[0].link ? 'has-link' : '';
+        tpl.style.display = '';
+        if (tpl.getAttribute('src') !== slides[0].src) tpl.src = slides[0].src;
+        if (slides[0].link) tpl.setAttribute('data-blink', slides[0].link); else tpl.removeAttribute('data-blink');
       } else {
-        first = mk(images[0], true);
-        host.appendChild(first);
+        host.insertBefore(slideNode(slides[0], 'promo-slide', 'data-blink', true), host.firstChild);
       }
-      Array.prototype.slice.call(host.querySelectorAll('img.promo-slide')).forEach(function (im) {
-        if (im !== first) im.remove();
-      });
-      for (var s = 1; s < images.length; s++) host.appendChild(mk(images[s], false));
-      if (autoplay) {
-        bannerTimer = setInterval(function () {
-          if (document.hidden) return;
-          var all = host.querySelectorAll('img.promo-slide');
-          if (all.length < 2) return;
-          var cur = all[idx], nxt = all[(idx + 1) % all.length];
-          cur.classList.remove('on');
-          cur.classList.add('out');
-          nxt.classList.add('on');
-          setTimeout(function () { cur.classList.remove('out'); }, 1300);
-          idx = (idx + 1) % all.length;
-        }, 5000);
-      }
-    } else if (images.length === 1) {
-      Array.prototype.slice.call(host.querySelectorAll('img.promo-slide')).forEach(function (im) { if (im !== first) im.remove(); });
-      if (first) { first.className = images[0].link ? 'has-link' : ''; first.src = images[0].src; if (images[0].link) first.setAttribute('data-blink', images[0].link); else first.removeAttribute('data-blink'); }
-      else { host.innerHTML = '<img loading="lazy" src="' + escAttr(images[0].src) + '" alt=""' + (images[0].link ? ' class="has-link" data-blink="' + escAttr(images[0].link) + '"' : '') + '>'; }
+      playSlide(host.querySelector('.promo-slide.on'));
+      return;
     }
+    var start = 0;
+    if (tpl && !firstVid) {
+      tpl.className = 'promo-slide on' + (slides[0].link ? ' has-link' : '');
+      tpl.style.display = '';
+      if (tpl.getAttribute('src') !== slides[0].src) tpl.src = slides[0].src;
+      if (slides[0].link) tpl.setAttribute('data-blink', slides[0].link); else tpl.removeAttribute('data-blink');
+      start = 1;
+    } else if (tpl) {
+      tpl.className = '';
+      tpl.style.display = 'none';   // hidden fallback when a video opens the deck
+      tpl.removeAttribute('data-blink');
+    }
+    for (var s = start; s < slides.length; s++) host.appendChild(slideNode(slides[s], 'promo-slide', 'data-blink', start === 0 && s === 0));
+    playSlide(host.querySelector('.promo-slide.on'));
+    bannerTimer = cycleSlides(host, 'promo-slide', autoplay, true);
   }
 
   /* ---------- Cart drawer ---------- */

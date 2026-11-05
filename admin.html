@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/ste-admin.css?v=9">
+  <link rel="stylesheet" href="css/ste-admin.css?v=10">
 </head>
 <body>
   <div id="adminToast" class="admin-toast"></div>
@@ -278,17 +278,18 @@
                 <h2 class="hero-admin-title"><i class="fas fa-image"></i> <span data-i18n="set.heroCard">Images héro (diaporama)</span></h2>
                 <span class="hero-admin-count"><span id="heroCountBadge">0/6</span></span>
               </div>
-              <p class="hero-admin-help" data-i18n="set.heroHelp">Plusieurs images = diaporama. La 1re est l'image principale.</p>
+              <p class="hero-admin-help" data-i18n="set.heroHelp">Images (JPG, PNG, WebP, AVIF) ou vidéos (MP4, WebM, MOV) — 6 max. Cliquez une vignette pour lui attacher un lien. La 1re est l'image principale.</p>
               <div class="g-strip" id="heroStrip"></div>
               <label class="toggle hero-autoplay-toggle"><input type="checkbox" id="heroAutoplay" checked><span class="toggle-track"></span><span class="toggle-label" data-i18n="set.autoplay">Défilement automatique</span></label>
                 <div class="banner-link-row" id="heroLinkRow" hidden>
                     <label class="banner-link-label"><i class="fas fa-link"></i> <span data-i18n="set.linkLbl">Lien (optionnel)</span> <b id="heroLinkTarget"></b></label>
                     <div class="banner-link-field"><input type="url" id="heroLinkInput" placeholder="https://..." autocomplete="off"><button type="button" class="bl-clear" id="heroLinkClear" title="Retirer"><i class="fas fa-times"></i></button></div>
                 </div>
-              <input type="file" id="heroFileInput" accept="image/jpeg,image/png,image/webp" multiple hidden>
+              <input type="file" id="heroFileInput" accept="image/jpeg,image/png,image/webp,image/avif,video/mp4,video/webm,video/quicktime,video/x-m4v" multiple hidden>
               <div class="hero-admin-msg" id="heroMsg"></div>
               <div class="hero-admin-actions">
                 <button type="button" class="hp-btn hp-btn--gold" id="btnSaveHero" data-i18n="set.saveHero">Enregistrer le héro</button>
+                <span class="hero-saved-badge" id="heroSavedBadge" hidden data-i18n="set.mediaSaved">Enregistré ✓</span>
               </div>
             </section>
 
@@ -297,17 +298,18 @@
                 <h2 class="hero-admin-title"><i class="fas fa-photo-film"></i> <span data-i18n="set.bannerCard">Bannière promo</span></h2>
                 <span class="hero-admin-count"><span id="bannerCountBadge">0/6</span></span>
               </div>
-              <p class="hero-admin-help" data-i18n="set.bannerHelp">Les images de la bannière promotion de l'accueil.</p>
+              <p class="hero-admin-help" data-i18n="set.bannerHelp">Images ou vidéos de la section promotion de l'accueil — 6 max. Cliquez une vignette pour lui attacher un lien.</p>
               <div class="g-strip" id="bannerStrip"></div>
               <label class="toggle hero-autoplay-toggle"><input type="checkbox" id="bannerAutoplay" checked><span class="toggle-track"></span><span class="toggle-label" data-i18n="set.autoplay">Défilement automatique</span></label>
                 <div class="banner-link-row" id="bannerLinkRow" hidden>
                     <label class="banner-link-label"><i class="fas fa-link"></i> <span data-i18n="set.linkLbl">Lien (optionnel)</span> <b id="bannerLinkTarget"></b></label>
                     <div class="banner-link-field"><input type="url" id="bannerLinkInput" placeholder="https://..." autocomplete="off"><button type="button" class="bl-clear" id="bannerLinkClear" title="Retirer"><i class="fas fa-times"></i></button></div>
                 </div>
-              <input type="file" id="bannerFileInput" accept="image/jpeg,image/png,image/webp" multiple hidden>
+              <input type="file" id="bannerFileInput" accept="image/jpeg,image/png,image/webp,image/avif,video/mp4,video/webm,video/quicktime,video/x-m4v" multiple hidden>
               <div class="hero-admin-msg" id="bannerMsg"></div>
               <div class="hero-admin-actions">
                 <button type="button" class="hp-btn hp-btn--gold" id="btnSaveBanner" data-i18n="set.saveBanner">Enregistrer la bannière</button>
+                <span class="hero-saved-badge" id="bannerSavedBadge" hidden data-i18n="set.mediaSaved">Enregistré ✓</span>
               </div>
             </section>
 
@@ -391,6 +393,6 @@
   <script src="js/ste-variants.js?v=1" defer></script>
   <script src="js/ste-admin-variants.js?v=1" defer></script>
   <script src="js/ste-promo.js?v=7"></script>
-  <script src="js/ste-admin.js?v=15"></script>
+  <script src="js/ste-admin.js?v=16"></script>
 </body>
 </html>

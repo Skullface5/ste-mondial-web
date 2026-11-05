@@ -3247,6 +3247,7 @@ main{padding-bottom:4.6rem;}
 .hero-admin-card{padding:1rem .95rem;border-radius:16px;}
 .hp-btn{min-height:44px;border-radius:12px;}
 .g-thumb{width:64px;height:64px;}
+.g-add{width:64px;height:64px;border-radius:14px;font-size:1.4rem;}
 
 /* ── Overview polish ── */
 .ov-total-row{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;}
@@ -3425,7 +3426,8 @@ main{padding-bottom:4.6rem;}
 
 /* ═══ linkable media strips (Rosa parity) ═══ */
 #heroStrip .g-thumb, #bannerStrip .g-thumb{cursor:pointer;}
-#heroStrip .g-thumb img, #bannerStrip .g-thumb img{pointer-events:none;}
+#heroStrip .g-thumb img, #bannerStrip .g-thumb img,
+#heroStrip .g-thumb video, #bannerStrip .g-thumb video{pointer-events:none;}
 .banner-link-field input:disabled{opacity:.5;}
 
 /* ═══ STE palette override (FINAL — appended last so it wins) ═══ */

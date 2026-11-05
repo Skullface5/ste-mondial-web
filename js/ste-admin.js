@@ -73,8 +73,7 @@
       'set.saveHero': 'Enregistrer le héro', 'set.heroSaved1': 'Image héro enregistrée ✓', 'set.heroSavedN': 'Diaporama héro enregistré ✓',
       'set.bannerCard': 'Bannière promo', 'set.bannerHelp': "L'image affichée dans la section promotion de l'accueil.",
       'set.saveBanner': 'Enregistrer la bannière', 'set.bannerSavedN': 'Bannière enregistrée ✓',
-      'set.autoplay': 'Défilement automatique', 'set.logoCard': 'Logo', 'set.logoHelp': "Affiché dans l'en-tête et le pied de page.",
-      'set.uploadLogo': 'Changer le logo', 'set.imgUpdated': 'Image mise à jour ✓', 'set.defaultApplied': 'Aucune image — défaut appliqué.',
+      'set.autoplay': 'Défilement automatique', 'set.imgUpdated': 'Image mise à jour ✓', 'set.defaultApplied': 'Aucune image — défaut appliqué.',
       'toast.refreshed': 'Données actualisées ✓', 'toast.loadErr': 'Erreur de chargement : ', 'prod.delFail': 'Échec de la suppression'
     },
     en: {
@@ -125,8 +124,7 @@
       'set.saveHero': 'Save hero', 'set.heroSaved1': 'Hero image saved ✓', 'set.heroSavedN': 'Hero slideshow saved ✓',
       'set.bannerCard': 'Promo banner', 'set.bannerHelp': 'The image shown in the home promo section.',
       'set.saveBanner': 'Save banner', 'set.bannerSavedN': 'Banner saved ✓',
-      'set.autoplay': 'Auto-play slideshow', 'set.logoCard': 'Logo', 'set.logoHelp': 'Shown in the header and footer.',
-      'set.uploadLogo': 'Change logo', 'set.imgUpdated': 'Image updated ✓', 'set.defaultApplied': 'No images — default applied.',
+      'set.autoplay': 'Auto-play slideshow', 'set.imgUpdated': 'Image updated ✓', 'set.defaultApplied': 'No images — default applied.',
       'toast.refreshed': 'Data refreshed ✓', 'toast.loadErr': 'Loading error: ', 'prod.delFail': 'Delete failed'
     },
     ar: {
@@ -177,8 +175,7 @@
       'set.saveHero': 'حفظ الواجهة', 'set.heroSaved1': 'تم حفظ الصورة ✓', 'set.heroSavedN': 'تم حفظ العرض ✓',
       'set.bannerCard': 'لافتة ترويجية', 'set.bannerHelp': 'الصور المعروضة في قسم الترويج بالرئيسية.',
       'set.saveBanner': 'حفظ البانر', 'set.bannerSavedN': 'تم حفظ البانر ✓',
-      'set.autoplay': 'تبديل تلقائي', 'set.logoCard': 'الشعار', 'set.logoHelp': 'يظهر في الترويسة والتذييل.',
-      'set.uploadLogo': 'تغيير الشعار', 'set.imgUpdated': 'تم تحديث الصورة ✓', 'set.defaultApplied': 'لا صور — الافتراضي مطبق.',
+      'set.autoplay': 'تبديل تلقائي', 'set.imgUpdated': 'تم تحديث الصورة ✓', 'set.defaultApplied': 'لا صور — الافتراضي مطبق.',
       'toast.refreshed': 'تم التحديث ✓', 'toast.loadErr': 'خطأ في التحميل: ', 'prod.delFail': 'فشل الحذف'
     }
   };
@@ -810,8 +807,6 @@
     renderMediaStrip('bannerStrip', banSt, function (i) { banSt.list.splice(i, 1); renderMediaStrip('bannerStrip', banSt); });
     var hc = $('heroCountBadge'); if (hc) hc.textContent = heroSt.list.length + '+ / 6';
     var bc = $('bannerCountBadge'); if (bc) bc.textContent = banSt.list.length + '+ / 6';
-    var ls = $('logoStrip');
-    if (ls) ls.innerHTML = settings.logo_image ? '<div class="g-thumb"><img src="' + esc(mediaUrl(settings.logo_image)) + '" alt="" style="object-fit:contain;background:#fff;"></div>' : '<p class="sc-help">—</p>';
     // Repaint the promo preview here too: this runs after every loadAll(), so the
     // preview badge figure follows the real product rows (incl. manual promo_percent).
     paintPromo();
@@ -898,17 +893,6 @@
     } catch (e) { showMsg(msgId, t('pf.errPrefix') + e.message); }
     finally { if (btn) btn.disabled = false; }
   }
-  async function uploadLogo(file) {
-    try {
-      var url = await uploadToBucket(file, 'site');
-      var res = await api('POST', '/rest/v1/site_settings?on_conflict=key', [{ key: 'logo_image', value: url }], 'resolution=merge-duplicates,return=minimal');
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      settings.logo_image = url;
-      renderSettingsTab();
-      showMsg('logoMsg', t('set.imgUpdated'), true);
-    } catch (e) { showMsg('logoMsg', t('pf.errPrefix') + e.message); }
-  }
-
   /* ── realtime / polling (orders) ── */
   function startRealtime() {
     try {
@@ -1164,10 +1148,6 @@
           if ((!it || !it.link) && tag) tag.remove();
         }
       });
-    });
-    $('logoFileInput').addEventListener('change', function () {
-      var f = this.files && this.files[0]; this.value = '';
-      if (f) uploadLogo(f);
     });
   }
 

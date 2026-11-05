@@ -57,7 +57,15 @@
     'misc.offline': 'Hors ligne — catalogue de démonstration',
     'products.tabAll': 'Tout',
     'products.added': 'Ajouté ✓',
-    'products.empty': 'Aucun produit dans cette catégorie.',
+    'products.empty': 'Aucun produit pour le moment.',
+    'all.results': 'résultat(s)',
+    'checkout.errPhone': 'Numéro invalide — 8 chiffres (ex: 22 123 456)',
+    'orders.id': 'N° de commande',
+    'orders.copied': 'Copié ✓',
+    'product.sizes': '{n} taille(s)',
+    'product.sizesTitle': 'Tailles',
+    'product.suggest': 'Vous aimerez aussi',
+    'promo.cta': 'Voir la collection',
     'product.addToCart': 'Ajouter au panier',
     'product.buyNow': 'Commander',
     'checkout.buynow_note': 'Paiement à la livraison — remplissez et confirmez',
@@ -135,6 +143,16 @@
       var k = el.getAttribute('data-ph');
       if (has(k)) el.setAttribute('placeholder', t(k));
     });
+    $all('[data-i18n-title]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n-title');
+      if (has(k)) el.setAttribute('title', t(k));
+    });
+    $all('[data-i18n-alt]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n-alt');
+      if (has(k)) el.setAttribute('alt', t(k));
+    });
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && has('meta.description')) metaDesc.setAttribute('content', t('meta.description'));
     document.documentElement.lang = state.lang;
     document.documentElement.dir = state.lang === 'ar' ? 'rtl' : 'ltr';
     if (has('meta.title')) document.title = t('meta.title');
@@ -454,7 +472,7 @@
 
     grid.innerHTML = list.map(function (p) {
       var promoBadge = (window.StePromo && window.StePromo.isPromo(p)) ? window.StePromo.badge(p) : '';
-      var variantChip = (p.variants && p.variants.length > 0) ? '<span class="variant-chip">' + p.variants.length + ' taille' + (p.variants.length > 1 ? 's' : '') + '</span>' : '';
+      var variantChip = (p.variants && p.variants.length > 0) ? '<span class="variant-chip">' + esc(t('product.sizes', { n: p.variants.length })) + '</span>' : '';
       var priceHtml = cardPriceHtml(p);
       return '<article class="product-card" data-id="' + esc(p.id) + '">' +
         '<div class="product-media" data-open="' + esc(p.id) + '" role="button" tabindex="0" aria-label="' + esc(pName(p)) + '">' +
@@ -894,7 +912,7 @@
         (v.price != null ? '<span class="variant-price">' + esc(fmtPrice(v.price)) + '</span>' : '') +
         '</span></button>';
     }).join('');
-    host.innerHTML = '<div class="variant-block"><div class="variant-title">Tailles</div>' +
+    host.innerHTML = '<div class="variant-block"><div class="variant-title">' + esc(t('product.sizesTitle')) + '</div>' +
       '<div class="variant-options">' + opts + '</div></div>';
     if (!host.__steVariantBound) {
       host.__steVariantBound = true;
@@ -942,7 +960,7 @@
         '<span class="suggest-price">' + esc(fmtPrice(s.price)) + '</span>' +
         '</button>';
     }).join('');
-    host.innerHTML = '<div class="suggest-block"><div class="suggest-title">Vous aimerez aussi</div>' +
+    host.innerHTML = '<div class="suggest-block"><div class="suggest-title">' + esc(t('product.suggest')) + '</div>' +
       '<div class="suggest-grid">' + cards + '</div></div>';
     if (!host.__steSuggestBound) {
       host.__steSuggestBound = true;
@@ -1631,7 +1649,7 @@
       if (!id) return;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(id).then(function () {
-          copy.textContent = t('orders.id');
+          copy.textContent = t('orders.copied');
           setTimeout(function () { copy.textContent = t('orders.copy'); }, 1200);
         }).catch(function () { /* clipboard denied */ });
       }

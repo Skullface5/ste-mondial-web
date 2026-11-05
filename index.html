@@ -56,13 +56,13 @@
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="#/shop" data-nav="home">
-        <img class="brand-logo" src="i/ste-mondial-perfumes.png" alt="Logo Mondial Perfume" onerror="this.style.display='none'">
+        <img class="brand-logo" src="i/ste-mondial-perfumes.png" data-i18n-alt="img.logoAlt" alt="Logo Mondial Perfume" onerror="this.style.display='none'">
         <span class="brand-text">
           <span class="brand-name">Mondial Perfume</span>
           <span class="brand-tagline" data-i18n="brand.tagline">L'ESSENCE DU MONDE</span>
         </span>
       </a>
-      <nav class="main-nav" aria-label="Navigation principale">
+      <nav class="main-nav" data-i18n-aria="nav.main" aria-label="Navigation principale">
         <ul>
           <li><a href="#/shop" class="active" data-nav="home" data-i18n="nav.home">Accueil</a></li>
           <li class="has-drop">
@@ -132,7 +132,7 @@
       <!-- Hero -->
       <section class="hero" id="accueil">
         <div class="hero-media">
-          <img src="i/new/hero.jpg" alt="Flacon de parfum de luxe sur fond sombre" fetchpriority="high" decoding="async" onerror="this.style.display='none'">
+          <img src="i/new/hero.jpg" data-i18n-alt="img.heroAlt" alt="Flacon de parfum de luxe sur fond sombre" fetchpriority="high" decoding="async" onerror="this.style.display='none'">
         </div>
         <div class="hero-content wrap">
           <p class="hero-eyebrow" data-i18n="hero.eyebrow">PARFUMS D'EXCEPTION</p>
@@ -156,11 +156,11 @@
           <div class="shop-tools">
             <div class="search-bar" role="search">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
-              <input type="search" id="shopSearch" placeholder="Rechercher un parfum…" autocomplete="off" aria-label="Recherche produits">
+              <input type="search" id="shopSearch" data-ph="products.searchPlaceholder" placeholder="Rechercher un parfum…" autocomplete="off" data-i18n-aria="products.searchAria" aria-label="Recherche produits">
             </div>
           </div>
 
-          <div class="cat-tabs aud-tabs" id="audTabs" role="tablist" aria-label="Public">
+          <div class="cat-tabs aud-tabs" id="audTabs" role="tablist" data-i18n-aria="audience.aria" aria-label="Public">
             <button type="button" class="cat-tab active" data-audtab="all" data-i18n="audience.all">Tous</button>
             <button type="button" class="cat-tab" data-audtab="homme" data-i18n="audience.homme">Homme</button>
             <button type="button" class="cat-tab" data-audtab="femme" data-i18n="audience.femme">Femme</button>
@@ -179,10 +179,10 @@
             <p class="promo-eyebrow" data-i18n="promo.eyebrow">NOTRE SÉLECTION</p>
             <h2 class="promo-title" data-i18n="nav.shop">Nos Parfums</h2>
             <p class="promo-text" data-i18n="promo.text">Des senteurs iconiques, réinterprétées avec finesse pour une expérience olfactive unique.</p>
-            <button class="btn-outline" type="button" data-scroll="parfums"><span data-i18n="products.seeAll">Voir la collection</span> <span class="arrow">→</span></button>
+            <button class="btn-outline" type="button" data-scroll="parfums"><span data-i18n="promo.cta">Voir la collection</span> <span class="arrow">→</span></button>
           </div>
           <div class="promo-media">
-            <img loading="lazy" src="i/new/banner1.jpg" alt="Collection" onerror="this.style.display='none'">
+            <img loading="lazy" src="i/new/banner1.jpg" data-i18n-alt="img.collectionAlt" alt="Collection" onerror="this.style.display='none'">
           </div>
         </div>
       </section>
@@ -231,10 +231,10 @@
         <div class="page-toolbar">
           <div class="search-bar" role="search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
-            <input type="search" id="allSearch" data-ph="products.searchPlaceholder" placeholder="Rechercher un parfum…" autocomplete="off" aria-label="Recherche produits">
+            <input type="search" id="allSearch" data-ph="products.searchPlaceholder" placeholder="Rechercher un parfum…" autocomplete="off" data-i18n-aria="products.searchAria" aria-label="Recherche produits">
           </div>
           <div class="page-toolbar-row">
-            <label class="all-sort"><select id="allSort" aria-label="Trier">
+            <label class="all-sort"><select id="allSort" data-i18n-aria="products.sortAria" aria-label="Trier">
               <option value="new" data-i18n="all.sortNew">Nouveautés</option>
               <option value="asc" data-i18n="all.sortAsc">Prix croissant</option>
               <option value="desc" data-i18n="all.sortDesc">Prix décroissant</option>
@@ -243,9 +243,9 @@
         </div>
         <p class="page-results" id="allResults" aria-live="polite"></p>
         <div class="product-grid" id="allGrid"></div>
-        <p class="page-empty" id="allEmpty" hidden><span class="page-empty-icon">⌕</span><span data-i18n="products.empty">Aucun produit dans cette catégorie.</span>
+        <p class="page-empty" id="allEmpty" hidden><span class="page-empty-icon">⌕</span><span data-i18n="products.empty">Aucun produit pour le moment.</span>
           <br><button class="btn-gold" type="button" id="allReset" data-i18n="all.reset">Réinitialiser les filtres</button></p>
-        <div class="page-tabs" id="allTabs" role="tablist" aria-label="Pages" hidden></div>
+        <div class="page-tabs" id="allTabs" role="tablist" data-i18n-aria="pages.aria" aria-label="Pages" hidden></div>
       </section>
     </div>
 
@@ -256,7 +256,7 @@
           <span data-i18n="checkout.back">Retour</span>
         </button>
         <h1 class="checkout-title" data-i18n="checkout.title">Finaliser la commande</h1>
-        <p class="checkout-sub" id="coTitleNote" hidden data-i18n="checkout.buynow_note">Paiement à la livraison — remplissez et confirmez.</p>
+        <p class="checkout-sub" id="coTitleNote" hidden data-i18n="checkout.buynow_note">Paiement à la livraison — remplissez et confirmez</p>
         <p class="checkout-sub" data-i18n="checkout.subtitle">Remplissez vos informations, paiement à la livraison.</p>
 
         <div class="checkout-grid">
@@ -269,7 +269,7 @@
             <div class="field">
               <label for="coPhone" data-i18n="checkout.phone">Téléphone</label>
               <input type="tel" id="coPhone" name="customer_phone" autocomplete="tel" inputmode="tel" dir="ltr" data-ph="checkout.phonePh" placeholder="+216 .. ... ..." required>
-              <p class="field-err" id="coPhoneErr" hidden data-i18n="checkout.errPhone">Numéro de téléphone invalide.</p>
+              <p class="field-err" id="coPhoneErr" hidden data-i18n="checkout.errPhone">Numéro invalide — 8 chiffres (ex: 22 123 456)</p>
             </div>
             <div class="field">
               <label for="coAddress" data-i18n="checkout.address">Adresse</label>
@@ -328,7 +328,7 @@
     <div class="wrap footer-grid">
       <div class="footer-brand">
         <div class="brand">
-          <img class="brand-logo" src="i/ste-mondial-perfumes.png" alt="Logo Mondial Perfume" onerror="this.style.display='none'">
+          <img class="brand-logo" src="i/ste-mondial-perfumes.png" data-i18n-alt="img.logoAlt" alt="Logo Mondial Perfume" onerror="this.style.display='none'">
           <div class="brand-text">
             <span class="brand-name">Mondial Perfume</span>
             <span class="brand-tagline" data-i18n="brand.tagline">L'ESSENCE DU MONDE</span>
@@ -383,7 +383,7 @@
       </div>
       <div class="pm-actions rp-buy-row" style="display:flex;gap:10px;">
         <button class="btn-gold" type="button" id="pmBuy" style="flex:1;background:var(--espresso);"><span data-i18n="product.buyNow">Commander</span></button>
-        <button type="button" class="rp-cart-btn rp-add-btn" id="pmCartAdd" data-i18n-aria="product.addToCart" title="Ajouter au panier" aria-label="Ajouter au panier"></button>
+        <button type="button" class="rp-cart-btn rp-add-btn" id="pmCartAdd" data-i18n-aria="product.addToCart" data-i18n-title="product.addToCart" title="Ajouter au panier" aria-label="Ajouter au panier"></button>
       </div>
       <div id="pmSuggest"></div>
     </div>
@@ -414,6 +414,6 @@
   <script src="js/ste-promo.js?v=7" defer></script>
   <script src="js/ste-promo-load.js?v=3" defer></script>
   <script src="js/account.js?v=11" defer></script>
-  <script src="js/app2.js?v=50" defer></script>
+  <script src="js/app2.js?v=51" defer></script>
 </body>
 </html>

@@ -843,6 +843,39 @@
     $('bannerAutoplay').checked = settings.banner_autoplay !== false;
     renderMediaStrip('heroStrip', heroSt);
     renderMediaStrip('bannerStrip', banSt);
+    SOCIAL_NETS.forEach(function (net) {
+      var on = document.querySelector('[data-setting="social_' + net + '_on"]');
+      var row = on && on.closest('.social-row');
+      if (!on || !row) return;
+      row.classList.toggle('is-off', !on.checked);
+      if (!on.__rowBound) {
+        on.__rowBound = true;
+        on.addEventListener('change', function () { row.classList.toggle('is-off', !on.checked); });
+      }
+    });
+    document.querySelectorAll('[data-social-open]').forEach(function (b) {
+      if (b.__bound) return;
+      b.__bound = true;
+      b.addEventListener('click', function () {
+        var inp = b.parentElement.querySelector('input[data-setting]');
+        var url = inp ? normSocialUrl(inp.value) : '';
+        if (!url) { if (inp) inp.focus(); return; }
+        window.open(url, '_blank', 'noopener');
+      });
+    });
+    document.querySelectorAll('.social-field input[data-setting]').forEach(function (inp) {
+      var sync = function () {
+        var ok = !!normSocialUrl(inp.value);
+        var btn = inp.parentElement.querySelector('.social-open');
+        if (btn) btn.classList.toggle('is-off', !ok);
+      };
+      if (!inp.__vBound) {
+        inp.__vBound = true;
+        inp.addEventListener('input', sync);
+        inp.addEventListener('blur', sync);
+      }
+      sync();   // re-evaluate on every render: the first render has no settings yet
+    });
     var ss = $('btnSaveSocial');
     if (ss && !ss.__socialBound) { ss.__socialBound = true; ss.addEventListener('click', saveSocialCard); }
     // Repaint the promo preview here too: this runs after every loadAll(), so the

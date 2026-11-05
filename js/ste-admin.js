@@ -68,6 +68,11 @@
       'set.shopCard': 'Boutique & livraison', 'set.sub': 'Nom, WhatsApp, frais, annonce.', 'set.shopName': 'Nom de la boutique',
       'set.whatsapp': 'WhatsApp (ex: 21612345678)', 'set.delivery': 'Frais de livraison (DT)',
       'set.annFr': 'Bandeau annonce (FR)', 'set.annEn': 'Bandeau annonce (EN)', 'set.annAr': 'Bandeau annonce (AR)',
+      'set.socialCard': 'Réseaux sociaux', 'set.socialSub': 'Lien et affichage de chaque réseau.',
+      'set.socialFb': 'Facebook', 'set.socialIg': 'Instagram', 'set.socialTt': 'TikTok',
+      'set.socialUrlPh': 'https://instagram.com/votre-page',
+      'set.socialSave': 'Enregistrer les liens',
+      'set.socialBad': 'Lien invalide — utilisez une adresse http(s), ex: https://instagram.com/votre-page',
       'set.linkLbl': 'Lien (optionnel)', 'set.save': 'Enregistrer', 'set.saved': 'Réglages enregistrés ✓', 'set.nothing': 'Rien à enregistrer.',
       'set.heroCard': 'Images héro (diaporama)', 'set.heroHelp': "Images (JPG, PNG, WebP, AVIF) ou vidéos (MP4, WebM, MOV) — 6 max. Cliquez une vignette pour lui attacher un lien. La 1re est l'image principale.",
       'set.saveHero': 'Enregistrer le héro', 'set.heroSaved1': 'Image héro enregistrée ✓', 'set.heroSavedN': 'Diaporama héro enregistré ✓',
@@ -122,6 +127,11 @@
       'set.shopCard': 'Shop & delivery', 'set.sub': 'Name, WhatsApp, fees, announcement.', 'set.shopName': 'Shop name',
       'set.whatsapp': 'WhatsApp (e.g. 21612345678)', 'set.delivery': 'Delivery fee (DT)',
       'set.annFr': 'Announcement banner (FR)', 'set.annEn': 'Announcement banner (EN)', 'set.annAr': 'Announcement banner (AR)',
+      'set.socialCard': 'Social networks', 'set.socialSub': 'Link and visibility for each network.',
+      'set.socialFb': 'Facebook', 'set.socialIg': 'Instagram', 'set.socialTt': 'TikTok',
+      'set.socialUrlPh': 'https://instagram.com/your-page',
+      'set.socialSave': 'Save the links',
+      'set.socialBad': 'Invalid link — use an http(s) address, e.g. https://instagram.com/your-page',
       'set.linkLbl': 'Link (optional)', 'set.save': 'Save', 'set.saved': 'Settings saved ✓', 'set.nothing': 'Nothing to save.',
       'set.heroCard': 'Hero images (slideshow)', 'set.heroHelp': 'Images (JPG, PNG, WebP, AVIF) or videos (MP4, WebM, MOV) — 6 max. Click a thumbnail to attach a link to it. The 1st is the main one.',
       'set.saveHero': 'Save hero', 'set.heroSaved1': 'Hero image saved ✓', 'set.heroSavedN': 'Hero slideshow saved ✓',
@@ -176,6 +186,11 @@
       'set.shopCard': 'المتجر والتوصيل', 'set.sub': 'الاسم، واتساب، الرسوم، الإعلان.', 'set.shopName': 'اسم المتجر',
       'set.whatsapp': 'واتساب (مثال: 21612345678)', 'set.delivery': 'رسوم التوصيل (د.ت)',
       'set.annFr': 'شريط الإعلان (FR)', 'set.annEn': 'شريط الإعلان (EN)', 'set.annAr': 'شريط الإعلان (AR)',
+      'set.socialCard': 'شبكات التواصل', 'set.socialSub': 'الرابط والظهور لكل شبكة.',
+      'set.socialFb': 'فيسبوك', 'set.socialIg': 'إنستغرام', 'set.socialTt': 'تيك توك',
+      'set.socialUrlPh': 'https://instagram.com/your-page',
+      'set.socialSave': 'حفظ الروابط',
+      'set.socialBad': 'رابط غير صالح — استخدم عنوان http(s)، مثال: https://instagram.com/your-page',
       'set.linkLbl': 'رابط (اختياري)', 'set.save': 'حفظ', 'set.saved': 'تم الحفظ ✓', 'set.nothing': 'لا شيء للحفظ.',
       'set.heroCard': 'صور الواجهة', 'set.heroHelp': 'صور (JPG، PNG، WebP، AVIF) أو فيديوهات (MP4، WebM، MOV) — 6 كحد أقصى. اضغط على صورة مصغّرة لإرفاق رابط بها. الأولى هي الأساسية.',
       'set.saveHero': 'حفظ الواجهة', 'set.heroSaved1': 'تم حفظ الصورة ✓', 'set.heroSavedN': 'تم حفظ العرض ✓',
@@ -650,7 +665,19 @@
   }
 
   /* ── SETTINGS ── */
-  var SETTING_KEYS = ['shop_name', 'whatsapp', 'delivery_fee', 'announcement_fr', 'announcement_en', 'announcement_ar'];
+  var SETTING_KEYS = ['shop_name', 'whatsapp', 'delivery_fee', 'announcement_fr', 'announcement_en', 'announcement_ar',
+                      'social_facebook', 'social_instagram', 'social_tiktok',
+                      'social_facebook_on', 'social_instagram_on', 'social_tiktok_on'];
+  /* ── social links: one URL + one visibility toggle per network ── */
+  var SOCIAL_NETS = ['facebook', 'instagram', 'tiktok'];
+  function normSocialUrl(raw) {
+    var u = String(raw == null ? '' : raw).trim();
+    if (!u) return '';
+    if (!/^https?:\/\//i.test(u)) {
+      if (/^[a-z0-9.-]+\.[a-z]{2,}([\/?#]|$)/i.test(u)) u = 'https://' + u; else return '';
+    }
+    return /^https?:\/\/[^\s]+$/i.test(u) ? u : '';
+  }
 
   /* ── promo appearance settings ── */
   var PROMO_KEYS = ['promo_badge_color', 'promo_price_color', 'promo_badge_shape', 'buy_cart_icon'];
@@ -805,6 +832,7 @@
       if (!el) return;
       if (document.activeElement === el) return;   // keep unsaved edits
       var v = settings[k];
+      if (el.type === 'checkbox') { el.checked = v === undefined || v === null ? true : v !== false; return; }
       if (k === 'delivery_fee' && v == null) v = 7;   // default shown in the field
       el.value = v == null ? '' : (typeof v === 'object' ? JSON.stringify(v) : v);
     });
@@ -815,6 +843,8 @@
     $('bannerAutoplay').checked = settings.banner_autoplay !== false;
     renderMediaStrip('heroStrip', heroSt);
     renderMediaStrip('bannerStrip', banSt);
+    var ss = $('btnSaveSocial');
+    if (ss && !ss.__socialBound) { ss.__socialBound = true; ss.addEventListener('click', saveSocialCard); }
     // Repaint the promo preview here too: this runs after every loadAll(), so the
     // preview badge figure follows the real product rows (incl. manual promo_percent).
     paintPromo();
@@ -944,13 +974,41 @@
     if (msg) mediaMsg(kind, '⚠ ' + msg, false);
     renderMediaStrip(mediaBox(kind), st);
   }
+  async function saveSocialCard() {
+    var rows = [], bad = false;
+    SOCIAL_NETS.forEach(function (net) {
+      var urlEl = document.querySelector('[data-setting="social_' + net + '"]');
+      var onEl = document.querySelector('[data-setting="social_' + net + '_on"]');
+      if (!urlEl || !onEl) return;
+      var raw = urlEl.value.trim();
+      var clean = normSocialUrl(raw);
+      if (raw && !clean) bad = true;
+      rows.push({ key: 'social_' + net, value: clean });
+      rows.push({ key: 'social_' + net + '_on', value: !!onEl.checked });
+    });
+    if (!rows.length) { showMsg('socialMsg', t('set.nothing')); return; }
+    if (bad) { showMsg('socialMsg', '⚠ ' + t('set.socialBad')); return; }
+    var btn = $('btnSaveSocial');
+    if (btn) btn.disabled = true;
+    try {
+      var res = await api('POST', '/rest/v1/site_settings?on_conflict=key', rows, 'resolution=merge-duplicates,return=minimal');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      rows.forEach(function (r) { settings[r.key] = r.value; });
+      renderSettingsTab();
+      showMsg('socialMsg', t('set.saved'), true);
+      toast(t('set.saved'));
+    } catch (e) { showMsg('socialMsg', t('pf.errPrefix') + e.message); }
+    finally { if (btn) btn.disabled = false; }
+  }
   async function saveSettingsTab() {
     var rows = [];
     SETTING_KEYS.forEach(function (k) {
       var el = document.querySelector('[data-setting="' + k + '"]');
       if (!el) return;
+      if (el.type === 'checkbox') { rows.push({ key: k, value: !!el.checked }); return; }
       var raw = el.value.trim();
       if (k === 'delivery_fee') { if (raw === '') return; rows.push({ key: k, value: Number(raw) }); }
+      else if (k.indexOf('social_') === 0 && k.indexOf('_on') === -1) rows.push({ key: k, value: normSocialUrl(raw) });
       else rows.push({ key: k, value: raw });
     });
     if (!rows.length) { showMsg('settingsMsg', t('set.nothing')); return; }

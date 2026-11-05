@@ -596,6 +596,35 @@
     return total > 0 ? DELIVERY_FEE : 0;
   }
 
+  /* ---------- Social links (admin-controlled: social_<net> + social_<net>_on) ---------- */
+  var SOCIAL_NETS = ['facebook', 'instagram', 'tiktok'];
+  function normSocialUrl(raw) {
+    var u = String(raw == null ? '' : raw).trim();
+    if (!u) return '';
+    if (!/^https?:\/\//i.test(u)) {
+      // people type 'instagram.com/shop': assume https
+      if (/^[a-z0-9.-]+\.[a-z]{2,}([\/?#]|$)/i.test(u)) u = 'https://' + u; else return '';
+    }
+    return /^https?:\/\/[^\s]+$/i.test(u) ? u : '';
+  }
+  function applySocialLinks(map) {
+    var wrap = document.querySelector('.footer-social');
+    var shown = 0;
+    SOCIAL_NETS.forEach(function (net) {
+      var a = document.querySelector('.social-btn[data-social="' + net + '"]');
+      if (!a) return;
+      var url = normSocialUrl(map['social_' + net]);
+      var on = map['social_' + net + '_on'] !== false;
+      if (!on || !url) { a.style.display = 'none'; a.removeAttribute('href'); return; }
+      a.style.display = '';
+      a.setAttribute('href', url);
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+      shown++;
+    });
+    if (wrap) wrap.style.display = shown ? '' : 'none';
+  }
+
   /* ---------- Site settings (admin-controlled) ---------- */
   function applySettings() {
     fetch(SUPABASE_URL + '/rest/v1/site_settings?select=key,value', { cache: 'no-store',
@@ -621,6 +650,8 @@
             document.querySelectorAll('img.brand-logo').forEach(function (el) { el.src = map.logo_image; });
           }
         }
+        // social icons (footer) — admin-controlled URL + visibility per network
+        applySocialLinks(map);
         // announcement bar (created on demand, localized)
         var langMap = { fr: 'announcement_fr', en: 'announcement_en', ar: 'announcement_ar' };
         var key = langMap[state.lang] || 'announcement_fr';

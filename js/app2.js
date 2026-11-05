@@ -234,6 +234,10 @@
       loadProducts(true);
     }
   });
+  // focus covers the desktop case (switching windows back to the shop tab does
+  // not always fire visibilitychange), so a promo % saved in the admin shows up
+  // on the shop without a manual reload.
+  window.addEventListener('focus', function () { loadProducts(true); });
 
   function findProduct(id) {
     for (var i = 0; i < state.products.length; i++) {

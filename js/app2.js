@@ -13,6 +13,7 @@
   var CART_KEY = 'sm_cart2';
   var LANG_KEY = 'sm_lang2';
   var ORDER_KEY = 'sm_last_order2';
+  var CATALOG_KEY = 'sm_catalog_v1';   // last good raw product rows (offline safety net)
   var AUDIENCES = ['homme', 'femme', 'enfants', 'unisexe'];
 
   /* ---------- State ---------- */
@@ -189,16 +190,36 @@
 
   var FALLBACK_PRODUCTS = [];
 
+  /* ---------- Catalog cache (last good rows, raw as returned by Supabase) ---------- */
+  function readCatalogCache() {
+    try {
+      var raw = localStorage.getItem(CATALOG_KEY);
+      if (!raw) return null;
+      var rows = JSON.parse(raw);
+      return (Array.isArray(rows) && rows.length) ? rows : null;
+    } catch (e) { return null; }   // private mode / corrupt JSON
+  }
+  function writeCatalogCache(rows) {
+    try { localStorage.setItem(CATALOG_KEY, JSON.stringify(rows)); }
+    catch (e) { /* private mode or quota — cache is best-effort */ }
+  }
+
   var loadEpoch = 0, lastLoadAt = 0;
+  var activeLoad = null;            // token for the fetch currently in flight
+  var lastAutoRefetchAt = 0;        // last focus/visibility background refresh
+  var AUTO_REFETCH_MIN_MS = 20000;  // background refreshes: at most one per 20s
+
   function loadProducts(force) {
     // throttle auto-refreshes; force skips the throttle (boot)
     if (!force && state.loaded && Date.now() - lastLoadAt < 15000) return;
     lastLoadAt = Date.now();
     var myEpoch = ++loadEpoch;
+    var myToken = {};
+    activeLoad = myToken;
     var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
     var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 9000) : null;
     var headers = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY };
-    return fetch(SUPABASE_URL + '/rest/v1/products?active=eq.true&order=featured.desc,created_at.desc&select=*', {
+    var chain = fetch(SUPABASE_URL + '/rest/v1/products?active=eq.true&order=featured.desc,created_at.desc&select=*', {
       headers: headers,
       cache: 'no-store',
       signal: ctrl ? ctrl.signal : undefined
@@ -213,6 +234,7 @@
         if (!Array.isArray(rows) || rows.length === 0) throw new Error('empty products');
         state.products = rows.map(normalizeRow);
         state.offline = false;
+        writeCatalogCache(rows);   // last good catalog survives the next failed load
       })
       .catch(function () {
         if (timer) clearTimeout(timer);
@@ -226,18 +248,41 @@
         if (!document.getElementById('view-all').hidden) renderAllPage();
         renderGrid();
       });
+    var clear = function () { if (activeLoad === myToken) activeLoad = null; };
+    return chain.then(clear, clear);
+  }
+
+  // Prime the grid from the cached catalog before the network is even asked.
+  function primeFromCache() {
+    var rows = readCatalogCache();
+    if (!rows) return false;
+    state.products = rows.map(normalizeRow);
+    state.offline = false;
+    state.loaded = true;
+    return true;
+  }
+
+  /* Background refresh (admin edited a promo % / price and the user came back).
+     Guarded so it can never stampede the boot load: no refetch while a fetch is
+     in flight, none before the first load settled, and at most one per 20s. */
+  function refreshFromBackground() {
+    if (activeLoad) return;
+    if (!state.loaded) return;
+    if (Date.now() - lastAutoRefetchAt < AUTO_REFETCH_MIN_MS) return;
+    lastAutoRefetchAt = Date.now();
+    loadProducts(true);
   }
 
   // refresh the catalog when the user comes back to a stale tab (admin added products meanwhile)
   document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'visible') {
-      loadProducts(true);
+      refreshFromBackground();
     }
   });
   // focus covers the desktop case (switching windows back to the shop tab does
   // not always fire visibilitychange), so a promo % saved in the admin shows up
   // on the shop without a manual reload.
-  window.addEventListener('focus', function () { loadProducts(true); });
+  window.addEventListener('focus', function () { refreshFromBackground(); });
 
   function findProduct(id) {
     for (var i = 0; i < state.products.length; i++) {
@@ -391,8 +436,20 @@
 
     var list = visibleProducts();
     if (!list.length) {
-      grid.innerHTML = '<p class="grid-empty">' + esc(t('products.empty')) + '</p>';
-      return;
+      // "Aucun produit" is only honest when there is genuinely nothing left:
+      // no live rows and no cached catalog. A failed or slow request must never
+      // replace real cards with the empty state — restore the cache instead.
+      if (!state.products.length) {
+        var cached = readCatalogCache();
+        if (cached) {
+          state.products = cached.map(normalizeRow);
+          list = visibleProducts();
+        }
+      }
+      if (!list.length) {
+        grid.innerHTML = '<p class="grid-empty">' + esc(t('products.empty')) + '</p>';
+        return;
+      }
     }
 
     grid.innerHTML = list.map(function (p) {
@@ -1584,6 +1641,12 @@
 
     loadCart();
     updateBadges();
+
+    // Returning visitor: paint the cached catalog before anything else, so the
+    // grid is never empty while the i18n roundtrip + (slow) catalog request run.
+    // Labels are re-rendered once the dictionary lands; the network response
+    // always replaces this render.
+    if (primeFromCache()) renderGrid();
 
     applySettings();
     initTrustBar();

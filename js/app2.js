@@ -1409,7 +1409,19 @@
         var k = nav.getAttribute('data-nav');
         if (k === 'home') { showView('shop'); location.hash = '#/shop'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
         if (k === 'cart') openCart();
-        if (k === 'cart-view') { showView('shop'); openCart(); }
+        if (k === 'cart-view') {
+          if (state.buyNowItem) {
+            // buyer came straight from a product (Commander / the popup), never
+            // through the cart - so "Retour" goes back to the shop with no drawer
+            // thrown in his face, and buy-now mode is dropped so a later cart
+            // checkout is not stuck on that one item.
+            state.buyNowItem = null;
+            showView('shop');
+            if (location.hash !== '#/shop') location.hash = '#/shop';
+          } else {
+            showView('shop'); openCart();
+          }
+        }
         if (menu) { menu.hidden = true; burger.setAttribute('aria-expanded', 'false'); }
         return;
       }

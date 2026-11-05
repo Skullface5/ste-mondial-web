@@ -357,6 +357,23 @@
       '</div>';
   }
 
+  /* Popup badge, mirroring rosa's product page: the % badge is painted on the
+     product image and follows the selected variant when one is active (same
+     source as the price below). Re-rendered by renderModalTexts() on every open
+     and on every variant/qty change, so a % or colour saved in the admin shows
+     without a reload; repaint() also restyles it if settings land while open. */
+  function paintModalBadge(p, media) {
+    var host = media || $('#pmMedia');
+    if (!host) return;
+    var old = host.querySelectorAll('.rp-badge');
+    for (var i = 0; i < old.length; i++) if (old[i].parentNode) old[i].parentNode.removeChild(old[i]);
+    if (!window.StePromo || !window.StePromo.badge) return;
+    var src = state.activeVariant || p;
+    var html = '';
+    try { html = window.StePromo.badge(src); } catch (e) { html = ''; }
+    if (html) host.insertAdjacentHTML('beforeend', html);
+  }
+
   function renderGrid() {
     var grid = $('#productGrid');
     if (!grid) return;
@@ -743,6 +760,7 @@
     var media = $('#pmMedia');
     if (media) {
       media.innerHTML = mediaHtml(p);
+      paintModalBadge(p, media);
       initGallery(media);
     }
     var set = function (id2, val) { var el = document.getElementById(id2); if (el) el.textContent = val; };
@@ -750,17 +768,25 @@
     set('pmName', pName(p));
     var activeVar = state.activeVariant;
     var displayPrice = (window.SteVariants) ? window.SteVariants.priceFor(p, activeVar) : p.price;
+    /* Every path goes through StePromo.priceHtml so .rp-price--promo (and thus
+       promo_price_color + the manual promo %) applies with or without a variant. */
+    var priceSrc = activeVar
+      ? { price: activeVar.price, old_price: activeVar.old_price, promo_percent: activeVar.promo_percent }
+      : p;
     var priceEl = $('#pmPrice');
-    if (priceEl) {
-      if (window.StePromo && activeVar) {
-        priceEl.innerHTML = window.StePromo.priceHtml({ price: activeVar.price, old_price: activeVar.old_price }, fmtPrice);
-      } else {
-        priceEl.textContent = fmtPrice(displayPrice);
-      }
+    var priceDone = false;
+    if (priceEl && window.StePromo && window.StePromo.priceHtml) {
+      try {
+        var priceHtml = window.StePromo.priceHtml(priceSrc, fmtPrice);
+        if (priceHtml) { priceEl.innerHTML = priceHtml; priceDone = true; }
+      } catch (e) {}
     }
+    if (priceEl && !priceDone) priceEl.textContent = fmtPrice(displayPrice);
+    /* priceHtml already emits the struck old price inline (.rp-old-price), so the
+       dedicated node is only used by the no-StePromo fallback — never both. */
     var old = $('#pmOldPrice');
     if (old) {
-      if (!activeVar && p.oldPrice && p.oldPrice > p.price) { old.textContent = fmtPrice(p.oldPrice); old.hidden = false; }
+      if (!priceDone && !activeVar && p.oldPrice && p.oldPrice > p.price) { old.textContent = fmtPrice(p.oldPrice); old.hidden = false; }
       else old.hidden = true;
     }
     set('pmQty', String(state.modalQty));
@@ -782,6 +808,19 @@
     if (add) {
       var span = add.querySelector('span');
       if (span) span.textContent = t('product.addToCart');
+    }
+    /* Popup cart button (same rp-cart-btn/rp-add-btn classes as the cards). The
+       node is static markup, so StePromo.repaint() already refills its glyph when
+       the settings load; this only covers a cold/failed settings fetch, and keeps
+       the label translated. */
+    var cartBtn = $('#pmCartAdd');
+    if (cartBtn) {
+      var cartLabel = t('product.addToCart');
+      cartBtn.title = cartLabel;
+      cartBtn.setAttribute('aria-label', cartLabel);
+      if (!cartBtn.firstChild && window.StePromo && window.StePromo.buyIcon) {
+        cartBtn.innerHTML = window.StePromo.buyIcon();
+      }
     }
   }
 
@@ -1468,6 +1507,15 @@
       addToCart(p, state.modalQty, state.activeVariant);
       closeModal();
       openCart();
+    });
+
+    /* Popup cart button: same addToCart path as #pmAdd but qty/variant aware and
+       without closing the popup (the owner can keep browsing). */
+    var pmCartAdd = $('#pmCartAdd');
+    if (pmCartAdd) pmCartAdd.addEventListener('click', function () {
+      var p = findProduct(state.modalId);
+      if (!p) return;
+      addToCart(p, state.modalQty, state.activeVariant);
     });
 
     var pmBuy = $('#pmBuy');

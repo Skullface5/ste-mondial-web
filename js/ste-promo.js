@@ -59,7 +59,19 @@
     '.product-card .rp-buy-row .rp-cart-btn{min-height:0;}',
     /* the card button carries margin-top:10px for its standalone layout; inside
        the buy row it would push the row 10px taller than the cart square */
-    '.product-card .rp-buy-row .add-btn{margin-top:0;}'
+    '.product-card .rp-buy-row .add-btn{margin-top:0;}',
+    /* Popup row: the two .btn-gold pills are 50px tall, so the cart square in
+       the modal matches them instead of the standalone 56px. The tighter
+       padding is what makes the 3-button row fit the ~354px modal-info column:
+       at .btn-gold's 26px padding each pill's min-content overflows the row and
+       the cart square ended up clipped by the modal's overflow:hidden. */
+    '.modal-info .rp-buy-row{flex-wrap:wrap;justify-content:center;}',
+    '.modal-info .rp-buy-row .btn-gold{padding-left:14px;padding-right:14px;}',
+    '.modal-info .rp-buy-row .rp-cart-btn{min-height:50px;border-radius:12px;}',
+    '@media (max-width:480px){.modal-info .rp-buy-row .rp-cart-btn{min-height:44px;border-radius:9px;}}',
+    /* 320px class: "COMMANDER" alone is wider than the row, so step the pills
+       down rather than letting the cart square overflow the modal. */
+    '@media (max-width:360px){.modal-info .rp-buy-row .btn-gold{font-size:.68rem;padding-left:9px;padding-right:9px;}}'
   ].join('\n');
 
   var cssDone = false;

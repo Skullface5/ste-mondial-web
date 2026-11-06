@@ -1584,7 +1584,7 @@ html[dir="rtl"] .arrow { transform: scaleX(-1); }
 .pm-slide { flex: 0 0 100%; height: 100%; }
 .pm-slide img { width: 100%; height: 100%; object-fit: cover; }
 .pm-nav {
-  position: absolute; top: 50%; transform: translateY(-50%);
+  position: absolute; top: 25%; transform: translateY(-50%);
   width: 38px; height: 38px; border-radius: 50%;
   border: none; background: rgba(20, 15, 8, 0.55);
   color: #F7F2E8; font-size: 1.3rem; line-height: 1;
@@ -1598,8 +1598,6 @@ html[dir="rtl"] .arrow { transform: scaleX(-1); }
    is both touch-only (no hover) and coarse-pointing. A PC - even one with a
    touchscreen - keeps the arrows. */
 @media (hover: none) and (pointer: coarse) { .pm-nav { display: none; } }
-/* mouse users: sit the arrows a little above the middle of the photo */
-@media (hover: hover), (pointer: fine) { .pm-nav { top: 42%; } }
 .pm-prev { left: 10px; }
 .pm-next { right: 10px; }
 .pm-dots {

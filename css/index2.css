@@ -1486,7 +1486,10 @@ html[dir="rtl"] .arrow { transform: scaleX(-1); }
   html[dir="rtl"] .product-modal { transform: translate(50%, -46%) scale(0.98); }
   .product-modal.open { transform: translate(-50%, -50%) scale(1); opacity: 1; }
   html[dir="rtl"] .product-modal.open { transform: translate(50%, -50%) scale(1); }
-  .modal-media { aspect-ratio: auto; min-height: 100%; }
+  /* The photo box no longer takes its height from the picture: a tall photo used to
+     stretch this column, get clipped by the modal and push the arrows below the fold.
+     A definite ratio keeps the box (and the arrows at its middle) fixed for any image. */
+  .modal-media { aspect-ratio: 1 / 1.05; min-height: 0; max-height: 88dvh; overflow: hidden; }
   .modal-info { overflow-y: auto; max-height: 88dvh; padding: 26px 28px 30px; }
 }
 

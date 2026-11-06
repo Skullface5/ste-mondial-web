@@ -163,6 +163,7 @@
     });
     var si = document.getElementById('shopSearch');
     if (si && has('products.searchPlaceholder')) si.setAttribute('placeholder', t('products.searchPlaceholder'));
+    applyFooterQuote();      // an owner-written footer line outranks the built-in one
   }
 
   var langSeq = 0;
@@ -692,6 +693,16 @@
   }
 
   /* ---------- Site settings (admin-controlled) ---------- */
+  /* The footer line is editable in the admin (Paramètres → Phrase du pied de page).
+     Kept per language; empty falls back to the other languages, then to i18n. */
+  var FOOTER_QUOTE = { fr: '', en: '', ar: '', any: '' };
+  function applyFooterQuote() {
+    var el = document.querySelector('.footer-quote');
+    if (!el) return;
+    var v = FOOTER_QUOTE[state.lang] || FOOTER_QUOTE.any;
+    if (v) el.textContent = v;
+  }
+
   function applySettings() {
     fetch(SUPABASE_URL + '/rest/v1/site_settings?select=key,value', { cache: 'no-store',
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
@@ -718,6 +729,14 @@
         }
         // social icons (footer) — admin-controlled URL + visibility per network
         applySocialLinks(map);
+        // footer line (admin-editable, per language)
+        var fqKeys = { fr: 'footer_quote_fr', en: 'footer_quote_en', ar: 'footer_quote_ar' };
+        Object.keys(fqKeys).forEach(function (L) {
+          var v = map[fqKeys[L]];
+          FOOTER_QUOTE[L] = (typeof v === 'string') ? v.trim() : '';
+        });
+        FOOTER_QUOTE.any = FOOTER_QUOTE.fr || FOOTER_QUOTE.en || FOOTER_QUOTE.ar;
+        applyFooterQuote();
         // announcement bar (created on demand, localized)
         var langMap = { fr: 'announcement_fr', en: 'announcement_en', ar: 'announcement_ar' };
         var key = langMap[state.lang] || 'announcement_fr';

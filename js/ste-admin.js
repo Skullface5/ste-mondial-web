@@ -70,6 +70,7 @@
       'set.shopCard': 'Boutique & livraison', 'set.sub': 'Nom, WhatsApp, frais, annonce.', 'set.shopName': 'Nom de la boutique',
       'set.whatsapp': 'WhatsApp (ex: 21612345678)', 'set.delivery': 'Frais de livraison (DT)',
       'set.annFr': 'Bandeau annonce (FR)', 'set.annEn': 'Bandeau annonce (EN)', 'set.annAr': 'Bandeau annonce (AR)',
+      'set.fqFr': 'Phrase du pied de page (FR)', 'set.fqEn': 'Phrase du pied de page (EN)', 'set.fqAr': 'Phrase du pied de page (AR)',
       'set.socialCard': 'Réseaux sociaux', 'set.socialSub': 'Lien et affichage de chaque réseau.',
       'set.socialFb': 'Facebook', 'set.socialIg': 'Instagram', 'set.socialTt': 'TikTok',
       'set.socialUrlPh': 'https://instagram.com/votre-page',
@@ -131,6 +132,7 @@
       'set.shopCard': 'Shop & delivery', 'set.sub': 'Name, WhatsApp, fees, announcement.', 'set.shopName': 'Shop name',
       'set.whatsapp': 'WhatsApp (e.g. 21612345678)', 'set.delivery': 'Delivery fee (DT)',
       'set.annFr': 'Announcement banner (FR)', 'set.annEn': 'Announcement banner (EN)', 'set.annAr': 'Announcement banner (AR)',
+      'set.fqFr': 'Footer line (FR)', 'set.fqEn': 'Footer line (EN)', 'set.fqAr': 'Footer line (AR)',
       'set.socialCard': 'Social networks', 'set.socialSub': 'Link and visibility for each network.',
       'set.socialFb': 'Facebook', 'set.socialIg': 'Instagram', 'set.socialTt': 'TikTok',
       'set.socialUrlPh': 'https://instagram.com/your-page',
@@ -192,6 +194,7 @@
       'set.shopCard': 'المتجر والتوصيل', 'set.sub': 'الاسم، واتساب، الرسوم، الإعلان.', 'set.shopName': 'اسم المتجر',
       'set.whatsapp': 'واتساب (مثال: 21612345678)', 'set.delivery': 'رسوم التوصيل (د.ت)',
       'set.annFr': 'شريط الإعلان (FR)', 'set.annEn': 'شريط الإعلان (EN)', 'set.annAr': 'شريط الإعلان (AR)',
+      'set.fqFr': 'عبارة أسفل الصفحة (FR)', 'set.fqEn': 'عبارة أسفل الصفحة (EN)', 'set.fqAr': 'عبارة أسفل الصفحة (AR)',
       'set.socialCard': 'شبكات التواصل', 'set.socialSub': 'الرابط والظهور لكل شبكة.',
       'set.socialFb': 'فيسبوك', 'set.socialIg': 'إنستغرام', 'set.socialTt': 'تيك توك',
       'set.socialUrlPh': 'https://instagram.com/your-page',
@@ -699,7 +702,8 @@
   /* ── SETTINGS ── */
   var SETTING_KEYS = ['shop_name', 'whatsapp', 'delivery_fee', 'announcement_fr', 'announcement_en', 'announcement_ar',
                       'social_facebook', 'social_instagram', 'social_tiktok',
-                      'social_facebook_on', 'social_instagram_on', 'social_tiktok_on'];
+                      'social_facebook_on', 'social_instagram_on', 'social_tiktok_on',
+                      'footer_quote_fr', 'footer_quote_en', 'footer_quote_ar'];
   /* ── social links: one URL + one visibility toggle per network ── */
   var SOCIAL_NETS = ['facebook', 'instagram', 'tiktok'];
   function normSocialUrl(raw) {

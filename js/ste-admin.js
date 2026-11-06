@@ -54,6 +54,7 @@
       'pf.stock': 'Stock', 'pf.featured': 'Mis en avant', 'pf.active': 'Actif', 'pf.variants': 'Variantes (tailles)',
       'pf.images': 'Images du produit', 'pf.imgHelp': 'La 1re image = principale.',
       'pf.save': 'Enregistrer le produit', 'pf.cancel': 'Annuler', 'pf.delete': 'Supprimer',
+      'pf.size': 'Contenance / taille (ex. 50 ml)',
       'pf.variantsKept': "Variantes existantes conservées (la liste n'avait pas été chargée).",
       'pf.errName': 'Le nom (FR) est obligatoire.', 'pf.errPrice': 'Prix invalide.',
       'pf.uploading': "Envoi de l'image", 'pf.errPrefix': 'Erreur : ',
@@ -114,6 +115,7 @@
       'pf.stock': 'Stock', 'pf.featured': 'Featured', 'pf.active': 'Active', 'pf.variants': 'Variants (sizes)',
       'pf.images': 'Product images', 'pf.imgHelp': '1st image = main.',
       'pf.save': 'Save product', 'pf.cancel': 'Cancel', 'pf.delete': 'Delete',
+      'pf.size': 'Size (e.g. 50 ml)',
       'pf.variantsKept': 'Existing variants kept (the list had not loaded).',
       'pf.errName': 'Name (FR) is required.', 'pf.errPrice': 'Invalid price.',
       'pf.uploading': 'Uploading image', 'pf.errPrefix': 'Error: ',
@@ -174,6 +176,7 @@
       'pf.stock': 'المخزون', 'pf.featured': 'مميز', 'pf.active': 'نشط', 'pf.variants': 'الأحجام',
       'pf.images': 'صور المنتج', 'pf.imgHelp': 'الصورة الأولى = الأساسية.',
       'pf.save': 'حفظ المنتج', 'pf.cancel': 'إلغاء', 'pf.delete': 'حذف',
+      'pf.size': 'الحجم (مثال 50 ml)',
       'pf.variantsKept': 'تم الاحتفاظ بالأحجام الموجودة (لم يتم تحميل القائمة).',
       'pf.errName': 'الاسم (FR) مطلوب.', 'pf.errPrice': 'سعر غير صالح.',
       'pf.uploading': 'رفع الصورة', 'pf.errPrefix': 'خطأ: ',
@@ -479,6 +482,7 @@
     $(pref + 'DescEn').value = p ? (p.desc_en || '') : '';
     $(pref + 'DescAr').value = p ? (p.desc_ar || '') : '';
     $(pref + 'Price').value = p ? p.price : '';
+    $(pref + 'Size').value = (p && p.size) ? p.size : '';   // the single-product size (ml)
     $(pref + 'OldPrice').value = (p && p.old_price != null) ? p.old_price : '';
     $(pref + 'PromoPercent').value = (p && p.promo_percent != null) ? p.promo_percent : '';
     $(pref + 'Stock').value = p ? (p.stock != null ? p.stock : 10) : 10;
@@ -546,6 +550,7 @@
       desc_ar: $(pref + 'DescAr').value.trim() || null,
       audience: currentAud(pref),
       price: Number($(pref + 'Price').value),
+      size: ($(pref + 'Size').value || '').trim() || null,
       old_price: $(pref + 'OldPrice').value === '' ? null : Number($(pref + 'OldPrice').value),
       promo_percent: normalizePromoPercent($(pref + 'PromoPercent').value),
       stock: $(pref + 'Stock').value === '' ? 0 : Math.max(0, parseInt($(pref + 'Stock').value, 10)),

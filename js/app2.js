@@ -197,6 +197,7 @@
       descAr: r.desc_ar || '',
       audience: AUDIENCES.indexOf(r.audience) !== -1 ? r.audience : 'unisexe',
       price: Number(r.price) || 0,
+      size: (r.size != null && String(r.size).trim()) ? String(r.size).trim() : null,   // ml of the single-size product
       oldPrice: r.old_price != null ? Number(r.old_price) : null,
       promoPercent: (r.promo_percent != null && r.promo_percent !== '') ? Number(r.promo_percent) : null,
       imageUrl: r.image_url || (r.images && r.images[0]) || '',
@@ -398,15 +399,72 @@
   /* Card price is rendered through StePromo so the promo_price_color setting
      reaches the card: .rp-price--promo reads --rp-price-color. Falls back to the
      original struck-old-price markup when js/ste-promo.js is not loaded. */
+  /* The price a card shows must always carry the size it belongs to. A product
+     with variants shows its default one (first in stock, else the first - rosa's
+     rule); a single-size product shows its own `size` (ml), set in the admin so
+     the customer knows what the price buys. */
+  /* Every size offered to the customer: the product's own size (the admin field)
+     first, then its variants. A single-size product therefore has exactly one
+     option - its own ml - so no price is ever shown without the size it buys. */
+  function allVariants(p) {
+    if (!p) return [];
+    var own = (p.size != null && String(p.size).trim()) ? String(p.size).trim() : '';
+    var vars = p.variants || [];
+    var dup = false;
+    for (var i = 0; i < vars.length; i++) if (vars[i].label === own) dup = true;
+    var list = [];
+    if (own && !dup && p.price != null) {
+      list.push({ label: own, price: p.price, old_price: p.oldPrice, quantity: p.stock, images: p.images });
+    }
+    return list.concat(vars);
+  }
+
+  function cardVariant(p) {
+    var list = allVariants(p);
+    if (!list.length) return null;
+    var SV = window.SteVariants;
+    for (var i = 0; i < list.length; i++) {
+      if (!SV || !SV.inStock || SV.inStock(p, list[i])) return list[i];
+    }
+    return list[0];
+  }
+  function sizeLabelFor(p) {
+    var v = cardVariant(p);
+    if (v && v.label) return v.label;
+    return (p && p.size != null && String(p.size).trim()) ? String(p.size).trim() : '';
+  }
+  /* The size badge under the product name: the default variant's label, or the
+     single product's own ml. With several variants it also says how many exist. */
+  function chipHtml(p) {
+    var label = sizeLabelFor(p);
+    if (!label) return '';
+    var n = allVariants(p).length;   // every size on offer, the product's own included
+    var extra = n > 1 ? ' · ' + esc(t('product.sizes', { n: n })) : '';
+    return '<span class="variant-chip">' + esc(label) + extra + '</span>';
+  }
+
+  function priceSource(p) {
+    var v = cardVariant(p);
+    if (!v) return p;
+    return {
+      price: (v.price != null) ? v.price : p.price,
+      old_price: v.old_price, oldPrice: v.old_price,
+      promo_percent: v.promo_percent, promoPercent: v.promo_percent
+    };
+  }
+
   function cardPriceHtml(p) {
+    var src = priceSource(p);
     if (window.StePromo && window.StePromo.priceHtml) {
       try {
-        var html = window.StePromo.priceHtml(p, fmtPrice);
+        var html = window.StePromo.priceHtml(src, fmtPrice);
         if (html) return html;
       } catch (e) {}
     }
-    var old = (p.oldPrice && p.oldPrice > p.price) ? '<s class="old-price">' + esc(fmtPrice(p.oldPrice)) + '</s>' : '';
-    return old + esc(fmtPrice(p.price));
+    var op = (src.old_price != null) ? Number(src.old_price) : ((src.oldPrice != null) ? Number(src.oldPrice) : null);
+    var cp = Number(src.price);
+    var old = (op && op > cp) ? '<s class="old-price">' + esc(fmtPrice(op)) + '</s>' : '';
+    return old + esc(fmtPrice(cp));
   }
 
   /* Buy-now + configurable cart button, matching rosa's .rp-buy-row. The cart
@@ -472,7 +530,7 @@
 
     grid.innerHTML = list.map(function (p) {
       var promoBadge = (window.StePromo && window.StePromo.isPromo(p)) ? window.StePromo.badge(p) : '';
-      var variantChip = (p.variants && p.variants.length > 0) ? '<span class="variant-chip">' + esc(t('product.sizes', { n: p.variants.length })) + '</span>' : '';
+      var variantChip = chipHtml(p);
       var priceHtml = cardPriceHtml(p);
       return '<article class="product-card" data-id="' + esc(p.id) + '">' +
         '<div class="product-media" data-open="' + esc(p.id) + '" role="button" tabindex="0" aria-label="' + esc(pName(p)) + '">' +
@@ -491,13 +549,14 @@
   function productCardHtml(p) {
     var promoBadge = (window.StePromo && window.StePromo.isPromo(p)) ? window.StePromo.badge(p) : '';
     var priceHtml = cardPriceHtml(p);
+    var sizeChip = chipHtml(p);
     return '<article class="product-card" data-id="' + esc(p.id) + '">' +
       '<div class="product-media" data-open="' + esc(p.id) + '" role="button" tabindex="0" aria-label="' + esc(pName(p)) + '">' +
       mediaHtml(p, 'grid-thumb') + promoBadge +
       '</div>' +
       '<div class="product-info">' +
       '<h3 class="product-name">' + esc(pName(p)) + '</h3>' +
-      '<p class="product-sub">' + esc(t('audience.' + p.audience)) + '</p>' +
+      '<p class="product-sub">' + esc(t('audience.' + p.audience)) + '</p>' + sizeChip +
       '<p class="product-price">' + priceHtml + '</p>' +
       cardBuyRow(p) +
       '</div></article>';
@@ -696,7 +755,7 @@
         productId: p.id,
         nameFr: p.nameFr, nameEn: p.nameEn, nameAr: p.nameAr,
         price: vPrice, image: vImage, qty: qty,
-        variant: variant ? variant.label : null
+        variant: variant ? variant.label : ((p.size != null && String(p.size).trim()) ? String(p.size).trim() : null)
       });
     }
     saveCart();
@@ -840,7 +899,9 @@
     if (!p) return;
     state.modalId = id;
     state.modalQty = 1;
-    state.activeVariant = null;
+    /* default to the product's default variant (first in stock) so the popup price,
+       the % badge and the options all agree - rosa's rule */
+    state.activeVariant = (window.SteVariants) ? cardVariant(p) : null;
     renderModalTexts();
     var m = $('#productModal'), ov = $('#modalOverlay');
     if (m) {
@@ -933,8 +994,9 @@
   function renderVariants(p) {
     var host = $('#pmVariants');
     if (!host) return;
-    if (!p.variants || p.variants.length === 0) { host.innerHTML = ''; return; }
-    var opts = p.variants.map(function (v, i) {
+    var list = allVariants(p);
+    if (!list.length) { host.innerHTML = ''; return; }
+    var opts = list.map(function (v, i) {
       var active = state.activeVariant && state.activeVariant.label === v.label;
       var out = v.quantity != null && v.quantity <= 0;
       return '<button type="button" class="variant-opt' + (active ? ' is-active' : '') + (out ? ' is-out' : '') + '" data-variant="' + esc(v.label) + '">' +
@@ -943,7 +1005,8 @@
         (v.price != null ? '<span class="variant-price">' + esc(fmtPrice(v.price)) + '</span>' : '') +
         '</span></button>';
     }).join('');
-    host.innerHTML = '<div class="variant-block"><div class="variant-title">' + esc(t('product.sizesTitle')) + '</div>' +
+    var title = list.length > 1 ? '<div class="variant-title">' + esc(t('product.sizesTitle')) + '</div>' : '';
+    host.innerHTML = '<div class="variant-block">' + title +
       '<div class="variant-options">' + opts + '</div></div>';
     if (!host.__steVariantBound) {
       host.__steVariantBound = true;
@@ -951,9 +1014,10 @@
         var btn = e.target.closest('[data-variant]');
         if (!btn) return;
         var label = btn.getAttribute('data-variant');
-        var v = null;
-        for (var i = 0; i < p.variants.length; i++) {
-          if (p.variants[i].label === label) { v = p.variants[i]; break; }
+        var cur = findProduct(state.modalId) || p;          // the popup's current product, not the first one bound
+        var list = allVariants(cur), v = null;
+        for (var i = 0; i < list.length; i++) {
+          if (list[i].label === label) { v = list[i]; break; }
         }
         state.activeVariant = v;
         renderModalTexts();
@@ -988,7 +1052,8 @@
           : '<div class="media-fallback">' + esc((pName(s) || '?').trim().charAt(0).toUpperCase()) + '</div>') +
         '</div>' +
         '<span class="suggest-name">' + esc(pName(s)) + '</span>' +
-        '<span class="suggest-price">' + esc(fmtPrice(s.price)) + '</span>' +
+        (sizeLabelFor(s) ? '<span class="suggest-size">' + esc(sizeLabelFor(s)) + '</span>' : '') +
+        '<span class="suggest-price">' + esc(fmtPrice(priceSource(s).price)) + '</span>' +
         '</button>';
     }).join('');
     host.innerHTML = '<div class="suggest-block"><div class="suggest-title">' + esc(t('product.suggest')) + '</div>' +
@@ -1294,6 +1359,7 @@
       return '<div class="summary-item">' +
         '<div class="summary-item-img">' + img + '</div>' +
         '<div><p class="summary-item-name">' + esc(cartItemName(it)) + '</p>' +
+        (it.variant ? '<p class="summary-item-sub">' + esc(it.variant) + '</p>' : '') +
         '<p class="summary-item-qty">× ' + it.qty + '</p></div>' +
         '<p class="summary-item-price">' + esc(fmtPrice(it.qty * it.price)) + '</p>' +
         '</div>';
@@ -1540,7 +1606,7 @@
       if (buy) {
         var pb = findProduct(buy.getAttribute('data-buy'));
         if (pb) {
-          var bv = (pb.variants && pb.variants.length) ? pb.variants[0] : null;
+          var bv = cardVariant(pb);
           var bp = (bv && bv.price != null) ? bv.price : pb.price;
           var bi = (bv && bv.images && bv.images.length) ? bv.images[0] : ((pb.images && pb.images[0]) || pb.image || '');
           state.buyNowItem = { productId: pb.id, name: cartItemName(pb), qty: 1, price: bp, image: bi, variant: bv ? bv.label : null };
@@ -1569,7 +1635,7 @@
       var cartAdd = e.target.closest('[data-cart-add]');
       if (cartAdd) {
         var pca = findProduct(cartAdd.getAttribute('data-cart-add'));
-        if (pca) addToCart(pca, 1);
+        if (pca) addToCart(pca, 1, cardVariant(pca));
         return;
       }
 

@@ -1598,6 +1598,8 @@ html[dir="rtl"] .arrow { transform: scaleX(-1); }
    is both touch-only (no hover) and coarse-pointing. A PC - even one with a
    touchscreen - keeps the arrows. */
 @media (hover: none) and (pointer: coarse) { .pm-nav { display: none; } }
+/* mouse users: sit the arrows a little above the middle of the photo */
+@media (hover: hover), (pointer: fine) { .pm-nav { top: 42%; } }
 .pm-prev { left: 10px; }
 .pm-next { right: 10px; }
 .pm-dots {

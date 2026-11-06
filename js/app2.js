@@ -313,19 +313,24 @@
   }
 
   /* ---------- Media (image / fallback initial) ---------- */
-  function mediaHtml(p, cls) {
+  function mediaHtml(p, cls, override) {
     var initial = esc((pName(p) || '?').trim().charAt(0).toUpperCase());
     var fallback = '<div class="media-fallback" aria-hidden="true">' + initial + '</div>';
-    if (!p.imageUrl) return fallback;
+    /* `override` = the images of the size the customer picked (rosa does the same:
+       the variant's picture replaces the product's when a size is chosen). */
+    var own = (override && override.length) ? override : null;
+    if (!own && !p.imageUrl) return fallback;
     var imgTag = function (u, extra) {
       return '<img src="' + esc(u) + '" alt="' + esc(pName(p)) + '" loading="lazy" ' +
         'onerror="this.outerHTML=\'<div class=&quot;media-fallback&quot; aria-hidden=&quot;true&quot;>' + initial + '</div>\'">';
     };
-    var imgs = (p.images && p.images.length > 1) ? p.images : [p.imageUrl];
-    if (p.images && p.images.length > 1 && cls !== 'grid-thumb') {
+    var list = own || (p.images && p.images.length ? p.images : (p.imageUrl ? [p.imageUrl] : []));
+    list = list.filter(Boolean);
+    if (!list.length) return fallback;
+    if (list.length > 1 && cls !== 'grid-thumb') {
       var slides = '', dots = '';
-      for (var i = 0; i < p.images.length; i++) {
-        slides += '<div class="pm-slide">' + imgTag(p.images[i]) + '</div>';
+      for (var i = 0; i < list.length; i++) {
+        slides += '<div class="pm-slide">' + imgTag(list[i]) + '</div>';
         dots += '<span class="pm-dot' + (i === 0 ? ' active' : '') + '" data-dot="' + i + '"></span>';
       }
       return '<div class="pm-gallery" data-gallery>' +
@@ -335,7 +340,7 @@
         '<div class="pm-dots" data-dots>' + dots + '</div>' +
         '</div>';
     }
-    return imgTag(p.imageUrl);
+    return imgTag(list[0]);
   }
 
   /* ---------- Grid ---------- */
@@ -929,7 +934,9 @@
     var media = $('#pmMedia');
     if (media) {
       if (media.__steGalleryStop) { try { media.__steGalleryStop(); } catch (e) {} media.__steGalleryStop = null; }
-      media.innerHTML = mediaHtml(p);
+      var avImgs = (state.activeVariant && state.activeVariant.images && state.activeVariant.images.length)
+        ? state.activeVariant.images : null;
+      media.innerHTML = mediaHtml(p, '', avImgs);
       paintModalBadge(p, media);
       initGallery(media);
     }
@@ -1091,7 +1098,7 @@
     var track = g.querySelector('[data-track]');
     var dots = Array.prototype.slice.call(g.querySelectorAll('[data-dot]'));
     if (!track || !dots.length) return;
-    var pid = state.modalId;
+    var pid = state.modalId + '::' + ((state.activeVariant && state.activeVariant.label) || '');
     /* Keep the position when the popup re-renders (a size change or a price repaint
        rebuilds this markup): snapping back to the first image on every repaint is what
        made the slideshow look stuck. */

@@ -29,6 +29,8 @@
     modalId: null,
     modalQty: 1,
     activeVariant: null,
+    galleryId: null,      // product whose images the popup is showing
+    galleryIndex: 0,      // and where the customer left the slideshow
     orderId: null,
     submitting: false,
     buyNowItem: null
@@ -926,6 +928,7 @@
     if (!p || !m) { closeModal(); return; }
     var media = $('#pmMedia');
     if (media) {
+      if (media.__steGalleryStop) { try { media.__steGalleryStop(); } catch (e) {} media.__steGalleryStop = null; }
       media.innerHTML = mediaHtml(p);
       paintModalBadge(p, media);
       initGallery(media);
@@ -1070,6 +1073,8 @@
   }
 
   function closeModal() {
+    var gm = $('#pmMedia');
+    if (gm && gm.__steGalleryStop) { try { gm.__steGalleryStop(); } catch (e) {} gm.__steGalleryStop = null; }
     state.modalId = null;
     var m = $('#productModal'), ov = $('#modalOverlay');
     if (ov) ov.classList.remove('open');
@@ -1086,29 +1091,69 @@
     var track = g.querySelector('[data-track]');
     var dots = Array.prototype.slice.call(g.querySelectorAll('[data-dot]'));
     if (!track || !dots.length) return;
-    var i = 0;
-    var go = function (n) {
+    var pid = state.modalId;
+    /* Keep the position when the popup re-renders (a size change or a price repaint
+       rebuilds this markup): snapping back to the first image on every repaint is what
+       made the slideshow look stuck. */
+    var i = (state.galleryId === pid) ? (state.galleryIndex || 0) : 0;
+    var go = function (n, fromUser) {
       i = (n + dots.length) % dots.length;
+      state.galleryId = pid;
+      state.galleryIndex = i;
       /* RTL: flex track lays slides right-to-left, so advancing moves the track +, not - */
       var rtl = document.documentElement.dir === 'rtl';
       track.style.transform = 'translateX(' + (rtl ? i * 100 : -i * 100) + '%)';
       dots.forEach(function (d, k) { d.classList.toggle('active', k === i); });
+      if (fromUser) start();
     };
-    g.querySelector('[data-prev]').addEventListener('click', function () { go(i - 1); });
-    g.querySelector('[data-next]').addEventListener('click', function () { go(i + 1); });
-    dots.forEach(function (d, k) { d.addEventListener('click', function () { go(k); }); });
+    /* Paint the restored slide without animating in from the first one. */
+    var keepTr = track.style.transition;
+    track.style.transition = 'none';
+    go(i);
+    void track.offsetWidth;
+    track.style.transition = keepTr || '';
+    var prevBtn = g.querySelector('[data-prev]'), nextBtn = g.querySelector('[data-next]');
+    if (prevBtn) prevBtn.addEventListener('click', function () { go(i - 1, true); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { go(i + 1, true); });
+    dots.forEach(function (d, k) { d.addEventListener('click', function () { go(k, true); }); });
     var x0 = null;
-    track.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; stop(); }, { passive: true });
     track.addEventListener('touchend', function (e) {
-      if (x0 == null) return;
-      var dx = e.changedTouches[0].clientX - x0;
-      if (Math.abs(dx) > 40) {
-        /* RTL: next slide sits to the left, so swiping right advances */
-        var swRtl = document.documentElement.dir === 'rtl';
-        go(swRtl ? (dx > 0 ? i + 1 : i - 1) : (dx < 0 ? i + 1 : i - 1));
+      if (x0 != null) {
+        var dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 40) {
+          /* RTL: next slide sits to the left, so swiping right advances */
+          var swRtl = document.documentElement.dir === 'rtl';
+          go(swRtl ? (dx > 0 ? i + 1 : i - 1) : (dx < 0 ? i + 1 : i - 1));
+        }
       }
       x0 = null;
+      start();
     }, { passive: true });
+
+    /* Auto-slide in the popup, PC and phone alike. It pauses while the pointer or a
+       finger rests on the image (and on a hidden tab) and resumes on its own.
+       Desktop also gets the arrows; phones keep the swipe. */
+    var AUTOPLAY_MS = 3500;
+    var timer = null;
+    function tick() { go(i + 1); }
+    function start() {
+      stop();
+      if (dots.length < 2) return;
+      timer = setInterval(tick, AUTOPLAY_MS);
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    start();
+    /* Pause only while a finger/mouse is actually down on the image (a swipe or a
+       deliberate hold) - never merely because the pointer rests over the popup, so
+       the slideshow always runs for someone just looking at it. */
+    g.addEventListener('pointerdown', stop);
+    g.addEventListener('pointerup', start);
+    g.addEventListener('touchcancel', start);
+    /* no point animating a tab nobody is looking at */
+    if (document.hidden) stop();
+    document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else start(); });
+    media.__steGalleryStop = stop;      // released before the next re-render and on close
   }
 
   /* ---------- Hero slider (admin-controlled) ---------- */

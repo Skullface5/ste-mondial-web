@@ -1588,9 +1588,16 @@ html[dir="rtl"] .arrow { transform: scaleX(-1); }
   width: 38px; height: 38px; border-radius: 50%;
   border: none; background: rgba(20, 15, 8, 0.55);
   color: #F7F2E8; font-size: 1.3rem; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;               /* desktop default; touch-only devices hide it below */
+  align-items: center; justify-content: center;
   cursor: pointer; z-index: 2;
+  transition: background .2s, transform .2s;
 }
+.pm-nav:hover { background: rgba(20, 15, 8, 0.8); }
+/* Phones and tablets swipe instead of tapping arrows: hide them only when the device
+   is both touch-only (no hover) and coarse-pointing. A PC - even one with a
+   touchscreen - keeps the arrows. */
+@media (hover: none) and (pointer: coarse) { .pm-nav { display: none; } }
 .pm-prev { left: 10px; }
 .pm-next { right: 10px; }
 .pm-dots {

@@ -335,7 +335,9 @@
     if (o.items && o.items.length) {
       itemsHtml = '<div class="acct-order-items">' + o.items.map(function (it) {
         var q = Number(it.qty) || 1;
-        return '<span class="acct-order-item">' + esc(String(it.name || '')) + ' \u00d7 ' + q + '</span>';
+        /* the size the customer bought is part of the order line, not optional detail */
+        var sz = it.variant ? '<em class="acct-order-size">' + esc(String(it.variant)) + '</em> ' : '';
+        return '<span class="acct-order-item">' + esc(String(it.name || '')) + ' ' + sz + ' \u00d7 ' + q + '</span>';
       }).join('') + '</div>';
     }
     var canCancel = st === 'nouvelle';

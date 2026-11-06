@@ -1922,3 +1922,4 @@ html[dir="rtl"] .acct-toast.show { transform: translate(50%, 0); }
    and the variant chip read as one system. */
 .summary-item-sub, .cart-item-sub { font-size: 0.68rem; color: var(--gold, #B08D4A); letter-spacing: 0.02em; line-height: 1.4; }
 .suggest-size { font-size: 0.6rem; color: var(--muted, #8A7A66); margin-inline-start: 6px; }
+.acct-order-size{font-style:normal;font-size:.92em;color:var(--gold,#B08D4A);}
